@@ -1,0 +1,126 @@
+/* Mobile-specific styles for better UX */
+
+/* Improve touch targets */
+button, 
+a, 
+[role="button"] {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Better scrolling on mobile */
+* {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Improve text readability */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Better focus states for accessibility */
+button:focus,
+a:focus,
+input:focus {
+  outline-offset: 2px;
+}
+
+/* Optimize images for mobile */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Better spacing for mobile */
+.mobile-spacing {
+  padding: 1rem;
+}
+
+/* Improve card shadows on mobile */
+.card-shadow {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Better button states */
+.btn-mobile {
+  transition: all 0.2s ease;
+}
+
+.btn-mobile:active {
+  transform: scale(0.98);
+}
+
+/* Improve form elements */
+input, 
+textarea, 
+select {
+  font-size: 16px; /* Prevents zoom on iOS */
+}
+
+/* Better loading states */
+.loading-skeleton {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Mobile-first responsive utilities */
+@media (max-width: 768px) {
+  .mobile-hidden {
+    display: none !important;
+  }
+  
+  .mobile-full {
+    width: 100% !important;
+  }
+  
+  .mobile-text-center {
+    text-align: center !important;
+  }
+  
+  /* Fix for header on mobile */
+  header {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+}
+
+/* Footer-specific mobile optimizations */
+.footer-nav-item {
+  min-height: 60px;
+  min-width: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), background-color 0.25s cubic-bezier(0.4,0,0.2,1), box-shadow 0.25s cubic-bezier(0.4,0,0.2,1), border-radius 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+
+.footer-nav-item:active {
+  transform: scale(0.95);
+}
+
+.footer-nav-item.active {
+  background-color: rgba(16, 185, 129, 0.1);
+  border-radius: 12px;
+}
+
+/* Enhanced footer wave for mobile */
+.footer-wave {
+  filter: drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.15));
+}
+
+/* Better footer border on mobile */
+.footer-border {
+  border-top: 1px solid #f3f4f6;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+} 

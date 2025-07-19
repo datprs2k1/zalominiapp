@@ -1,0 +1,174 @@
+.sc-ux-text {
+  margin: 16px 0;
+  font-size: 1.08rem;
+  line-height: 1.7;
+  word-break: break-word;
+  color: #232323;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.sc-ux-text h1, .sc-ux-text h2, .sc-ux-text h3, .sc-ux-text h4 {
+  margin: 1.1em 0 0.5em 0;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.sc-ux-text h1 {
+  color: #e93c01;
+  font-size: 2.1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.sc-ux-text h2 {
+  color: #178a5a;
+  font-size: 1.45rem;
+}
+
+.sc-ux-text h3, .sc-ux-text h4 {
+  color: #178a5a;
+  font-size: 1.13rem;
+}
+
+.sc-ux-text strong {
+  font-weight: 700;
+}
+
+.sc-ux-text ul {
+  margin: 0.7em 0 0.7em 2.1em !important;
+  padding-left: 0 !important;
+  list-style: disc inside !important;
+  font-size: 1.08rem !important;
+  color: #232323 !important;
+  font-family: 'Segoe UI', Arial, sans-serif !important;
+}
+
+.sc-ux-text li {
+  margin-bottom: 0.45em !important;
+  font-size: 1.08rem !important;
+  line-height: 1.7 !important;
+  color: #232323 !important;
+  padding-left: 0.2em !important;
+  font-family: 'Segoe UI', Arial, sans-serif !important;
+}
+
+.sc-ux-text ul ul,
+.sc-ux-text ul ol,
+.sc-ux-text ol ul,
+.sc-ux-text ol ol {
+  font-size: 1.08rem !important;
+}
+
+.sc-ux-text ul li::marker {
+  font-size: 1.18em;
+  color: #178a5a;
+}
+
+/* Emoji đầu dòng vàng cam */
+.sc-ux-text p, .sc-ux-text li, .sc-ux-text span {
+  position: relative;
+}
+.sc-ux-text p:has(> .emoji-yellow),
+.sc-ux-text li:has(> .emoji-yellow),
+.sc-ux-text span:has(> .emoji-yellow) {
+  margin-left: 0.1em;
+}
+.emoji-yellow {
+  font-size: 1.15em;
+  margin-right: 0.45em;
+  vertical-align: middle;
+  color: #f7b500;
+  /* fallback for browsers that support color emoji */
+  filter: drop-shadow(0 0 0 #f7b500);
+}
+
+/* Emoji đầu dòng tím */
+.emoji-purple {
+  font-size: 1.1em;
+  margin-right: 0.45em;
+  vertical-align: middle;
+  color: #7c4dff;
+  filter: drop-shadow(0 0 0 #7c4dff);
+}
+
+/* Đảm bảo spacing giữa các dòng có emoji */
+.sc-ux-text p, .sc-ux-text li {
+  margin-bottom: 0.7em;
+}
+
+.sc-divider {
+  background: #178a5a;
+  height: 2.5px !important;
+  border-radius: 2px;
+  margin: 1.7em 0 1.2em 0;
+  width: 100%;
+  max-width: 900px;
+}
+
+.sc-gap {
+  height: 28px;
+}
+
+.sc-ux-image {
+  max-width: 100%;
+  display: block;
+  margin: 18px auto 20px auto;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.sc-ux-text .inline-icon-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+}
+
+.sc-ux-text,
+.sc-ux-text p,
+.sc-ux-text ul,
+.sc-ux-text ol,
+.sc-ux-text li,
+.sc-ux-text span,
+.sc-ux-text strong {
+  font-size: 1.08rem !important;
+  font-family: 'Segoe UI', Arial, sans-serif !important;
+  color: #232323 !important;
+  line-height: 1.7 !important;
+}
+
+.sc-ux-text ol {
+  margin: 0.7em 0 0.7em 2.1em !important;
+  padding-left: 0 !important;
+  list-style: decimal inside !important;
+  font-size: 1.08rem !important;
+  color: #232323 !important;
+  font-family: 'Segoe UI', Arial, sans-serif !important;
+}
+
+.sc-ux-text ol li {
+  margin-bottom: 0.45em !important;
+  font-size: 1.08rem !important;
+  line-height: 1.7 !important;
+  color: #232323 !important;
+  padding-left: 0.2em !important;
+  font-family: 'Segoe UI', Arial, sans-serif !important;
+}
+
+@media (max-width: 600px) {
+  .sc-ux-text h1 {
+    font-size: 1.3rem;
+  }
+  .sc-ux-text h2 {
+    font-size: 1.1rem;
+  }
+  .sc-divider {
+    max-width: 100%;
+  }
+  .sc-ux-image {
+    border-radius: 6px;
+    margin: 12px auto 14px auto;
+  }
+  .sc-gap {
+    height: 18px;
+  }
+} 

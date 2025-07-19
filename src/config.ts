@@ -1,0 +1,7 @@
+const API_URL = 'https://tamthienduc.vn';
+const SERVICE_ID = '4417';
+const DEPARTMENT_ID = '5649';
+const SECRET_KEY = 'mR3W8XM04f7LQ2P9i4QG';
+const API_SECRET_KEY = 'MTIyMjIyMjIyMjIyMzMzMzMzMzMzMzMzMzMzNDQ0NDQ0NDQ0NA==';
+
+export { API_URL, SERVICE_ID, DEPARTMENT_ID, SECRET_KEY, API_SECRET_KEY };

@@ -1,0 +1,62 @@
+/* Mobile-specific styles for search page */
+
+/* Full-height layout for search page */
+@media (max-width: 768px) {
+  .search-page-container {
+    min-height: calc(100vh - 60px); /* Adjust for footer height */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Improve scrolling for search results */
+  .search-results-container {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    flex: 1;
+  }
+  
+  /* Better tap targets for search items */
+  .search-item {
+    min-height: 64px;
+    padding: 12px;
+  }
+  
+  /* Optimized search bar for mobile */
+  .search-bar-mobile {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: 8px 16px;
+    background-color: rgba(249, 250, 251, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  
+  /* Improved touch states for search items */
+  .search-result-item:active {
+    background-color: rgba(16, 185, 129, 0.05);
+  }
+  
+  /* No results state */
+  .no-results-container {
+    padding: 32px 16px;
+    text-align: center;
+  }
+}
+
+/* Enhanced loading state for search */
+.search-loading-skeleton {
+  animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  background: linear-gradient(90deg, #f3f4f6 0%, #e5e7eb 50%, #f3f4f6 100%);
+  background-size: 200% 100%;
+  background-position: 0% 0%;
+}
+
+@keyframes pulse {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: -200% 0%;
+  }
+} 

@@ -1,0 +1,155 @@
+@use 'tailwind.scss';
+@import '../styles/mobile.css';
+
+:root {
+  --primary: #00abbb;
+  --primary-gradient: #00bead;
+  --highlight: #01bdaf1a;
+  --background: #f2f9f9;
+  --disabled: #9a9a9a;
+
+  --zaui-light-body-background-color: var(--background);
+  --zaui-light-input-border-color: rgba(0, 0, 0, 0.1);
+  --zaui-light-input-hover-border-color: var(--primary);
+  --zaui-light-option-selected-color: var(--primary);
+  --zaui-light-radio-checked-background: var(--primary);
+
+  --safe-top: var(--zaui-safe-area-inset-top, env(safe-area-inset-top, 30px));
+  --safe-bottom: max(
+    8px,
+    var(--zaui-safe-area-inset-bottom, env(safe-area-inset-bottom, 30px))
+  );
+}
+
+:not(input):not(textarea) {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.zaui-select {
+  &.zaui-input-affix-wrapper,
+  .zaui-input-affix-wrapper {
+    border-radius: 100px;
+  }
+}
+
+.zaui-input-textarea-affix-wrapper {
+  &.zaui-input-affix-wrapper {
+    border: none;
+  }
+
+  .zaui-input-show-count-suffix {
+    border-radius: 10px;
+    background: #f3f3f3;
+    padding: 2px 6px;
+    font-size: 10px;
+    color: #656565;
+  }
+
+  .zaui-input-textarea ~ .zaui-input-suffix .zaui-input-show-count-suffix {
+    bottom: 0;
+    right: 0;
+  }
+}
+
+.zaui-sheet-content {
+  max-height: calc(100vh - 200px);
+}
+
+/* Animation for quick access menu */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+.footer-border {
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.footer-nav-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-nav-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--primary);
+  border-radius: 12px;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
+}
+
+.footer-nav-item:active::before {
+  opacity: 0.08;
+  transform: scale(1);
+}
+
+.footer-wave {
+  filter: drop-shadow(0px -2px 3px rgba(0, 0, 0, 0.03));
+}
+
+.shadow-footer {
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+}
+
+// Circular nav animations
+@keyframes nav-pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.active-nav-item {
+  animation: nav-pulse 0.6s ease-in-out;
+}
+
+/* Add any app-specific CSS here */
+
+/* Performance optimizations for animations */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.hardware-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.animation-optimized {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Fix for iOS 100vh issue */
+.full-height {
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+}
