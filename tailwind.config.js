@@ -29,24 +29,24 @@ module.exports = {
         xl: ['18px', '24px'],
       },
       animation: {
-        popup: 'popup 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+        popup: 'popup 0.3s ease-out',
         pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'bounce-small': 'bounce-small 1s infinite',
-        'fade-in': 'fadeIn 0.15s cubic-bezier(0.16, 1, 0.3, 1)',
-        'scale-in': 'scaleIn 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+        'fade-in': 'fadeIn 0.2s ease-out',
+        'scale-in': 'scaleIn 0.25s ease-out',
       },
       keyframes: {
         popup: {
-          '0%': { transform: 'translateY(100%) translateZ(0)', opacity: 0 },
-          '100%': { transform: 'translateY(0) translateZ(0)', opacity: 1 },
+          '0%': { transform: 'translateY(100%)', opacity: 0 },
+          '100%': { transform: 'translateY(0)', opacity: 1 },
         },
         fadeIn: {
           '0%': { opacity: 0 },
           '100%': { opacity: 1 },
         },
         scaleIn: {
-          '0%': { transform: 'scale(0.9) translateZ(0)', opacity: 0 },
-          '100%': { transform: 'scale(1) translateZ(0)', opacity: 1 },
+          '0%': { transform: 'scale(0.9)', opacity: 0 },
+          '100%': { transform: 'scale(1)', opacity: 1 },
         },
         pulse: {
           '0%, 100%': { opacity: '1' },
@@ -54,10 +54,10 @@ module.exports = {
         },
         'bounce-small': {
           '0%, 100%': {
-            transform: 'translateY(0) translateZ(0)',
+            transform: 'translateY(0)',
           },
           '50%': {
-            transform: 'translateY(-10%) translateZ(0)',
+            transform: 'translateY(-10%)',
           },
         },
       },

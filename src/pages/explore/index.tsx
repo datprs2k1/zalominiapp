@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { getPosts, postsAtomFamily } from '@/services/post';
 import ExploreNewsItem from './NewsItem';
 import './mobile.css';
+import './desktop.css';
 
 function ExplorePage() {
   const [page, setPage] = useState(1);
@@ -10,8 +11,59 @@ function ExplorePage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [hasMorePages, setHasMorePages] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [categories, setCategories] = useState<{ id: number; name: string }[]>([]);
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
-  // Fetch posts for the current page
+  // Check if we should show the scroll-to-top button
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 300);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  // Scroll to top function
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
+  // Fetch categories
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        // This assumes you have an API to fetch categories
+        // Replace with your actual categories endpoint
+        const response = await fetch('/api/categories');
+        const data = await response.json();
+        if (Array.isArray(data)) {
+          setCategories(data);
+        }
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+        // Fallback categories if API fails
+        setCategories([
+          { id: 1, name: 'Health' },
+          { id: 2, name: 'Wellness' },
+          { id: 3, name: 'Nutrition' },
+          { id: 4, name: 'Fitness' },
+          { id: 5, name: 'Medical' },
+        ]);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  // Fetch posts for the current page and selected category
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -21,7 +73,12 @@ function ExplorePage() {
           setIsLoadingMore(true);
         }
 
-        const newPosts = await getPosts({ type: 'post', per_page: 10, page });
+        const params: any = { type: 'post', per_page: 12, page };
+        if (selectedCategory) {
+          params.category = selectedCategory;
+        }
+
+        const newPosts = await getPosts(params);
 
         if (Array.isArray(newPosts)) {
           if (newPosts.length === 0) {
@@ -52,7 +109,7 @@ function ExplorePage() {
     };
 
     fetchPosts();
-  }, [page]);
+  }, [page, selectedCategory]);
 
   // Handle load more
   const handleLoadMore = () => {
@@ -61,9 +118,16 @@ function ExplorePage() {
     }
   };
 
+  // Handle category selection
+  const handleCategoryChange = (categoryId: string | null) => {
+    setSelectedCategory(categoryId);
+    setPage(1); // Reset to first page
+    setHasMorePages(true);
+  };
+
   // Render loading skeletons
   const renderSkeletons = () => {
-    return Array.from({ length: 4 }).map((_, index) => (
+    return Array.from({ length: 8 }).map((_, index) => (
       <div
         key={`skeleton-${index}`}
         className="flex flex-col bg-white rounded-xl shadow-sm border border-gray-100 animate-pulse overflow-hidden h-full"
@@ -82,6 +146,27 @@ function ExplorePage() {
 
   return (
     <div className="explore-page">
+      {/* Category filter section */}
+      <div className="category-filter-container">
+        <div className="category-filter">
+          <button
+            className={`category-filter-button ${selectedCategory === null ? 'active' : ''}`}
+            onClick={() => handleCategoryChange(null)}
+          >
+            All
+          </button>
+          {categories.map((category) => (
+            <button
+              key={`category-${category.id}`}
+              className={`category-filter-button ${selectedCategory === String(category.id) ? 'active' : ''}`}
+              onClick={() => handleCategoryChange(String(category.id))}
+            >
+              {category.name}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className="explore-content">
         {isLoading ? (
           <div className="news-items-grid">{renderSkeletons()}</div>
@@ -116,6 +201,13 @@ function ExplorePage() {
           </div>
         )}
       </div>
+
+      {/* Scroll to top button - only visible on desktop and when scrolled down */}
+      {showScrollTop && (
+        <button className="scroll-top-button" onClick={scrollToTop} aria-label="Scroll to top">
+          ↑
+        </button>
+      )}
     </div>
   );
 }

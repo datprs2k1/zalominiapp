@@ -1,10 +1,9 @@
-@use 'tailwind.scss';
 @import '../styles/mobile.css';
 
 :root {
-  --primary: #00abbb;
-  --primary-gradient: #00bead;
-  --highlight: #01bdaf1a;
+  --primary: #2563eb;
+  --primary-gradient: #3b82f6;
+  --highlight: #2563eb1a;
   --background: #f2f9f9;
   --disabled: #9a9a9a;
 
@@ -124,32 +123,4 @@
 
 .active-nav-item {
   animation: nav-pulse 0.6s ease-in-out;
-}
-
-/* Add any app-specific CSS here */
-
-/* Performance optimizations for animations */
-.will-change-transform {
-  will-change: transform;
-}
-
-.will-change-opacity {
-  will-change: opacity;
-}
-
-.hardware-accelerated {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
-
-.animation-optimized {
-  will-change: transform, opacity;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
-
-/* Fix for iOS 100vh issue */
-.full-height {
-  height: 100vh;
-  height: calc(var(--vh, 1vh) * 100);
 }

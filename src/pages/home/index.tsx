@@ -15,64 +15,38 @@ function HomePage() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
-      {/* Search Bar - Fixed at top for mobile */}
-      <div className="sticky top-0 z-10 bg-white shadow-sm border-b border-gray-100 px-1 py-3">
-        <SearchBar className="mx-0" />
-      </div>
-
+    <div className="min-h-screen bg-gray-50">
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto space-y-6 pt-2">
+      <div className="pb-24">
+        {' '}
+        {/* Added bottom padding to accommodate the fixed navigation */}
         {/* Hero Section - Full Width */}
-        <HeroSection className="mb-4" />
+        <HeroSection />
+        {/* Search Bar - With improved visual separation */}
+        {/* <div className="bg-white shadow-md border-b border-gray-200 px-4 py-4 -mt-2 mb-6">
+          <SearchBar className="mx-0" />
+        </div> */}
+        {/* Content Sections - With improved spacing */}
+        <div className="mx-auto px-4 sm:px-6">
+          {/* Quick Actions Section */}
+          {/* <section className="mb-10">
+            <QuickActions />
+          </section> */}
 
-        {/* Content Sections */}
-        <div className="px-3">
-          <QuickActions />
-          <FeaturedServices />
-          <FeaturedDepartents />
-          <HealthNews />
-        </div>
-      </div>
+          {/* Featured Services Section */}
+          <section className="mb-6">
+            <FeaturedServices />
+          </section>
 
-      {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 px-2 z-10 shadow-lg">
-        <div className="max-w-md mx-auto flex justify-around items-center">
-          <button className="flex flex-col items-center p-2 w-1/4">
-            <HomeIcon active className="h-6 w-6" />
-            <span className="text-xs mt-1 text-blue-500 font-medium">Trang chủ</span>
-          </button>
+          {/* Featured Departments Section */}
+          <section className="mb-6">
+            <FeaturedDepartents />
+          </section>
 
-          <button onClick={() => navigate('/explore')} className="flex flex-col items-center p-2 w-1/4">
-            <ExploreIcon className="h-6 w-6" />
-            <span className="text-xs mt-1 text-gray-600">Khám phá</span>
-          </button>
-
-          <button onClick={() => navigate('/booking')} className="flex flex-col items-center p-2 w-1/4">
-            <div className="relative">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="#6B7280"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-                />
-              </svg>
-              <div className="absolute -top-1 -right-1 bg-red-500 rounded-full w-2 h-2"></div>
-            </div>
-            <span className="text-xs mt-1 text-gray-600">Đặt lịch</span>
-          </button>
-
-          <button onClick={() => navigate('/profile')} className="flex flex-col items-center p-2 w-1/4">
-            <ProfileIcon className="h-6 w-6" />
-            <span className="text-xs mt-1 text-gray-600">Cá nhân</span>
-          </button>
+          {/* Health News Section */}
+          <section className="mb-6">
+            <HealthNews />
+          </section>
         </div>
       </div>
     </div>

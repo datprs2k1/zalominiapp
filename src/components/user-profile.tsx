@@ -21,7 +21,6 @@ export function UserProfile({ showAvatar = true, showName = true, className = ''
         setLoading(true);
         setError(null);
         const userData = await userPromise;
-        console.log(userData);
         setUser(userData);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Không thể tải thông tin người dùng');

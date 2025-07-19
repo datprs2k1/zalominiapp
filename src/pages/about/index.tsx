@@ -8,46 +8,38 @@ import CallIcon from '@/components/icons/call';
 // Content variables for easy editing
 const ABOUT_CONTENT = {
   banner: 'Về chúng tôi',
-  title: 'HỆ THỐNG Y TẾ',
-  brandName: 'TÂM THIỆN ĐỨC',
-  slogan: 'Tận tâm – Chu đáo – Chuyên nghiệp',
+  title: 'BỆNH VIỆN ĐA KHOA',
+  brandName: 'HÒA BÌNH - HẢI PHÒNG',
+  slogan: 'Trị bệnh bằng khối óc – Chăm sóc bằng trái tim',
   paragraphs: [
-    'Hệ thống y tế Tâm Thiện Đức tại Phú Thọ là đơn vị tiên phong trong lĩnh vực chăm sóc sức khỏe chất lượng cao, với cơ sở vật chất hiện đại và trang thiết bị tiên tiến đạt chuẩn quốc gia. Chúng tôi tập trung vào chất lượng dịch vụ, được cung cấp bởi đội ngũ bác sĩ giàu kinh nghiệm và chuyên môn cao, trực tiếp tham gia khám, chẩn đoán và điều trị.',
-    'Đặc biệt, Tâm Thiện Đức hợp tác với các bác sĩ từ các bệnh viện trung ương để cung cấp dịch vụ khám bệnh vào thứ Bảy và Chủ nhật. Điều này cho phép người dân Phú Thọ và các vùng lân cận tiếp cận với điều trị hiện đại, đạt chuẩn y tế ngay tại địa phương, tiết kiệm thời gian và chi phí di chuyển.',
+    'Bệnh viện Đa khoa Hòa Bình – Hải Phòng chính thức đi vào hoạt động từ ngày 23 tháng 5 năm 2008 theo Quyết định số 1805/QĐ-BYT và Giấy chứng nhận số 20/GCNĐĐKHN-Y của Bộ Y tế.',
+    'Ngoài việc cung cấp dịch vụ khám chữa bệnh cho bệnh nhân, bệnh viện còn hợp tác với nhiều công ty lớn như Sumidenso Việt Nam, Uniden Việt Nam, Ford Việt Nam, Toyodenso Việt Nam, Namyang Delta và Kefico Việt Nam để cung cấp dịch vụ khám sức khỏe tuyển dụng và định kỳ. Bệnh viện cũng hợp tác với hệ thống các ngân hàng trên địa bàn tỉnh Hải Phòng, đảm bảo sức khỏe và an toàn cho đội ngũ nhân viên và cộng đồng.',
   ],
   buttonText: 'Tìm hiểu thêm',
-  buttonLink: '/services',
-  imageSrc: about1,
-  imageAlt: 'Đội ngũ y tế Tâm Thiện Đức',
-};
-
-const HERO_CONTENT = {
-  title: 'HỆ THỐNG Y TẾ',
-  brandName: 'TÂM THIỆN ĐỨC',
-  description:
-    'Hệ thống y tế chất lượng cao với đội ngũ bác sĩ giàu kinh nghiệm, trang thiết bị hiện đại, phục vụ cộng đồng với tâm huyết và trách nhiệm.',
+  buttonLink: '/',
+  imageSrc: 'https://benhvienhoabinh.vn/wp-content/uploads/2025/01/57.png',
+  imageAlt: 'Bệnh viện Đa khoa Hòa Bình - Hải Phòng',
 };
 
 // Updated stats to match user's change from 247 to '24/7'
 const STATS_CONTENT = [
-  { value: clinics.length, label: 'Phòng Khám' },
-  { value: getClinicsByType('general').length, label: 'Phòng Khám Đa Khoa' },
-  { value: getClinicsByType('dental').length, label: 'Phòng Khám Nha Khoa' },
-  { value: '24/7', label: 'Dịch Vụ' },
+  { value: '+10', label: 'Năm hình thành & phát triển' },
+  { value: '+50', label: 'Tiến sĩ, bác sĩ hàng đầu' },
+  { value: '+300', label: 'Đội ngũ cán bộ nhân viên' },
+  { value: '+1000', label: 'Bệnh nhân khám & điều trị/ngày' },
 ];
 
 const CTA_CONTENT = {
   title: 'Cần Tư Vấn Y Tế?',
   description: 'Liên hệ ngay với chúng tôi để được tư vấn và đặt lịch khám',
-  phoneNumber: '0868.115666',
-  phoneText: 'Gọi Ngay: 0868.115666',
+  phoneNumber: '0976.091.115',
+  phoneText: 'Gọi Ngay: 0976.091.115',
   contactText: 'Liên Hệ',
   contactLink: '/contact',
 };
 
 const SECTION_TITLES = {
-  general: 'Phòng Khám Đa Khoa',
-  dental: 'Phòng Khám Nha Khoa',
+  general: 'Bệnh viện đa khoa Hòa Bình – Hải Phòng',
 };
 
 const LoadingSkeleton = () => (
@@ -69,34 +61,33 @@ const LoadingSkeleton = () => (
 
 export default function AboutPage() {
   const generalClinics = getClinicsByType('general');
-  const dentalClinics = getClinicsByType('dental');
 
   return (
-    <div className="flex-1 flex flex-col bg-gradient-to-br from-green-50 to-green-100 min-h-screen">
+    <div className="flex-1 flex flex-col bg-gradient-to-br from-blue-50 to-blue-100 min-h-screen">
       {/* About Us Section - Enhanced Hero */}
-      <section className="relative bg-gradient-to-r from-white to-green-50 pt-12 pb-20 md:py-24 overflow-hidden">
+      <section className="relative bg-gradient-to-r from-white to-blue-50 pt-12 pb-20 md:py-24 overflow-hidden">
         {/* Decorative elements */}
-        <div className="absolute top-0 left-0 w-full h-4 bg-gradient-to-r from-green-500 via-orange-400 to-green-500"></div>
+        <div className="absolute top-0 left-0 w-full h-4 bg-gradient-to-r from-blue-500 via-orange-400 to-blue-500"></div>
         <div className="absolute -top-20 -right-20 w-80 h-80 bg-orange-100 rounded-full opacity-30 blur-xl"></div>
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-green-100 rounded-full opacity-30 blur-xl"></div>
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-100 rounded-full opacity-30 blur-xl"></div>
 
         <div className="max-w-6xl mx-auto px-4 md:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-center">
             {/* Content */}
             <div className="space-y-6 md:space-y-8 lg:pr-8">
-              <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-green-600 to-green-500 text-white rounded-full text-sm font-medium shadow-lg">
+              <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-full text-sm font-medium shadow-lg">
                 <span className="w-2 h-2 bg-white rounded-full animate-pulse mr-2"></span>
                 <span>{ABOUT_CONTENT.banner}</span>
               </div>
 
               <div>
-                <h2 className="text-2xl md:text-3xl font-bold text-green-800 leading-tight">{ABOUT_CONTENT.title}</h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-blue-800 leading-tight">{ABOUT_CONTENT.title}</h2>
                 <div className="relative my-2">
-                  <h2 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-red-600 leading-tight tracking-tight">
+                  <h2 className="text-3xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-red-600 leading-tight tracking-tight">
                     {ABOUT_CONTENT.brandName}
                   </h2>
                   <span className="absolute -bottom-2 left-0 h-2 w-32 md:w-44 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full"></span>
-                  <span className="absolute -bottom-2 -right-4 h-8 w-8 bg-green-400 rounded-full opacity-50 blur-sm"></span>
+                  <span className="absolute -bottom-2 -right-4 h-8 w-8 bg-blue-400 rounded-full opacity-50 blur-sm"></span>
                 </div>
               </div>
 
@@ -108,7 +99,7 @@ export default function AboutPage() {
                 {ABOUT_CONTENT.paragraphs.map((paragraph, index) => (
                   <p
                     key={index}
-                    className="relative pl-5 before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1.5 before:bg-gradient-to-b before:from-green-300 before:to-green-500 before:rounded-full"
+                    className="relative pl-5 before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1.5 before:bg-gradient-to-b before:from-blue-300 before:to-blue-500 before:rounded-full"
                   >
                     {paragraph}
                   </p>
@@ -119,7 +110,7 @@ export default function AboutPage() {
               <div className="pt-6 flex flex-col sm:flex-row gap-4 md:gap-6">
                 <a
                   href={ABOUT_CONTENT.buttonLink}
-                  className="inline-flex items-center justify-center bg-gradient-to-r from-green-600 to-green-500 text-white px-6 py-4 rounded-lg font-medium hover:from-green-700 hover:to-green-600 transition-all shadow-lg hover:shadow-xl text-center min-w-[160px] group"
+                  className="inline-flex items-center justify-center bg-gradient-to-r from-blue-600 to-blue-500 text-white px-6 py-4 rounded-lg font-medium hover:from-blue-700 hover:to-blue-600 transition-all shadow-lg hover:shadow-xl text-center min-w-[160px] group"
                 >
                   <span>{ABOUT_CONTENT.buttonText}</span>
                   <svg
@@ -135,7 +126,7 @@ export default function AboutPage() {
 
                 <a
                   href="tel:0868115666"
-                  className="inline-flex items-center justify-center bg-white border-2 border-green-500 text-green-600 px-6 py-3.5 rounded-lg font-medium hover:bg-green-50 hover:border-green-600 transition-all text-center shadow-md hover:shadow-lg"
+                  className="inline-flex items-center justify-center bg-white border-2 border-blue-500 text-blue-600 px-6 py-3.5 rounded-lg font-medium hover:bg-blue-50 hover:border-blue-600 transition-all text-center shadow-md hover:shadow-lg"
                 >
                   <CallIcon className="w-5 h-5 mr-2" />
                   <span>Gọi: 0868.115666</span>
@@ -146,10 +137,10 @@ export default function AboutPage() {
             {/* Image with enhanced styling */}
             <div className="relative mt-8 lg:mt-0">
               <div className="absolute -top-12 -right-12 w-56 h-56 bg-orange-100 rounded-full opacity-70 z-0 animate-pulse"></div>
-              <div className="absolute -bottom-12 -left-12 w-56 h-56 bg-green-100 rounded-full opacity-70 z-0"></div>
+              <div className="absolute -bottom-12 -left-12 w-56 h-56 bg-blue-100 rounded-full opacity-70 z-0"></div>
 
               {/* Main image container */}
-              <div className="bg-gradient-to-br from-green-100 to-green-200 rounded-2xl p-4 shadow-2xl relative z-10 rotate-1 transform hover:rotate-0 hover:scale-[1.02] transition-all duration-300">
+              <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl p-4 shadow-2xl relative z-10 rotate-1 transform hover:rotate-0 hover:scale-[1.02] transition-all duration-300">
                 <div className="aspect-[4/3] rounded-xl overflow-hidden shadow-inner">
                   <img
                     src={ABOUT_CONTENT.imageSrc}
@@ -160,8 +151,8 @@ export default function AboutPage() {
                 </div>
 
                 {/* Badge */}
-                <div className="absolute -bottom-5 right-10 bg-white px-4 py-2 rounded-lg shadow-lg border-l-4 border-green-500">
-                  <p className="text-green-700 font-bold text-sm">Đội ngũ chuyên nghiệp</p>
+                <div className="absolute -bottom-5 right-10 bg-white px-4 py-2 rounded-lg shadow-lg border-l-4 border-blue-500">
+                  <p className="text-blue-700 font-bold text-sm">Đội ngũ chuyên nghiệp</p>
                 </div>
 
                 {/* Decorative element */}
@@ -185,7 +176,7 @@ export default function AboutPage() {
       </section>
 
       {/* Stats Section - Enhanced */}
-      <section className="bg-gradient-to-r from-green-700 to-green-600 text-white py-16 md:py-20 relative overflow-hidden">
+      <section className="bg-gradient-to-r from-blue-700 to-blue-600 text-white py-16 md:py-20 relative overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute top-0 right-0 opacity-10">
           <svg width="400" height="400" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -229,8 +220,8 @@ export default function AboutPage() {
             <div className="mb-20">
               {/* Enhanced title */}
               <div className="flex flex-col items-center justify-center mb-10">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                  <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
+                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                  <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
                     <svg
                       className="w-6 h-6 text-white"
                       fill="none"
@@ -250,11 +241,6 @@ export default function AboutPage() {
                 <h2 className="text-3xl md:text-5xl font-bold text-gray-800 text-center mb-2">
                   {SECTION_TITLES.general}
                 </h2>
-                <div className="w-20 h-1.5 bg-green-500 rounded-full mb-6"></div>
-                <p className="text-center text-gray-600 max-w-2xl mx-auto mb-10 text-lg">
-                  Các phòng khám đa khoa của chúng tôi cung cấp dịch vụ y tế toàn diện với đội ngũ bác sĩ giàu kinh
-                  nghiệm.
-                </p>
               </div>
 
               {/* Clinic cards */}
@@ -267,92 +253,8 @@ export default function AboutPage() {
               </div>
             </div>
           </Suspense>
-
-          <Suspense fallback={<LoadingSkeleton />}>
-            <div>
-              {/* Enhanced title */}
-              <div className="flex flex-col items-center justify-center mb-10">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                  <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
-                    <svg
-                      className="w-6 h-6 text-white"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <h2 className="text-3xl md:text-5xl font-bold text-gray-800 text-center mb-2">
-                  {SECTION_TITLES.dental}
-                </h2>
-                <div className="w-20 h-1.5 bg-green-500 rounded-full mb-6"></div>
-                <p className="text-center text-gray-600 max-w-2xl mx-auto mb-10 text-lg">
-                  Phòng khám nha khoa của chúng tôi cung cấp các dịch vụ chăm sóc răng miệng chất lượng cao.
-                </p>
-              </div>
-
-              {/* Clinic cards */}
-              <div className="grid grid-cols-1 gap-6 md:gap-8">
-                {dentalClinics.map((clinic) => (
-                  <div key={clinic.id} className="transform transition-all duration-300 hover:scale-[1.02]">
-                    <ClinicCard clinic={clinic} />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Suspense>
         </div>
       </div>
-
-      {/* CTA Section - Enhanced */}
-      <section className="relative bg-gradient-to-br from-green-50 to-green-100 py-16 md:py-20 overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-500 via-orange-400 to-green-500"></div>
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-green-200 rounded-full opacity-40 blur-xl"></div>
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-orange-100 rounded-full opacity-40 blur-xl"></div>
-
-        <div className="max-w-5xl mx-auto px-4 md:px-8 relative z-10">
-          <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-12 border-t-4 border-orange-500">
-            <div className="text-center mb-8">
-              <h3 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">{CTA_CONTENT.title}</h3>
-              <p className="text-gray-600 text-lg md:text-xl max-w-2xl mx-auto">{CTA_CONTENT.description}</p>
-            </div>
-
-            <div className="flex flex-col md:flex-row gap-5 justify-center max-w-md mx-auto">
-              <a
-                href={`tel:${CTA_CONTENT.phoneNumber}`}
-                className="inline-flex items-center justify-center bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-4 rounded-lg font-bold hover:from-orange-600 hover:to-orange-700 transition-all shadow-lg hover:shadow-xl text-center group"
-              >
-                <CallIcon className="w-5 h-5 mr-3" />
-                <span>{CTA_CONTENT.phoneText}</span>
-              </a>
-              <a
-                href={CTA_CONTENT.contactLink}
-                className="inline-flex items-center justify-center bg-white border-2 border-orange-500 text-orange-600 px-6 py-3.5 rounded-lg font-bold hover:bg-orange-50 transition-all text-center shadow-md hover:shadow-lg group"
-              >
-                <span>{CTA_CONTENT.contactText}</span>
-                <svg
-                  className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

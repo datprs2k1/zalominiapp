@@ -1,0 +1,149 @@
+/* Desktop-specific styles for explore page */
+
+/* Scroll to top button - only visible on desktop */
+.scroll-top-button {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .scroll-top-button {
+    display: flex;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: #00abbb;
+    color: white;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    z-index: 100;
+  }
+  
+  .scroll-top-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    background-color: #008a99;
+  }
+}
+
+/* Enhanced grid layout for desktop */
+@media (min-width: 1280px) {
+  .news-items-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+  }
+  
+  .explore-content {
+    padding: 0 32px 48px;
+    max-width: 1440px;
+  }
+  
+  /* Advanced hover effects for desktop */
+  .news-item {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .news-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Image overlay effect */
+  .news-item-image {
+    position: relative;
+  }
+  
+  .news-item-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 171, 187, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .news-item:hover .news-item-overlay {
+    opacity: 1;
+  }
+  
+  .news-item-read-more {
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 8px 16px;
+    border: 2px solid white;
+    border-radius: 20px;
+    transform: translateY(10px);
+    transition: transform 0.3s ease;
+  }
+  
+  .news-item:hover .news-item-read-more {
+    transform: translateY(0);
+  }
+  
+  /* Better load more button for desktop */
+  .load-more-button {
+    padding: 12px 32px;
+    font-size: 16px;
+  }
+  
+  .load-more-button:hover {
+    background-color: #00abbb;
+    color: white;
+    cursor: pointer;
+  }
+  
+  /* Category filter improvements */
+  .category-filter-container {
+    padding: 20px 0 16px;
+  }
+  
+  .category-filter-button {
+    padding: 8px 20px;
+    font-size: 15px;
+    cursor: pointer;
+  }
+  
+  .category-filter-button:hover:not(.active) {
+    background-color: #e5e7eb;
+  }
+  
+  /* Improved layout spacing */
+  .news-item-content {
+    padding: 16px 20px 20px;
+  }
+  
+  .news-item-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .news-item-excerpt {
+    font-size: 15px;
+    margin-bottom: 15px;
+    -webkit-line-clamp: 3; /* Show more text on desktop */
+  }
+}
+
+/* Extra large screens */
+@media (min-width: 1536px) {
+  .explore-content {
+    max-width: 1600px;
+  }
+  
+  .news-items-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+} 

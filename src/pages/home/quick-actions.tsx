@@ -11,32 +11,32 @@ interface QuickActionProps {
   icon: string;
   title: string;
   subtitle: string;
-  color?: string;
+  color?: 'primary' | 'accent-red' | 'action-green';
 }
 
-const QuickAction = ({ icon, title, subtitle, to, color = 'emerald' }: QuickActionProps) => (
+const QuickAction = ({ icon, title, subtitle, to, color = 'primary' }: QuickActionProps) => (
   <TransitionLink
     to={to}
-    className={`flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm border border-gray-100 hover:shadow-md hover:border-${color}-100 transition-all duration-300 active:scale-95 group`}
+    className={`flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm border border-gray-100 hover:shadow-md hover:border-[var(--${color})]/20 transition-all duration-300 active:scale-95 group`}
   >
     <div
-      className={`flex-shrink-0 w-12 h-12 rounded-xl bg-${color}-50 p-2 flex items-center justify-center group-hover:bg-${color}-100 transition-colors duration-300`}
+      className={`flex-shrink-0 w-12 h-12 rounded-xl bg-[var(--${color})]/10 p-2 flex items-center justify-center group-hover:bg-[var(--${color})]/20 transition-colors duration-300`}
     >
       <img src={icon} className="h-7 w-7 md:h-8 md:w-8" alt={title} />
     </div>
     <div className="flex flex-grow flex-col">
       <div
-        className={`text-sm font-semibold text-gray-900 group-hover:text-${color}-700 transition-colors duration-300`}
+        className={`text-sm font-semibold text-gray-900 group-hover:text-[var(--${color})] transition-colors duration-300`}
       >
         {title}
       </div>
       <div className="text-xs text-gray-500">{subtitle}</div>
     </div>
     <div
-      className={`flex-shrink-0 p-1.5 rounded-full bg-gray-50 group-hover:bg-${color}-50 transition-colors duration-300`}
+      className={`flex-shrink-0 p-1.5 rounded-full bg-gray-50 group-hover:bg-[var(--${color})]/10 transition-colors duration-300`}
     >
       <svg
-        className={`w-5 h-5 text-gray-400 group-hover:text-${color}-500 transition-colors duration-300`}
+        className={`w-5 h-5 text-gray-400 group-hover:text-[var(--${color})] transition-colors duration-300`}
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -61,7 +61,7 @@ const QuickActions = ({ className }: QuickActionsProps) => {
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="text-blue-600"
+      className="text-[var(--primary)]"
     >
       <path
         d="M8 12.2H15"
@@ -99,15 +99,27 @@ const QuickActions = ({ className }: QuickActionsProps) => {
   );
 
   return (
-    <Section className={`py-2 ${className ?? ''}`} title="Thao tác nhanh" icon={<ActionIcon />} accentColor="blue">
+    <Section className={`py-2 ${className ?? ''}`} title="Thao tác nhanh" icon={<ActionIcon />} accentColor="primary">
       <div className="mb-3 pl-1">
         <p className="text-xs text-gray-600">Truy cập nhanh các dịch vụ chính</p>
       </div>
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4">
-        <QuickAction to="/booking" icon={book} title="Đặt lịch khám" subtitle="Đặt lịch với bác sĩ" color="blue" />
-        <QuickAction to="/schedule" icon={history} title="Lịch sử khám" subtitle="Xem hồ sơ khám" color="purple" />
-        <QuickAction to="/services" icon={all} title="Dịch vụ y tế" subtitle="Khám đa khoa" color="emerald" />
-        <QuickAction to="/departments" icon={hospital} title="Khoa chuyên môn" subtitle="Chuyên khoa" color="amber" />
+        <QuickAction to="/booking" icon={book} title="Đặt lịch khám" subtitle="Đặt lịch với bác sĩ" color="primary" />
+        <QuickAction
+          to="/schedule"
+          icon={history}
+          title="Lịch sử khám"
+          subtitle="Xem hồ sơ khám"
+          color="action-green"
+        />
+        <QuickAction to="/services" icon={all} title="Dịch vụ y tế" subtitle="Khám đa khoa" color="primary" />
+        <QuickAction
+          to="/departments"
+          icon={hospital}
+          title="Khoa chuyên môn"
+          subtitle="Chuyên khoa"
+          color="accent-red"
+        />
       </div>
     </Section>
   );

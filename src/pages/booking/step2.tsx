@@ -112,7 +112,6 @@ export default function Step2() {
       }));
       toast.success('Đã lấy thông tin từ Zalo');
     } catch (e) {
-      console.log(e);
       toast.error('Không thể lấy thông tin từ Zalo!');
     }
   };

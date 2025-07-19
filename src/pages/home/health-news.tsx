@@ -3,6 +3,7 @@ import TransitionLink from '@/components/transition-link';
 import { getPosts, postsAtomFamily } from '@/services/post';
 import { useEffect, useState, useMemo } from 'react';
 import { useAtomValue } from 'jotai';
+import NewsIcon from '@/components/icons/news';
 
 export function NewsItem({ _embedded, id, title, date }) {
   return (
@@ -20,7 +21,7 @@ export function NewsItem({ _embedded, id, title, date }) {
       </div>
       <div className="p-3 flex-1">
         <div className="flex flex-col">
-          <span className="inline-block bg-emerald-100 text-emerald-700 text-xs font-semibold px-2 py-0.5 rounded-full w-fit mb-1">
+          <span className="inline-block bg-[var(--accent-red)]/10 text-[var(--accent-red)] text-xs font-semibold px-2 py-0.5 rounded-full w-fit mb-1">
             {_embedded['wp:term'][0][0].name}
           </span>
           <h3
@@ -64,7 +65,14 @@ export default function HealthNews() {
   }, [data, posts.length]);
 
   return (
-    <Section className="py-2" title="Tin tức sức khỏe" viewMore="/explore" isCard>
+    <Section
+      className="py-2"
+      title="Tin tức sức khỏe"
+      viewMore="/explore"
+      isCard
+      accentColor="emerald"
+      icon={<NewsIcon />}
+    >
       <div className="space-y-3">
         {isLoading ? renderSkeletons() : posts.map((post) => <NewsItem key={post.id} {...post} />)}
       </div>

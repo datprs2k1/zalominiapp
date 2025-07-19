@@ -13,6 +13,7 @@ import book from '@/static/book.svg';
 import history from '@/static/history.svg';
 import all from '@/static/services/all.svg';
 import hospital from '@/static/services/hospital.svg';
+import QuickAccessIcon from './icons/quick-access';
 
 interface QuickAccessItem {
   to: string;
@@ -24,6 +25,21 @@ function QuickAccessButton({ active }: { active?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
+  const [isPulsing, setIsPulsing] = useState(false);
+
+  useEffect(() => {
+    // Add a pulsing animation every 10 seconds when menu is closed
+    let pulseInterval: number | undefined;
+    if (!isOpen) {
+      pulseInterval = window.setInterval(() => {
+        setIsPulsing(true);
+        setTimeout(() => setIsPulsing(false), 1500);
+      }, 10000);
+    }
+    return () => {
+      if (pulseInterval) clearInterval(pulseInterval);
+    };
+  }, [isOpen]);
 
   const quickAccessItems: QuickAccessItem[] = [
     { to: '/booking', icon: book, title: 'Đặt lịch khám' },
@@ -66,21 +82,15 @@ function QuickAccessButton({ active }: { active?: boolean }) {
   return (
     <>
       {isOpen && (
-        <div
-          ref={menuRef}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 animate-fade-in will-change-opacity"
-        >
+        <div ref={menuRef} className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 animate-fade-in">
           <div className="absolute inset-0" onClick={closeMenu} aria-hidden="true"></div>
           <div
-            className="mx-6 w-full max-w-xs bg-white rounded-3xl shadow-2xl py-5 px-4 animate-scale-in relative animation-optimized"
+            className="mx-6 w-full max-w-xs bg-white rounded-3xl shadow-2xl py-5 px-4 animate-scale-in relative"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center px-1 mb-3">
               <h3 className="text-lg font-bold text-gray-900">Truy cập nhanh</h3>
-              <button
-                onClick={closeMenu}
-                className="text-gray-500 p-1 hover:bg-gray-100 rounded-full transition-colors duration-200"
-              >
+              <button onClick={closeMenu} className="text-gray-500 p-1 hover:bg-gray-100 rounded-full">
                 <span className="sr-only">Đóng</span>
                 <svg
                   className="w-5 h-5"
@@ -98,7 +108,7 @@ function QuickAccessButton({ active }: { active?: boolean }) {
                 <TransitionLink
                   key={index}
                   to={item.to}
-                  className="flex flex-col items-center gap-2 p-4 rounded-2xl hover:bg-gray-50 active:bg-gray-100 active:scale-95 transition-transform transition-colors duration-200 hardware-accelerated"
+                  className="flex flex-col items-center gap-2 p-4 rounded-2xl hover:bg-gray-50 active:bg-gray-100 active:scale-95 transition-all duration-200"
                   onClick={closeMenu}
                 >
                   <div
@@ -124,9 +134,36 @@ function QuickAccessButton({ active }: { active?: boolean }) {
       <div
         ref={buttonRef}
         onClick={toggleMenu}
-        className="w-12 h-12 bg-gradient-to-r from-primary to-primary-gradient rounded-full flex items-center justify-center -mt-4 shadow-lg shadow-highlight/30 hover:shadow-highlight/40 active:scale-95 transition-transform duration-200 cursor-pointer hardware-accelerated"
+        className={`
+          w-12 h-12 
+          bg-gradient-to-r from-blue-600 to-blue-500
+          rounded-full flex items-center justify-center -mt-4 
+          shadow-lg ${isOpen ? 'shadow-highlight/40' : 'shadow-highlight/30'} 
+          hover:shadow-highlight/50
+          active:scale-95 
+          transition-all duration-300
+          cursor-pointer
+          ${isPulsing ? 'animate-pulse' : ''}
+          relative
+          overflow-hidden
+        `}
+        aria-label="Quick access menu"
       >
-        <BigPlusIcon className={`w-7 h-7 text-white transition-transform duration-300 ${isOpen ? 'rotate-45' : ''}`} />
+        <span
+          className={`
+          absolute inset-0 bg-white/20 scale-0 rounded-full
+          ${isOpen ? '' : 'hover:scale-100'} 
+          transition-transform duration-300 ease-out
+        `}
+        ></span>
+        <QuickAccessIcon
+          className={`
+            w-7 h-7 text-white 
+            transition-all duration-300 
+            ${isOpen ? 'rotate-45 scale-110' : 'scale-100'} 
+            drop-shadow-md
+          `}
+        />
       </div>
     </>
   );
@@ -154,8 +191,8 @@ const NAV_ITEMS = [
     icon: ChatIcon,
   },
   {
-    name: 'Cá nhân',
-    path: '/profile',
+    name: 'Thông tin',
+    path: '/about',
     icon: ProfileIcon,
   },
 ];
@@ -172,11 +209,10 @@ export default function Footer() {
         className="absolute inset-x-0 bottom-sb z-10 h-24 -mb-6"
         style={{
           filter: 'drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.08))',
-          willChange: 'filter',
         }}
       />
       <div
-        className="w-full px-4 pt-2 grid text-3xs relative z-20 justify-center pb-sb bg-white border-t border-gray-100/30"
+        className="w-full px-4 pt-2 grid text-3xs relative z-20 justify-center pb-sb bg-white"
         style={{
           gridTemplateColumns: `repeat(${NAV_ITEMS.length}, 1fr)`,
         }}
@@ -191,19 +227,17 @@ export default function Footer() {
               to={item.path}
               key={item.path}
               className="flex flex-col items-center space-y-0.5 p-1 active:scale-105 transition-transform duration-150"
-              style={{ willChange: 'transform' }}
             >
               {({ isActive }) =>
                 item.name ? (
                   <>
                     <div
                       className={`w-6 h-6 flex justify-center items-center ${isActive ? 'scale-110' : ''} transition-transform duration-200`}
-                      style={{ willChange: 'transform', transform: 'translateZ(0)' }}
                     >
                       <item.icon active={isActive} />
                     </div>
                     <div
-                      className={`text-2xs truncate font-medium ${isActive ? 'text-primary' : 'text-disabled hover:text-gray-500 transition-colors'}`}
+                      className={`text-2xs truncate font-medium ${isActive ? 'text-blue-600' : 'text-disabled hover:text-gray-500 transition-colors'}`}
                     >
                       {item.name}
                     </div>

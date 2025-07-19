@@ -10,6 +10,5 @@ export function decodeHTML(html: string): string {
 
   const textarea = document.createElement('textarea');
   textarea.innerHTML = html;
-  console.log(textarea.value, 'AAAAAAAAA');
   return textarea.value;
 }

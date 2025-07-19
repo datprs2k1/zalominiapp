@@ -110,7 +110,6 @@ const fetchWPData = async <T>(
     return data;
   } catch (error: any) {
     if (error.name === 'AbortError') {
-      console.log('Request was aborted');
       throw new Error('Request was aborted');
     }
 
