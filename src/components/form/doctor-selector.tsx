@@ -305,31 +305,29 @@ function DoctorSelector({ value, onChange, onLoadDoctors, loading, itemsPerPage 
                   doctor={doctor}
                   className="w-full"
                   suffix={
+                    selected && (
+                      <span className="absolute top-2 right-2 bg-primary-500 text-white p-1 rounded-full">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </span>
+                    )
+                  }
+                  description={
                     <>
-                      {doctor.unit && (
-                        <div className="absolute top-3 right-3 bg-blue-50 text-blue-700 px-2 py-1 rounded-md text-xs font-medium border border-blue-100">
-                          {doctor.unit}
-                        </div>
-                      )}
-                      {selected && (
-                        <span className="absolute top-12 right-2 bg-primary-500 text-white p-1 rounded-full">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                        </span>
-                      )}
+                      {doctor.unit && <div className="text-sm text-gray-600 font-medium">{doctor.unit}</div>}
+                      {disabled && <span className="text-red-500 text-xs">Not available</span>}
                     </>
                   }
-                  description={disabled ? <span className="text-red-500 text-xs">Not available</span> : null}
                 />
               </div>
             );
