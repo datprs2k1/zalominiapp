@@ -31,7 +31,7 @@ export default function Section({
       {title && (
         <div className="flex items-center">
           {icon && <div className="mr-2">{icon}</div>}
-          <div className="font-bold text-lg md:text-xl text-blue-500 relative">
+          <div className={`font-bold text-lg md:text-xl text-${accentColor}-600 relative`}>
             {title}
             <span className={`absolute -bottom-1 left-0 h-[3px] w-1/3 bg-${accentColor}-500 rounded-full`}></span>
           </div>
@@ -40,10 +40,10 @@ export default function Section({
       {viewMore && (
         <TransitionLink
           to={viewMore}
-          className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 active:bg-blue-200 transition-all duration-200`}
+          className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-${accentColor}-50 text-${accentColor}-600 hover:bg-${accentColor}-100 active:bg-${accentColor}-200 transition-all duration-200`}
         >
           <div className="text-xs md:text-sm font-medium">Xem tất cả</div>
-          <ArrowRightIcon className={`h-3.5 w-3.5 md:h-4 md:w-4 text-blue-500`} />
+          <ArrowRightIcon className={`h-3.5 w-3.5 md:h-4 md:w-4 text-${accentColor}-500`} />
         </TransitionLink>
       )}
     </div>
@@ -57,7 +57,7 @@ export default function Section({
   if (isCard) {
     contentClasses = `${noBackground ? '' : 'bg-white'} rounded-2xl shadow-sm ${
       !noBackground && 'border border-gray-100'
-    } p-4 md:p-5 hover:shadow-md transition-shadow duration-300`;
+    } p-4 md:p-5 hover:shadow-md transition-all duration-300`;
   }
 
   return (

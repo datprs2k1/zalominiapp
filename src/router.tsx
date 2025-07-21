@@ -21,6 +21,7 @@ import AboutPage from './pages/about';
 import DoctorPage from './pages/doctor';
 import DepartmentsPage from './pages/departments';
 import DoctorDetailPage from './pages/detail/docter';
+import ServicePricesPage from './pages/services/prices';
 
 const router = createBrowserRouter(
   [
@@ -166,6 +167,14 @@ const router = createBrowserRouter(
           handle: {
             back: true,
             title: 'Bác sĩ',
+          },
+        },
+        {
+          path: '/service-prices',
+          element: <ServicePricesPage />,
+          handle: {
+            back: true,
+            title: 'Giá dịch vụ',
           },
         },
         {

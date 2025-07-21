@@ -36,7 +36,7 @@ function NewsPage() {
       <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">{title}</h1>
       <div className="text-xs text-gray-500 mb-2">{date}</div>
       <div
-        className="prose prose-sm md:prose max-w-none text-gray-800"
+        className="prose prose-sm md:prose max-w-none text-blue-900"
         dangerouslySetInnerHTML={{ __html: normalizeHtml(post.content?.rendered || '') }}
       />
     </div>

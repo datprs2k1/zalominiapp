@@ -2,6 +2,7 @@ import Section from '@/components/section';
 import MarkedTitleSection from '@/components/marked-title-section';
 import chatOa from '@/static/services/chat-oa.svg';
 import heartAndPill from '@/static/services/heart-and-pill.svg';
+import invoice from '@/static/services/invoice.svg'; // Added import for the price icon
 import { openChat } from 'zmp-sdk';
 import { getConfig } from '@/utils/miscellaneous';
 import { servicesAtom } from '@/services/post';
@@ -45,6 +46,26 @@ function ServicesPage() {
             </div>
           </div>
         </div>
+
+        {/* Service Prices Card */}
+        <TransitionLink to="/service-prices" className="block">
+          <div className="bg-gradient-to-r from-green-50 to-green-100 rounded-2xl shadow-sm p-5 cursor-pointer hover:shadow-md transition mb-4">
+            <div className="flex items-center gap-4">
+              <div className="flex items-center justify-center w-14 h-14 rounded-full bg-white border border-green-200 shadow-sm overflow-hidden">
+                <img src={invoice} alt="Service Prices" className="w-8 h-8 object-contain" />
+              </div>
+              <div className="flex-1">
+                <div className="text-lg font-semibold text-gray-900">Bảng giá dịch vụ</div>
+                <div className="text-sm text-gray-600">Xem chi tiết giá các dịch vụ y tế theo từng loại</div>
+              </div>
+              <div className="bg-white rounded-full p-2 shadow-sm">
+                <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </TransitionLink>
       </div>
 
       <div>

@@ -3,6 +3,16 @@ export const normalizeHtml = (html: string): string => {
   const parser = new window.DOMParser();
   const doc = parser.parseFromString(html, 'text/html');
 
+  // Loại bỏ tất cả các phần tử form
+  doc.querySelectorAll('form').forEach((form) => {
+    form.remove();
+  });
+
+  // Loại bỏ các phần tử liên quan đến form
+  doc.querySelectorAll('input, textarea, select, button, .wpcf7').forEach((el) => {
+    el.remove();
+  });
+
   // Xoá toàn bộ class và style của mọi phần tử
   doc.querySelectorAll('*').forEach((el) => {
     el.removeAttribute('class');
@@ -99,7 +109,20 @@ export const normalizeHtml = (html: string): string => {
     p.classList.add('mb-4', 'last:mb-0', 'text-gray-800', 'text-base');
   });
 
+  // Fix form elements - new functionality to preserve form functionality
+  // (Đã loại bỏ do yêu cầu không xử lý form)
+
   return doc.body.innerHTML;
+};
+
+// Example function to show usage
+export const processHTMLContent = (htmlContent: string): string => {
+  // Only run on client-side
+  if (typeof window === 'undefined') {
+    return 'This function must be run in browser environment';
+  }
+
+  return normalizeHtml(htmlContent);
 };
 
 export default normalizeHtml;

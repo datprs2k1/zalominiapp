@@ -1,7 +1,8 @@
-const API_URL = 'https://tamthienduc.vn';
-const SERVICE_ID = '4417';
-const DEPARTMENT_ID = '5649';
+const API_URL = 'https://benhvien.dev';
+const SERVICE_ID = '7220';
+const SERVICE_PRICE_ID = '7222';
+const DEPARTMENT_ID = '1009';
 const SECRET_KEY = 'mR3W8XM04f7LQ2P9i4QG';
 const API_SECRET_KEY = 'MTIyMjIyMjIyMjIyMzMzMzMzMzMzMzMzMzMzNDQ0NDQ0NDQ0NA==';
 
-export { API_URL, SERVICE_ID, DEPARTMENT_ID, SECRET_KEY, API_SECRET_KEY };
+export { API_URL, SERVICE_ID, SERVICE_PRICE_ID, DEPARTMENT_ID, SECRET_KEY, API_SECRET_KEY };

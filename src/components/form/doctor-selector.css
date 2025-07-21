@@ -1,0 +1,254 @@
+/* Mobile-specific styles for doctor selector */
+
+.doctor-selector-container {
+  --shadow-color: 0deg 0% 63%;
+  box-shadow: 
+    0px 0.5px 0.6px hsl(var(--shadow-color) / 0.34),
+    0px 1.6px 1.8px -1.2px hsl(var(--shadow-color) / 0.34),
+    0px 4px 4.5px -2.5px hsl(var(--shadow-color) / 0.34);
+  max-height: 90vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,0,0,0.2) transparent;
+}
+
+.doctor-selector-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.doctor-selector-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.doctor-selector-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 20px;
+}
+
+/* Search input styles */
+.doctor-selector-container input[type="text"] {
+  -webkit-appearance: none;
+  appearance: none;
+  font-size: 0.95rem;
+  height: 48px;
+}
+
+.doctor-selector-container input[type="text"]::placeholder {
+  color: #9ca3af;
+  font-size: 0.9rem;
+}
+
+.doctor-selector-container input[type="text"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 171, 187, 0.2);
+}
+
+/* Better touch states for doctor items */
+.doctor-item-touch {
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.doctor-item-touch:active {
+  transform: scale(0.98);
+  background-color: #f9fafb;
+}
+
+/* Animate selection */
+.doctor-item-touch.ring-primary-500 {
+  animation: pulse-ring 1s cubic-bezier(0.455, 0.03, 0.515, 0.955) forwards;
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 171, 187, 0.3);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(0, 171, 187, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 171, 187, 0);
+  }
+}
+
+/* Filter bar styling */
+.filter-scroll {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  margin: 0 -1px;
+  padding-left: 1px;
+  padding-right: 1px;
+}
+
+.filter-scroll::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.filter-button {
+  height: 40px;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.filter-button:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: currentColor;
+  transition: all 0.2s ease;
+  transform: translateX(-50%);
+}
+
+.filter-button:active {
+  transform: scale(0.95);
+}
+
+.filter-button.bg-primary-500:after {
+  width: 40%;
+}
+
+/* Doctors list styles */
+.doctors-list {
+  perspective: 1000px;
+  padding-bottom: 8px;
+}
+
+.doctor-item-touch {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+/* Pagination styles */
+.pagination-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 0.5rem 0;
+}
+
+.pagination-container::-webkit-scrollbar {
+  display: none;
+}
+
+.pagination-container button {
+  min-width: 40px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+  font-size: 0.9rem;
+  transition: all 0.15s ease;
+}
+
+.pagination-container button:active {
+  transform: scale(0.95);
+}
+
+/* Skeleton loading styles */
+.doctor-skeleton {
+  opacity: 0.8;
+}
+
+/* Empty state styles */
+.empty-state-animation {
+  animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+/* Doctor item improvements for mobile */
+@media (max-width: 640px) {
+  .doctor-avatar {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .doctor-name {
+    font-size: 0.9rem;
+    line-height: 1.3;
+  }
+  
+  .doctor-specialty {
+    font-size: 0.8rem;
+    line-height: 1.2;
+  }
+  
+  .doctor-language-tag {
+    padding: 1px 6px;
+    font-size: 0.65rem;
+  }
+  
+  /* Smaller pagination on mobile */
+  .pagination-container button {
+    min-width: 32px;
+    min-height: 36px;
+    font-size: 0.85rem;
+  }
+  
+  /* Adjust filter buttons */
+  .filter-button {
+    height: 36px;
+    font-size: 0.85rem;
+  }
+  
+  /* Improve sticky header */
+  .doctor-selector-container > div:first-child {
+    top: 0;
+    margin-top: -3px;
+    padding-top: 3px;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  }
+}
+
+/* Selected doctor indicator */
+.selected-indicator {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Better accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .doctor-item-touch:active {
+    transform: none;
+  }
+  
+  .filter-button:active {
+    transform: none;
+  }
+  
+  .pagination-container button:active {
+    transform: none;
+  }
+  
+  .empty-state-animation {
+    animation: none;
+  }
+  
+  .doctor-item-touch.ring-primary-500 {
+    animation: none;
+  }
+} 

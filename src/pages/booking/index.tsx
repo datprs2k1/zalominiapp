@@ -4,6 +4,7 @@ import Step2 from './step2';
 import Step3 from './step3';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
+import { BackIcon } from '@/components/icons/back';
 
 function BookingPage() {
   const { step } = useParams();
@@ -30,43 +31,83 @@ function BookingPage() {
     }
   };
 
+  const getStepTitle = () => {
+    switch (currentStep) {
+      case 1:
+        return 'Chọn dịch vụ & lịch hẹn';
+      case 2:
+        return 'Thông tin cá nhân';
+      case 3:
+        return 'Xác nhận đặt lịch';
+      default:
+        return '';
+    }
+  };
+
+  const handleBack = () => {
+    if (currentStep > 1) {
+      navigate(`/booking/${currentStep - 1}`, { viewTransition: true });
+    } else {
+      navigate('/', { viewTransition: true });
+    }
+  };
+
   return (
     <div className="booking-page flex flex-col min-h-screen bg-gray-50">
       {/* Header with progress indicator */}
       <div className="bg-white shadow-sm sticky top-0 z-10">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between px-4">
+        <div className="container mx-auto px-4 pt-4 pb-3">
+          {/* Step indicator */}
+          <div className="flex items-center justify-between mb-3">
             {[1, 2, 3].map((idx) => (
-              <div key={idx} className="flex flex-col items-center">
+              <div key={idx} className="flex flex-col items-center flex-1 relative">
                 <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                    idx === currentStep
-                      ? 'bg-primary text-white'
-                      : idx < currentStep
-                        ? 'bg-green-500 text-white'
-                        : 'bg-gray-200 text-gray-500'
+                  className={`w-10 h-10 rounded-full flex items-center justify-center transition-all
+                    ${
+                      idx === currentStep
+                        ? 'bg-primary text-white shadow-md shadow-primary/30 scale-110'
+                        : idx < currentStep
+                          ? 'bg-green-500 text-white'
+                          : 'bg-gray-200 text-gray-500'
+                    }`}
+                >
+                  {idx < currentStep ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  ) : (
+                    <span className="font-medium">{idx}</span>
+                  )}
+                </div>
+                <span
+                  className={`text-xs mt-2 font-medium ${
+                    idx === currentStep ? 'text-primary' : idx < currentStep ? 'text-green-600' : 'text-gray-500'
                   }`}
                 >
-                  {idx < currentStep ? '✓' : idx}
-                </div>
-                <span className={`text-xs mt-1 ${idx === currentStep ? 'text-primary font-medium' : 'text-gray-500'}`}>
                   {idx === 1 ? 'Thông tin' : idx === 2 ? 'Chi tiết' : 'Xác nhận'}
                 </span>
+
+                {/* Connector line */}
+                {idx < 3 && (
+                  <div className="absolute top-5 left-1/2 w-full h-[2px] -z-10">
+                    <div className={`h-full ${idx < currentStep ? 'bg-green-500' : 'bg-gray-200'}`}></div>
+                  </div>
+                )}
               </div>
             ))}
-          </div>
-          <div className="relative h-1 bg-gray-200 rounded-full overflow-hidden">
-            <div
-              className="absolute top-0 left-0 h-full bg-primary transition-all duration-300 ease-out"
-              style={{ width: `${((currentStep - 1) / 2) * 100}%` }}
-            ></div>
           </div>
         </div>
       </div>
 
       {/* Main content */}
       <div className="flex-grow container mx-auto px-4 py-6">
-        <div className="bg-white rounded-lg shadow-sm overflow-hidden">{renderStepContent()}</div>
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden">{renderStepContent()}</div>
       </div>
     </div>
   );

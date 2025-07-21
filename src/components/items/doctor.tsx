@@ -1,5 +1,4 @@
 import { HTMLProps, ReactNode, useState } from 'react';
-import CheckIcon from '../icons/check';
 import { Doctor } from '@/types';
 import TransitionLink from '../transition-link';
 
@@ -68,30 +67,29 @@ export default function DoctorItem({ doctor, suffix, withLanguages = true, descr
   // Hiển thị tên đầy đủ với chức danh
   const fullName = title ? `${title} ${doctorName}` : doctorName;
 
-  return (
-    <TransitionLink
-      to={`/doctor/${doctor.id}`}
-      className="flex flex-col p-4 rounded-xl bg-white shadow-sm hover:shadow-lg transition-shadow cursor-pointer border border-gray-100 group"
-    >
+  const isWrappedInLink = props.onClick === undefined;
+  const Content = () => (
+    <>
       <div className="flex items-start gap-3">
         <div className="flex-shrink-0">
-          <div className="h-14 w-14 sm:h-16 sm:w-16 rounded-full overflow-hidden border-2 border-primary-500 bg-gray-50 shadow-sm">
+          <div className="doctor-avatar h-14 w-14 sm:h-16 sm:w-16 rounded-full overflow-hidden border-2 border-primary-500 bg-gray-50 shadow-sm">
             <img
               src={avatarUrl}
               alt={doctorName}
               className="object-cover w-full h-full"
+              loading="lazy"
               onError={() => setImgError(true)}
             />
           </div>
         </div>
 
         <div className="flex flex-col flex-grow min-w-0">
-          <div className="text-base font-semibold text-gray-900 leading-tight group-hover:text-primary-600 transition-colors">
+          <div className="doctor-name text-base font-semibold text-gray-900 leading-tight group-hover:text-primary-600 transition-colors">
             {fullName}
           </div>
 
           {(specialty || department) && (
-            <div className="text-sm text-gray-600 mt-1 leading-snug">{department || specialty}</div>
+            <div className="doctor-specialty text-sm text-gray-600 mt-1 leading-snug">{department || specialty}</div>
           )}
 
           {experience && <div className="text-sm text-gray-600 mt-1 line-clamp-2">{experience}</div>}
@@ -102,7 +100,7 @@ export default function DoctorItem({ doctor, suffix, withLanguages = true, descr
               {languages.map((lang, idx) => (
                 <span
                   key={lang + idx}
-                  className="px-2 py-0.5 bg-primary-50 text-primary-700 text-xs rounded-full border border-primary-100"
+                  className="doctor-language-tag px-2 py-0.5 bg-primary-50 text-primary-700 text-xs rounded-full border border-primary-100"
                 >
                   {lang}
                 </span>
@@ -113,6 +111,28 @@ export default function DoctorItem({ doctor, suffix, withLanguages = true, descr
       </div>
 
       {suffix && <div className="flex justify-end mt-2">{suffix}</div>}
-    </TransitionLink>
+    </>
+  );
+
+  if (isWrappedInLink) {
+    return (
+      <TransitionLink
+        to={`/doctor/${doctor.id}`}
+        className={`flex flex-col p-3 sm:p-4 rounded-xl bg-white shadow-sm hover:shadow-lg transition-shadow cursor-pointer border border-gray-100 group ${props.className || ''}`}
+      >
+        <Content />
+      </TransitionLink>
+    );
+  }
+
+  return (
+    <div
+      {...props}
+      className={`flex flex-col p-3 sm:p-4 rounded-xl bg-white ${props.className || ''}`}
+      role="button"
+      tabIndex={0}
+    >
+      <Content />
+    </div>
   );
 }

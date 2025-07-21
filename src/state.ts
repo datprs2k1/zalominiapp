@@ -144,6 +144,8 @@ export const bookingFormState = atomWithReset<{
   slot?: TimeSlot;
   doctor?: Doctor;
   department?: Department;
+  service?: Service;
+  examType?: 'specialist' | 'service';
   symptoms: string[];
   description: string;
   images: string[];
@@ -155,6 +157,7 @@ export const bookingFormState = atomWithReset<{
   images: [] as string[],
   name: '',
   phone: '',
+  examType: 'specialist',
 });
 
 export const askFormState = atomWithReset<Inquiry>({

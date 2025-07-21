@@ -176,8 +176,8 @@ const NAV_ITEMS = [
     icon: HomeIcon,
   },
   {
-    name: 'Khám phá',
-    path: '/explore',
+    name: 'Bảng giá',
+    path: '/service-prices',
     icon: ExploreIcon,
   },
   {
@@ -186,8 +186,8 @@ const NAV_ITEMS = [
     isSpecial: true,
   },
   {
-    name: 'Lịch khám',
-    path: '/schedule',
+    name: 'Bác sĩ',
+    path: '/doctor',
     icon: ChatIcon,
   },
   {

@@ -1,172 +1,147 @@
-# ZaUI Doctor
+# HTML Content Processor với Tailwind CSS
 
-<p style="display: flex; flex-wrap: wrap; gap: 4px">
-  <img alt="vite" src="https://img.shields.io/github/package-json/dependency-version/Zalo-MiniApp/zaui-doctor/dev/vite" />
-  <img alt="react" src="https://img.shields.io/github/package-json/dependency-version/Zalo-MiniApp/zaui-doctor/react" />
-  <img alt="zmp-ui" src="https://img.shields.io/github/package-json/dependency-version/Zalo-MiniApp/zaui-doctor/zmp-ui" />
-  <img alt="zmp-sdk" src="https://img.shields.io/github/package-json/dependency-version/Zalo-MiniApp/zaui-doctor/zmp-sdk" />
-  <img alt="jotai" src="https://img.shields.io/github/package-json/dependency-version/Zalo-MiniApp/zaui-doctor/jotai" />
-  <img alt="tailwindcss" src="https://img.shields.io/github/package-json/dependency-version/Zalo-MiniApp/zaui-doctor/dev/tailwindcss" />
-</p>
+Hệ thống này cho phép chuyển đổi nội dung HTML từ WordPress (hoặc các nguồn khác) sang định dạng tương thích với Tailwind CSS, loại bỏ các thuộc tính style inline và thêm vào các class phù hợp của Tailwind.
 
-A Zalo Mini App template perfect for hospitals, clinics, and healthcare providers looking to digitize their services.
+## Tính năng chính
 
-|                      Demo                       |                  Entrypoint                  |
-| :---------------------------------------------: | :------------------------------------------: |
-| <img src="./docs/preview.webp" alt="Home page"> | <img src="./docs/qr.webp" alt="Entry point"> |
+- Loại bỏ tất cả các thuộc tính style và class gốc không cần thiết
+- Chuyển đổi các phần tử HTML sang các lớp Tailwind CSS phù hợp
+- Bảo toàn cấu trúc và chức năng của các phần tử form
+- Tự động định dạng các thành phần phổ biến (headings, tables, lists, images, etc.)
+- Hỗ trợ xử lý responsive cho cấu trúc grid
+- Giao diện trực quan để xem từng bước trong quá trình xử lý
 
-## Features
+## Các thành phần
 
-- 3 forms: Booking form, Ask a question form, and Feedback form with support for multi-image upload.
-- Search functionality for doctors, departments, and news
-- List of services, departments, and news
-- Schedule and invoice management
-- Chat with Zalo OA
-- Profile page
+### 1. Hàm `normalizeHtml`
 
-## Setup
+Hàm chính xử lý việc chuyển đổi HTML sang định dạng Tailwind CSS:
 
-### Using Zalo Mini App Extension
-
-1. Install [Visual Studio Code](https://code.visualstudio.com/download) and [Zalo Mini App Extension](https://mini.zalo.me/docs/dev-tools).
-1. Click on **Create Project** > Choose **ZaUI Doctor** template > Wait until the generated project is ready.
-1. **Configure App ID** and **Install Dependencies**, then navigate to the **Run** panel > **Start** to develop your Mini App 🚀
-
-### Using Zalo Mini App CLI
-
-> **Note:** Vite 5 compatibility in CLI is under development. Until then, please use the Zalo Mini App Extension.
-
-1. [Install Node JS](https://nodejs.org/en/download/).
-1. [Install Zalo Mini App CLI](https://mini.zalo.me/docs/dev-tools/cli/intro/).
-1. **Download** or **clone** this repository.
-1. **Install dependencies**:
-   ```bash
-   npm install
-   ```
-1. **Start** the dev server using `zmp-cli`:
-   ```bash
-   zmp start
-   ```
-1. **Open** `localhost:3000` in your browser and start coding 🔥
-
-### Using Zalo Mini App Studio
-
-This template is built using **Vite 5.x**, which is **not compatible** with Zalo Mini App Studio.
-
-## Deployment
-
-1. **Create** a Zalo Mini App ID. For instructions, please refer to the [Coffee Shop Tutorial](https://mini.zalo.me/tutorial/coffee-shop/step-1/).
-
-1. **Deploy** your mini program to Zalo using the ID created.
-
-   If you're using Zalo Mini App Extension: navigate to the Deploy panel > Login > Deploy.
-
-   If you're using `zmp-cli`:
-
-   ```bash
-   zmp login
-   zmp deploy
-   ```
-
-1. Scan the **QR code** using Zalo to preview your mini program.
-
-## Usage
-
-The repository contains sample UI components and features for building your healthcare application. You may modify the code to suit your specific healthcare needs.
-
-Here are some recipes and instructions on how to customize the application.
-
-### Register a new page
-
-To register a new page:
-
-1. Create a new folder in `src/pages/`.
-2. Create an `index.tsx` file containing a `*Page` component.
-3. Register the page in `src/router.tsx`:
-
-   ```tsx
-   {
-      path: "/payment-result",
-      element: <PaymentResultPage />,
-      handle: {
-         back: true, // If the page has a back button
-         title: "Giao dịch hoàn tất", // The title to be shown on the header
-      },
-   }
-   ```
-
-4. Sections of a page can be split into components in the same folder. For example: `src/pages/payment-result/tab1.tsx`, `src/pages/payment-result/tab2.tsx`,...
-
-### Load data from your server
-
-Data are loaded into view using Jotai's state, called [atoms](https://jotai.org/docs/core/atom). You can change how data are loaded without changing the UI by replacing `src/state.ts`:
-
-```diff
-- export const doctorsState = atom<Promise<Doctor[]>>(mockDoctors);
-+ export const doctorsState = atom<Promise<Doctor[]>>(async () => {
-+   const response = await fetch("https://");
-+   return response.json();
-+ });
+```typescript
+// src/utils/normalHTML.tsx
+export const normalizeHtml = (html: string): string => {
+  // Logic xử lý và áp dụng các class Tailwind
+  // ...
+};
 ```
 
-As long as the new data satisfies the given TypeScript interface (for example, `Doctor`), no changes to the UI are required. Otherwise, feel free to refactor the interfaces and the UI to suit your DTO.
+### 2. Component `HtmlContentDisplay`
 
-### Handle form submission
+Component để hiển thị nội dung HTML đã được xử lý:
 
-Modify the `onSubmit` logic in the form you want to handle submission. For example:
+```typescript
+// src/components/HtmlContentDisplay.tsx
+import React from 'react';
+import { normalizeHtml } from '../utils/normalHTML';
 
-```diff tsx filename="src/pages/booking/step2.tsx"
-onSubmit={async () => {
--   await wait(1500);
--   promptJSON(formData);
-+   const response = await fetch("https://", {
-+      method: "POST",
-+      headers: {
-+      "Content-Type": "application/json",
-+      },
-+      body: JSON.stringify(formData),
-+   });
-   navigate("/booking/3", {
-      viewTransition: true,
-   });
-}}
+interface HtmlContentDisplayProps {
+  htmlContent: string;
+  className?: string;
+}
+
+export const HtmlContentDisplay: React.FC<HtmlContentDisplayProps> = ({ htmlContent, className = '' }) => {
+  // Logic xử lý và hiển thị HTML
+  // ...
+};
 ```
 
-### Change header title
+### 3. Các hàm tiện ích
 
-Modify `app-config.json` > `app.title` field.
+Các hàm hỗ trợ xử lý HTML từ các nguồn khác nhau:
 
-```json
-{
-   "app": {
-      "title": "ZaUI Doctor",
+```typescript
+// src/utils/htmlProcessingHelpers.ts
+export const extractRawHtml = (html: string): string => {
+  // Logic trích xuất HTML thuần từ WordPress hoặc các nguồn khác
+  // ...
+};
+
+export const addTailwindStructure = (html: string): string => {
+  // Logic thêm cấu trúc Tailwind CSS
+  // ...
+};
 ```
 
-### Change OA ID
+### 4. Component `ContentProcessor`
 
-There is a CTA block to chat with Zalo OA. To change the Zalo OA for chat, modify `app-config.json` > `template.oaID` field:
+Giao diện người dùng để xử lý và hiển thị nội dung:
 
-```json
-{
-   "template": {
-      "name": "zaui-doctor",
-      "oaID": "4318657068771012646"
+```typescript
+// src/components/ContentProcessor.tsx
+import React, { useState } from 'react';
+import { HtmlContentDisplay } from './HtmlContentDisplay';
+import { extractRawHtml, addTailwindStructure } from '../utils/htmlProcessingHelpers';
+import { normalizeHtml } from '../utils/normalHTML';
+
+export const ContentProcessor: React.FC = () => {
+  // Logic xử lý và hiển thị UI
+  // ...
+};
 ```
 
-### Customization
+## Cách sử dụng
 
-This template can be customized by changing 5 main colors in `src/css/app.scss`:
+### Trực tiếp với hàm `normalizeHtml`
 
-```css
-:root {
-  --primary: #00abbb;
-  --primary-gradient: #00bead;
-  --highlight: #01bdaf1a;
-  --background: #f2f9f9;
-  --disabled: #9a9a9a;
+```typescript
+import { normalizeHtml } from './utils/normalHTML';
+
+// Sử dụng trong component của bạn
+const MyComponent = ({ htmlContent }) => {
+  const normalizedHtml = normalizeHtml(htmlContent);
+
+  return (
+    <div dangerouslySetInnerHTML={{ __html: normalizedHtml }} />
+  );
+};
 ```
 
-| `--primary: #31992c`                      | `--primary: #992c2c`                          |
-| ----------------------------------------- | --------------------------------------------- |
-| ![Red](./docs/customise-red.webp)         | ![Green](./docs/customise-green.webp)         |
-| ![Red](./docs/customise-red-booking.webp) | ![Green](./docs/customise-green-booking.webp) |
+### Sử dụng component `HtmlContentDisplay`
+
+```typescript
+import { HtmlContentDisplay } from './components/HtmlContentDisplay';
+
+// Sử dụng trong component của bạn
+const MyComponent = ({ htmlContent }) => {
+  return (
+    <div className="my-content">
+      <HtmlContentDisplay htmlContent={htmlContent} className="additional-class" />
+    </div>
+  );
+};
+```
+
+### Sử dụng giao diện `ContentProcessor`
+
+1. Import và sử dụng component ContentProcessor trong ứng dụng của bạn
+2. Dán nội dung HTML vào ô text
+3. Nhấn "Xử lý nội dung" để chuyển đổi
+4. Xem kết quả và các bước trung gian trong quá trình xử lý
+
+```typescript
+import { ContentProcessor } from './components/ContentProcessor';
+
+const App = () => {
+  return (
+    <div className="app">
+      <ContentProcessor />
+    </div>
+  );
+};
+```
+
+## Tùy chỉnh
+
+Bạn có thể tùy chỉnh các lớp Tailwind CSS được áp dụng cho từng phần tử bằng cách chỉnh sửa hàm `normalizeHtml` trong file `src/utils/normalHTML.tsx`.
+
+## Yêu cầu
+
+- React 16.8+ (cho các hooks)
+- Tailwind CSS đã được cấu hình trong dự án
+- Chỉ hoạt động ở phía client (cần DOMParser)
+
+## Lưu ý
+
+- Luôn kiểm tra kết quả và điều chỉnh các lớp CSS nếu cần thiết
+- Một số cấu trúc HTML phức tạp có thể cần được xử lý thêm
+- Sử dụng `dangerouslySetInnerHTML` cẩn thận và đảm bảo HTML đã được sanitize

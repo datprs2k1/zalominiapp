@@ -13,7 +13,7 @@ export default function SearchBar({
 
   return (
     <form
-      className={`flex items-center justify-between rounded-xl bg-white relative p-2 space-x-2 shadow-sm border ${isActive ? 'border-emerald-500' : 'border-gray-200'} ${className ?? ''}`}
+      className={`flex items-center justify-between rounded-xl bg-white relative p-2 space-x-2 shadow-sm border ${isActive ? 'border-cyan-500 ring-2 ring-cyan-100' : 'border-gray-200'} ${className ?? ''} transition-all duration-200`}
       onSubmit={(e) => {
         e.preventDefault();
         const keyword = new FormData(e.currentTarget).get('keyword') as string;
@@ -35,7 +35,7 @@ export default function SearchBar({
         />
       </div>
       <Button
-        className="rounded-xl !w-auto h-[42px] [&_.spinner]:w-4 [&_.spinner]:h-4 px-5 text-center text-sm text-white font-medium bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 shadow-sm"
+        className="rounded-xl !w-auto h-[42px] [&_.spinner]:w-4 [&_.spinner]:h-4 px-5 text-center text-sm text-white font-medium bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-700 hover:to-cyan-600 shadow-sm"
         loading={loading}
         type="submit"
       >

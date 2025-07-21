@@ -57,7 +57,7 @@ export function ExploreNewsItem({ _embedded, id, title, date, excerpt }) {
       </div>
       <div className="news-item-content">
         <div className="news-item-category">{category}</div>
-        <h3 className="news-item-title" dangerouslySetInnerHTML={{ __html: title.rendered }} />
+        <h3 className="news-item-title text-blue-900" dangerouslySetInnerHTML={{ __html: title.rendered }} />
         {cleanExcerpt && <p className="news-item-excerpt">{cleanExcerpt}</p>}
         <div className="news-item-date">{formattedDate}</div>
       </div>

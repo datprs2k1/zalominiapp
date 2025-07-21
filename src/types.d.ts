@@ -33,6 +33,7 @@ interface Doctor {
   specialties: string;
   image: string;
   isAvailable: boolean;
+  unit?: string;
 }
 
 export interface SymptomDescription {
