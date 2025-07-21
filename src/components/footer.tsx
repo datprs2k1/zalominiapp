@@ -149,13 +149,13 @@ const NAV_ITEMS = [
     isSpecial: true,
   },
   {
-    name: 'Lịch khám',
-    path: '/schedule',
+    name: 'Bác sĩ',
+    path: '/doctor',
     icon: ChatIcon,
   },
   {
-    name: 'Cá nhân',
-    path: '/profile',
+    name: 'Thông tin',
+    path: '/about',
     icon: ProfileIcon,
   },
 ];
