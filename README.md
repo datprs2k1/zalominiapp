@@ -91,14 +91,25 @@ src/
 
 ## Documentation
 
-For more detailed information, please refer to the following documentation:
+For comprehensive documentation, see the [Documentation Index](docs/INDEX.md) or refer to specific guides:
+
+### Core Documentation
 
 - [Architecture Overview](docs/architecture-overview.md) - System architecture, key technologies, and design patterns
 - [Component Documentation](docs/component-documentation.md) - Detailed documentation of key components and their usage
 - [API Services Guide](docs/api-services-guide.md) - Information about API services and data flow
-- [HTML Content Processing Guide](docs/html-processing-guide.md) - Guide for the HTML content processing system
+
+### Design & UI
+
+- [Medical Design System](docs/medical-design-system.md) - Complete medical design system guidelines
+- [Color Design System](docs/color-design-system.md) - Color system documentation and usage
 - [Mobile Redesign Guide](docs/mobile-redesign-guide.md) - Guidelines for mobile-specific design and components
+
+### Implementation Guides
+
+- [HTML Content Processing Guide](docs/html-processing-guide.md) - Guide for the HTML content processing system
 - [User State Guide](docs/user-state-guide.md) - Information on handling user state and authentication
+- [Transitions and Loading](docs/TRANSITIONS_AND_LOADING.md) - Animation and loading state documentation
 
 ## Contributing
 

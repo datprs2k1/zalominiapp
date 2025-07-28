@@ -9,24 +9,72 @@ export default function Tab1() {
 
   return (
     <div>
-      {/* Main Content Area - Mobile Optimized */}
+      {/* Enhanced Medical Content Area */}
       <motion.div
-        className="bg-white p-4 sm:p-6 rounded-lg sm:rounded-2xl shadow-md border border-gray-100"
+        className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-blue-100"
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
-        <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-          <div className="p-2 sm:p-3 bg-blue-200 rounded-lg">
-            <MedicalIcon type="heart" size="sm" className="text-blue-800" />
+        <div className="flex items-center gap-3 mb-6">
+          <div className="p-3 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl">
+            <MedicalIcon type="heart" size="md" className="text-blue-700" />
           </div>
-          <h3 className="text-lg sm:text-xl font-bold text-gray-900">Thông tin chi tiết</h3>
+          <div>
+            <h3 className="text-xl font-bold text-gray-900">Thông tin chi tiết</h3>
+            <p className="text-sm text-blue-600">Tìm hiểu về dịch vụ y tế chuyên nghiệp</p>
+          </div>
         </div>
 
+        {/* Enhanced Medical Content */}
         <div
-          className="prose prose-blue max-w-none text-sm sm:text-base prose-headings:text-gray-900 prose-headings:font-bold prose-p:text-gray-800 prose-p:font-medium prose-a:text-primary prose-a:font-semibold prose-img:rounded-lg prose-li:text-gray-800 prose-li:font-medium prose-strong:text-gray-900 prose-strong:font-bold"
+          className="prose prose-blue max-w-none text-base prose-headings:text-gray-900 prose-headings:font-bold prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-blue-600 prose-a:font-semibold prose-img:rounded-xl prose-img:shadow-md prose-li:text-gray-700 prose-strong:text-gray-900 prose-strong:font-bold prose-ul:space-y-2 prose-ol:space-y-2"
           dangerouslySetInnerHTML={{ __html: tab1.htmlContent }}
         />
+
+        {/* Medical Service Features */}
+        <div className="mt-8 p-6 bg-gradient-to-r from-blue-50 to-green-50 rounded-xl border border-blue-100">
+          <h4 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg>
+            Ưu điểm nổi bật
+          </h4>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <span className="text-sm font-medium text-gray-700">Đội ngũ bác sĩ chuyên gia</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                <svg className="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
+                </svg>
+              </div>
+              <span className="text-sm font-medium text-gray-700">Trang thiết bị hiện đại</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                <svg className="w-4 h-4 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <span className="text-sm font-medium text-gray-700">Dịch vụ 24/7</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
+                <svg className="w-4 h-4 text-orange-600" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <span className="text-sm font-medium text-gray-700">Tư vấn chuyên nghiệp</span>
+            </div>
+          </div>
+        </div>
       </motion.div>
 
       {/* Enhanced Call to Action - Mobile Optimized */}

@@ -176,7 +176,19 @@ module.exports = {
           900: '#0F172A',
         },
 
-        // Legacy colors removed - use unified color system tokens instead
+        // Legacy support - will be deprecated
+        'medical-blue': '#2563EB',
+        'medical-blue-dark': '#1E40AF',
+        'healing-green': '#10B981',
+        'healing-green-dark': '#059669',
+        'medical-white': '#FAFBFC',
+        'trust-cyan': '#0891B2',
+        'healing-green-dark': '#059669',
+        'healing-green-light': '#34D399',
+        'medical-white': '#FAFBFC',
+        'trust-cyan': '#0891B2',
+
+        // Legacy support
         foreground: 'var(--text-primary)',
         disabled: 'var(--text-disabled)',
       },

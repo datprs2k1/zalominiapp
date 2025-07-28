@@ -1,27 +1,38 @@
-import { useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useCallback, useState } from 'react';
+import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import DoctorList from '@/components/form/doctor-list';
 import { Doctor } from '@/types';
-import {
-  combineClasses,
-  BORDER_RADIUS,
-  TYPOGRAPHY,
-  TOUCH_TARGETS,
-  SHADOWS,
-  SPACING,
-  ANIMATIONS,
-  MEDICAL_COLORS,
-} from '@/styles/medical-design-system';
+import { combineClasses, BORDER_RADIUS, SHADOWS, MEDICAL_COLORS } from '@/styles/medical-design-system';
+import { getColorToken } from '@/styles/unified-color-system';
 
 // Page transition variants for smooth animations
 
 export default function DoctorPage() {
-  const [selectedDoctor, setSelectedDoctor] = useState<Doctor | undefined>();
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedSpecialty, setSelectedSpecialty] = useState('all');
+  const [availabilityFilter, setAvailabilityFilter] = useState('all');
 
-  // Optimized callback to prevent unnecessary re-renders
-  const handleDoctorChange = useCallback((doctor: Doctor) => {
-    setSelectedDoctor(doctor);
-  }, []);
+  // Navigate directly to doctor detail page when a doctor is clicked
+  const handleDoctorClick = useCallback(
+    (doctor: Doctor) => {
+      navigate(`/doctor/${doctor.id}`, { viewTransition: true });
+    },
+    [navigate]
+  );
+
+  // Specialty options for filtering
+  const specialties = [
+    { value: 'all', label: 'Tất cả chuyên khoa' },
+    { value: 'cardiology', label: 'Tim mạch' },
+    { value: 'neurology', label: 'Thần kinh' },
+    { value: 'orthopedics', label: 'Chỉnh hình' },
+    { value: 'pediatrics', label: 'Nhi khoa' },
+    { value: 'dermatology', label: 'Da liễu' },
+    { value: 'ophthalmology', label: 'Mắt' },
+    { value: 'ent', label: 'Tai mũi họng' },
+  ];
 
   return (
     <motion.div
@@ -134,23 +145,108 @@ export default function DoctorPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.6 }}
           >
-            Chọn Bác sĩ Chuyên khoa
+            Bác sĩ Chuyên khoa
           </motion.h1>
 
           <motion.p
             className={combineClasses(
               'text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto',
-              'leading-relaxed font-medium'
+              'leading-relaxed font-medium mb-8'
             )}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.6 }}
           >
-            Tìm kiếm và kết nối với đội ngũ bác sĩ chuyên nghiệp, giàu kinh nghiệm của chúng tôi
+            Khám phá đội ngũ bác sĩ chuyên nghiệp, giàu kinh nghiệm của chúng tôi
           </motion.p>
+
+          {/* Enhanced Search & Filter Section */}
+          <motion.div
+            className="max-w-4xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.6 }}
+          >
+            <div className="bg-white rounded-2xl shadow-lg border border-blue-100 p-6">
+              {/* Search Bar */}
+              <div className="mb-6">
+                <div className="relative">
+                  <svg
+                    className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
+                  </svg>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm bác sĩ theo tên hoặc chuyên khoa..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all medical-focus"
+                  />
+                </div>
+              </div>
+
+              {/* Filter Options */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Specialty Filter */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Chuyên khoa</label>
+                  <select
+                    value={selectedSpecialty}
+                    onChange={(e) => setSelectedSpecialty(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all medical-focus"
+                  >
+                    {specialties.map((specialty) => (
+                      <option key={specialty.value} value={specialty.value}>
+                        {specialty.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Availability Filter */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Trạng thái</label>
+                  <select
+                    value={availabilityFilter}
+                    onChange={(e) => setAvailabilityFilter(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all medical-focus"
+                  >
+                    <option value="all">Tất cả bác sĩ</option>
+                    <option value="available">Đang có lịch</option>
+                    <option value="online">Đang online</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Trust Indicators */}
+              <div className="flex flex-wrap justify-center gap-6 mt-6 pt-6 border-t border-gray-100">
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span>50+ Bác sĩ chuyên khoa</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                  <span>15+ Năm kinh nghiệm</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
+                  <span>Tư vấn 24/7</span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </motion.header>
 
-        {/* Enhanced Doctor Selection Card */}
+        {/* Enhanced Doctor List Card */}
         <motion.main
           className="flex-1"
           initial={{ opacity: 0, y: 30 }}
@@ -167,79 +263,18 @@ export default function DoctorPage() {
               'min-h-[600px] flex flex-col'
             )}
             role="main"
-            aria-labelledby="doctor-selection-heading"
+            aria-labelledby="doctor-list-heading"
           >
-            {/* Selection Status Banner */}
-            <AnimatePresence mode="wait">
-              {selectedDoctor && (
-                <motion.div
-                  initial={{ opacity: 0, y: -20, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -20, scale: 0.95 }}
-                  transition={{ duration: 0.4, ease: 'easeOut' }}
-                  className={combineClasses(
-                    'flex items-center justify-between',
-                    'bg-gradient-to-r from-green-50 to-emerald-50',
-                    'border border-green-200/60',
-                    BORDER_RADIUS.cardLarge,
-                    'p-4 sm:p-6 mb-8',
-                    SHADOWS.card
-                  )}
-                >
-                  <div className="flex items-center gap-4">
-                    <div
-                      className={combineClasses(
-                        'w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600',
-                        BORDER_RADIUS.pill,
-                        'flex items-center justify-center',
-                        'ring-4 ring-green-100'
-                      )}
-                    >
-                      <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                          fillRule="evenodd"
-                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-bold text-green-800 mb-1">Đã chọn bác sĩ</h3>
-                      <p className="text-green-700 font-medium">
-                        {selectedDoctor.name} - {selectedDoctor.title}
-                      </p>
-                    </div>
-                  </div>
-
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => setSelectedDoctor(undefined)}
-                    className={combineClasses(
-                      'text-green-600 hover:text-green-800',
-                      'p-2 rounded-full hover:bg-green-100',
-                      ANIMATIONS.normal
-                    )}
-                    aria-label="Bỏ chọn bác sĩ"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </motion.button>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* Doctor Selector Container */}
+            {/* Doctor List Container */}
             <motion.div
               className="flex-1"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8, duration: 0.6 }}
               role="region"
-              aria-label="Danh sách bác sĩ có sẵn"
+              aria-label="Danh sách bác sĩ"
             >
-              <DoctorList value={selectedDoctor} onChange={handleDoctorChange} itemsPerPage={6} />
+              <DoctorList onChange={handleDoctorClick} itemsPerPage={6} />
             </motion.div>
           </div>
         </motion.main>

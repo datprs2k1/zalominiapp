@@ -429,5 +429,5 @@ const isAccessible = validateColorContrast(getColorToken('primary'), getColorTok
 Nếu có thắc mắc về color system, vui lòng tham khảo:
 
 - [Color Usage Examples](./color-usage-examples.md)
-- [Component Color Guidelines](./component-color-guidelines.md)
-- [Accessibility Testing Guide](./accessibility-testing.md)
+- [Component Documentation](./component-documentation.md)
+- [Medical Design System](./medical-design-system.md)

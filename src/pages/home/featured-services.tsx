@@ -15,7 +15,6 @@ import {
   combineClasses,
 } from '@/styles/medical-design-system';
 import { motion } from 'framer-motion';
-import { getColorToken } from '@/styles/unified-color-system';
 
 const FeaturedServices = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -590,12 +589,12 @@ const FeaturedServices = () => {
         @media (prefers-contrast: high) {
           .medical-service-card {
             border-width: 2px;
-            border-color: ${getColorToken('primary')};
+            border-color: #0066CC;
           }
 
           .medical-nav-button {
             border-width: 2px;
-            border-color: ${getColorToken('primary')};
+            border-color: #0066CC;
           }
         }
 

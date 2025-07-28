@@ -1,5 +1,6 @@
 import { ReactNode, HTMLAttributes } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
+import { MEDICAL_COLORS, TYPOGRAPHY, ANIMATIONS, ACCESSIBILITY, combineClasses } from '@/styles/medical-design-system';
 
 export interface MedicalCardProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
@@ -75,14 +76,19 @@ export const MedicalCard = ({
 }: MedicalCardProps) => {
   const isClickable = interactive || onClick;
   const cardId = props.id || `medical-card-${Math.random().toString(36).substr(2, 9)}`;
+  const prefersReducedMotion = useReducedMotion();
 
   // Determine ARIA role based on interactivity
   const role = isClickable ? 'button' : 'article';
 
-  // Create comprehensive aria-label
+  // Create comprehensive aria-label with medical context
   const computedAriaLabel =
     ariaLabel ||
-    `${variant === 'emergency' ? 'Emergency ' : ''}Medical card${patientId ? ` for patient ${patientId}` : ''}${priority ? `, priority: ${priority}` : ''}${timestamp ? `, updated: ${timestamp}` : ''}`;
+    `${variant === 'emergency' ? 'Emergency medical ' : 'Medical '}${
+      variant === 'consultation' ? 'consultation' : 'information'
+    } card${patientId ? ` for patient ${patientId}` : ''}${
+      priority ? `, priority level: ${priority}` : ''
+    }${timestamp ? `, last updated: ${timestamp}` : ''}${status ? `, status: ${status}` : ''}`;
 
   return (
     <motion.div
@@ -110,11 +116,27 @@ export const MedicalCard = ({
             }
           : undefined
       }
-      whileHover={isClickable ? { y: -2, scale: 1.02 } : {}}
-      whileTap={isClickable ? { scale: 0.98 } : {}}
-      initial={{ opacity: 0, y: 10 }}
+      whileHover={
+        isClickable && !prefersReducedMotion
+          ? {
+              y: -3,
+              scale: 1.02,
+              boxShadow:
+                variant === 'emergency' ? `0 8px 24px #EF444430` : `0 4px 16px ${MEDICAL_COLORS.primary.blue}15`,
+            }
+          : {}
+      }
+      whileTap={isClickable && !prefersReducedMotion ? { scale: 0.98 } : {}}
+      initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, ease: 'var(--ease-medical)' }}
+      transition={
+        prefersReducedMotion
+          ? {}
+          : {
+              duration: 0.4,
+              ease: [0.25, 0.46, 0.45, 0.94],
+            }
+      }
       {...props}
     >
       {/* Status Indicator */}

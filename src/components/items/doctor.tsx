@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Doctor } from '@/types';
 import { WPDoctor } from '@/services/wp-types';
 import TransitionLink from '../transition-link';
+import { BORDER_RADIUS, SHADOWS, ANIMATIONS, TOUCH_TARGETS, combineClasses } from '@/styles/medical-design-system';
 import './doctor-mobile.css';
 
 /**

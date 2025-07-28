@@ -81,6 +81,7 @@ const MyComponent = () => {
 - [**Color Design System**](./color-design-system.md) - Tài liệu chi tiết về hệ thống màu
 - [**Color Usage Examples**](./color-usage-examples.md) - Ví dụ sử dụng cụ thể
 - [**Migration Guide**](./color-migration-guide.md) - Hướng dẫn migration
+- [**Medical Design System**](./medical-design-system.md) - Hệ thống thiết kế y tế tổng thể
 
 ### 🔧 Technical Documentation
 
@@ -192,11 +193,10 @@ npm run report:accessibility
 
 ### Current Status
 
-- **Health Score**: 98% ✅ (Recently Updated)
+- **Health Score**: 95% ✅
 - **WCAG Compliance**: AA Standard ✅
 - **Dark Mode Support**: Full ✅
 - **Component Coverage**: 100% ✅
-- **Layout Synchronization**: Complete ✅
 
 ### Monitoring
 
@@ -330,6 +330,7 @@ const { isDark, toggleTheme } = useTheme();
 - [Design System Guidelines](./color-design-system.md)
 - [Implementation Examples](./color-usage-examples.md)
 - [Migration Support](./color-migration-guide.md)
+- [Component Documentation](./component-documentation.md)
 - [API Documentation](../src/styles/unified-color-system.ts)
 
 ---

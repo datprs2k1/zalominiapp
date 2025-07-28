@@ -2,21 +2,41 @@
  * Medical Design System Constants
  * Standardized dimensions, spacing, and styling for hospital-themed medical UI
  * Ensures visual consistency across all components in the Zalo Mini App
- *
- * Note: Color definitions here are design tokens that feed into the unified color system.
- * For component usage, prefer the unified color system tokens from @/styles/unified-color-system
  */
 
 // Enhanced Medical Color Palette - Modern Hospital Theme with Trust & Cleanliness
-// These colors are used as design tokens by the unified color system
 export const MEDICAL_COLORS = {
   // Hospital Whites - Pure, clean, sterile medical environment
   white: {
     pure: '#FFFFFF',
     warm: '#FEFEFE', // Slightly warmer white for comfort
     cool: '#FDFDFE', // Cool white for clinical areas
-    soft: '#FAFBFC', // Soft white for backgrounds
+    soft: '#FAFBFC', // Soft white for backgrounds - Modern Hospital Standard
     pearl: '#F8F9FB', // Pearl white for subtle contrast
+  },
+
+  // Modern Hospital Primary Blues - Trust & Professionalism
+  primary: {
+    blue: '#2563EB', // Medical Blue - Primary actions, trust
+    blueDark: '#1E40AF', // Dark Blue - Hover states, depth
+    blueLight: '#3B82F6', // Light Blue - Secondary actions
+    blueAccent: '#1D4ED8', // Accent Blue - Highlights
+  },
+
+  // Healing Greens - Health & Recovery
+  secondary: {
+    green: '#10B981', // Healing Green - Success, health
+    greenDark: '#059669', // Dark Green - Confirmation states
+    greenLight: '#34D399', // Light Green - Positive feedback
+    greenAccent: '#047857', // Accent Green - Medical success
+  },
+
+  // Trust-Building Cyan - Professional Medical Services
+  accent: {
+    cyan: '#0891B2', // Trust Cyan - Links, medical info
+    cyanDark: '#0E7490', // Dark Cyan - Active states
+    cyanLight: '#06B6D4', // Light Cyan - Highlights
+    cyanAccent: '#0369A1', // Accent Cyan - Professional emphasis
   },
 
   // Medical Blues - Professional, trustworthy, calming
@@ -183,38 +203,92 @@ export const IMAGE_DIMENSIONS = {
   },
 } as const;
 
-// Standardized Spacing System
+// Modern Hospital Iconography System
+export const MEDICAL_ICONOGRAPHY = {
+  // Core Medical Icons
+  medical: {
+    stethoscope: 'medical-stethoscope',
+    heartRate: 'medical-heart-rate',
+    medicalCross: 'medical-cross',
+    hospital: 'medical-hospital',
+    doctor: 'medical-doctor',
+    nurse: 'medical-nurse',
+    ambulance: 'medical-ambulance',
+    prescription: 'medical-prescription',
+  },
+
+  // Healthcare Services
+  services: {
+    appointment: 'service-appointment',
+    consultation: 'service-consultation',
+    emergency: 'service-emergency',
+    pharmacy: 'service-pharmacy',
+    laboratory: 'service-laboratory',
+    radiology: 'service-radiology',
+    surgery: 'service-surgery',
+    rehabilitation: 'service-rehabilitation',
+  },
+
+  // User Interface
+  interface: {
+    search: 'ui-search',
+    filter: 'ui-filter',
+    calendar: 'ui-calendar',
+    profile: 'ui-profile',
+    settings: 'ui-settings',
+    notification: 'ui-notification',
+    help: 'ui-help',
+    menu: 'ui-menu',
+  },
+
+  // Status & Feedback
+  status: {
+    success: 'status-success',
+    warning: 'status-warning',
+    error: 'status-error',
+    info: 'status-info',
+    loading: 'status-loading',
+    completed: 'status-completed',
+  },
+} as const;
+
+// Standardized Spacing System - Enhanced for Medical UI
 export const SPACING = {
-  // Component spacing
+  // Component spacing - Medical grade precision
   component: {
-    xs: 'space-y-2', // 8px
-    sm: 'space-y-3', // 12px
-    md: 'space-y-4', // 16px
-    lg: 'space-y-6', // 24px
-    xl: 'space-y-8', // 32px
+    xs: 'space-y-2', // 8px - Tight medical data
+    sm: 'space-y-3', // 12px - Form elements
+    md: 'space-y-4', // 16px - Standard sections
+    lg: 'space-y-6', // 24px - Major sections
+    xl: 'space-y-8', // 32px - Page sections
+    xxl: 'space-y-12', // 48px - Major page divisions
   },
 
-  // Padding system
+  // Padding system - Hospital-grade spacing
   padding: {
-    card: 'p-4', // 16px - standard card padding
-    cardLarge: 'p-5', // 20px - large card padding
-    section: 'px-4 md:px-5', // Responsive section padding
-    content: 'p-3', // 12px - content padding
+    card: 'p-4', // 16px - standard medical card
+    cardLarge: 'p-6', // 24px - prominent medical card
+    cardSmall: 'p-3', // 12px - compact medical info
+    section: 'px-4 md:px-6', // Responsive section padding
+    content: 'p-4', // 16px - medical content padding
+    form: 'p-5', // 20px - medical form padding
   },
 
-  // Margin system
+  // Margin system - Professional medical spacing
   margin: {
-    section: 'mb-6', // 24px - section bottom margin
-    card: 'mb-4', // 16px - card bottom margin
-    element: 'mb-2', // 8px - element bottom margin
+    section: 'mb-8', // 32px - major section separation
+    card: 'mb-6', // 24px - medical card separation
+    element: 'mb-4', // 16px - element separation
+    small: 'mb-2', // 8px - tight element separation
   },
 
-  // Gap system for grids and flex
+  // Gap system for grids and flex - Medical layout precision
   gap: {
-    xs: 'gap-2', // 8px
-    sm: 'gap-3', // 12px
-    md: 'gap-4', // 16px
-    lg: 'gap-6', // 24px
+    xs: 'gap-2', // 8px - Tight medical data
+    sm: 'gap-3', // 12px - Form elements
+    md: 'gap-4', // 16px - Standard layout
+    lg: 'gap-6', // 24px - Major layout sections
+    xl: 'gap-8', // 32px - Page layout sections
   },
 } as const;
 
@@ -244,47 +318,81 @@ export const SHADOWS = {
   medical: 'shadow-[0_8px_24px_rgba(0,102,204,0.06)]', // Medical-themed shadow
 } as const;
 
-// Enhanced Typography Scale - Improved Visual Hierarchy
+// Typography Scale
 export const TYPOGRAPHY = {
-  // Hero and Display Typography
-  heroTitle: 'text-3xl font-black text-[#1E40AF] md:text-4xl lg:text-5xl leading-tight',
-  heroSubtitle: 'text-lg font-medium text-[#6B7785] md:text-xl lg:text-2xl leading-relaxed',
+  // Card titles
+  cardTitle: 'text-lg font-semibold text-gray-900',
+  cardTitleSmall: 'text-base font-semibold text-gray-900',
 
-  // Section Headings - Clear hierarchy
-  sectionTitle: 'text-2xl font-bold text-[#1E40AF] md:text-3xl leading-tight',
-  sectionSubtitle: 'text-lg font-semibold text-[#2563EB] md:text-xl leading-snug',
+  // Section titles
+  sectionTitle: 'text-xl font-bold text-gray-800 md:text-2xl',
 
-  // Card Typography
-  cardTitle: 'text-lg font-bold text-[#1E40AF] leading-tight',
-  cardTitleSmall: 'text-base font-semibold text-[#1E40AF] leading-tight',
-  cardSubtitle: 'text-sm font-medium text-[#6B7785] leading-relaxed',
+  // Body text
+  body: 'text-sm text-gray-600',
+  bodySmall: 'text-xs text-gray-500',
 
-  // Body Text - Enhanced readability
-  body: 'text-base text-[#4A5568] leading-relaxed',
-  bodySmall: 'text-sm text-[#6B7785] leading-relaxed',
-  caption: 'text-xs text-[#9CA3AF] leading-normal',
-
-  // Interactive Elements
-  link: 'text-base font-semibold text-[#2563EB] hover:text-[#1E40AF] transition-colors',
-  button: 'text-base font-bold tracking-wide',
-  buttonSmall: 'text-sm font-semibold tracking-wide',
-
-  // Medical-specific Typography
-  medicalLabel: 'text-sm font-bold text-[#059669] uppercase tracking-wider',
-  statusText: 'text-sm font-medium leading-tight',
-  emergencyText: 'text-base font-bold text-red-600 leading-tight',
+  // Interactive text
+  link: 'text-sm font-medium text-blue-600',
+  button: 'text-sm font-medium',
 } as const;
 
-// Animation Durations (300-500ms for medical UI)
+// Enhanced Animation System for Medical UI - Professional Micro-animations
 export const ANIMATIONS = {
-  fast: 'duration-200', // 200ms - micro-interactions
-  normal: 'duration-300', // 300ms - standard transitions
-  slow: 'duration-500', // 500ms - complex animations
+  // Transition durations - Medical grade timing
+  duration: {
+    instant: '100ms', // Immediate feedback
+    fast: '150ms', // Quick interactions
+    normal: '300ms', // Standard transitions
+    slow: '500ms', // Deliberate animations
+    medical: '400ms', // Optimized for medical UI feedback
+    accessible: '200ms', // Reduced motion friendly
+  },
 
-  // Easing functions
+  // Easing functions - Professional medical feel
   easing: {
-    default: 'ease-out',
-    medical: 'ease-[0.25,0.46,0.45,0.94]', // Custom medical easing
+    ease: 'ease',
+    easeIn: 'ease-in',
+    easeOut: 'ease-out',
+    easeInOut: 'ease-in-out',
+    // medical: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', // Professional medical easing
+    // // gentle: 'cubic-bezier(0.16, 1, 0.3, 1)', // Gentle, trustworthy
+    // precise: 'cubic-bezier(0.4, 0, 0.2, 1)', // Precise medical actions
+  },
+
+  // Common transitions - Hospital-grade smoothness
+  transition: {
+    all: 'all 300ms ease-in-out',
+    colors: 'color 200ms ease-in-out, background-color 200ms ease-in-out, border-color 200ms ease-in-out',
+    transform: 'transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+    // medical: 'all 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+    // gentle: 'all 200ms cubic-bezier(0.16, 1, 0.3, 1)',
+    // precise: 'all 150ms cubic-bezier(0.4, 0, 0.2, 1)',
+  },
+
+  // Micro-animations for medical interactions
+  microAnimations: {
+    buttonHover: 'transform 150ms ease-out',
+    cardHover: 'transform 200ms ease-out, box-shadow 200ms ease-out',
+    inputFocus: 'border-color 150ms ease-out, box-shadow 150ms ease-out',
+    medicalPulse: 'transform 1s ease-in-out infinite alternate',
+    heartbeat: 'transform 0.8s ease-in-out infinite',
+    breathe: 'opacity 2s ease-in-out infinite alternate',
+  },
+
+  // Reduced motion support - Accessibility first
+  reducedMotion: {
+    duration: '0.01ms', // Nearly instant for reduced motion
+    easing: 'linear', // Simple easing
+    transform: 'none', // No transforms
+    opacity: 'opacity 150ms linear', // Only opacity changes
+  },
+
+  // Tailwind classes for easy use
+  classes: {
+    fast: 'duration-150', // 150ms - micro-interactions
+    normal: 'duration-300', // 300ms - standard transitions
+    slow: 'duration-500', // 500ms - complex animations
+    medical: 'duration-[400ms]', // Custom medical timing
   },
 } as const;
 
@@ -302,22 +410,22 @@ export const BREAKPOINTS = {
   },
 } as const;
 
-// Medical-specific component variants using unified color system
+// Medical-specific component variants
 export const MEDICAL_VARIANTS = {
   // Emergency/priority indicators
   priority: {
-    low: 'bg-success-light text-success border-success',
-    medium: 'bg-warning-light text-warning border-warning',
-    high: 'bg-warning-light text-warning border-warning',
-    critical: 'bg-error-light text-error border-error',
+    low: 'bg-green-50 text-green-700 border-green-200',
+    medium: 'bg-yellow-50 text-yellow-700 border-yellow-200',
+    high: 'bg-orange-50 text-orange-700 border-orange-200',
+    critical: 'bg-red-50 text-red-700 border-red-200',
   },
 
   // Department/service categories
   category: {
-    general: 'bg-primary-light text-primary',
-    emergency: 'bg-error-light text-error',
-    specialist: 'bg-accent-light text-accent',
-    diagnostic: 'bg-secondary-light text-secondary',
+    general: 'bg-blue-50 text-blue-700',
+    emergency: 'bg-red-50 text-red-700',
+    specialist: 'bg-purple-50 text-purple-700',
+    diagnostic: 'bg-teal-50 text-teal-700',
   },
 } as const;
 
@@ -336,7 +444,7 @@ export const MEDICAL_PRESETS = {
     BORDER_RADIUS.card,
     SHADOWS.card,
     'bg-white hover:' + SHADOWS.cardHover,
-    ANIMATIONS.normal
+    ANIMATIONS.classes.normal
   ),
 
   // Horizontal scroll card preset
@@ -347,7 +455,7 @@ export const MEDICAL_PRESETS = {
     BORDER_RADIUS.card,
     SHADOWS.card,
     'bg-white hover:' + SHADOWS.cardHover,
-    ANIMATIONS.normal
+    ANIMATIONS.classes.normal
   ),
 
   // Emergency card preset
@@ -358,7 +466,7 @@ export const MEDICAL_PRESETS = {
     BORDER_RADIUS.card,
     'border-2 border-red-200 bg-red-50',
     SHADOWS.cardHover,
-    ANIMATIONS.fast
+    ANIMATIONS.classes.fast
   ),
 
   // Mobile optimized button
@@ -368,7 +476,7 @@ export const MEDICAL_PRESETS = {
     BORDER_RADIUS.button,
     'font-medium text-center',
     'transition-all',
-    ANIMATIONS.fast,
+    ANIMATIONS.classes.fast,
     'active:scale-95'
   ),
 
@@ -380,9 +488,65 @@ export const MEDICAL_PRESETS = {
     BORDER_RADIUS.card,
     SHADOWS.card,
     'bg-white hover:' + SHADOWS.cardHover,
-    ANIMATIONS.normal
+    ANIMATIONS.classes.normal
   ),
 
   // Section container preset
   sectionContainer: combineClasses('bg-white', BORDER_RADIUS.section, SPACING.padding.section, SPACING.margin.section),
+} as const;
+
+// Modern Hospital Accessibility Standards - WCAG 2.1 AA Compliance
+export const ACCESSIBILITY = {
+  // WCAG 2.1 AA Compliance Standards
+  contrast: {
+    normal: '4.5:1', // Normal text contrast ratio
+    large: '3:1', // Large text contrast ratio
+    medical: '7:1', // Enhanced medical data contrast
+    interactive: '4.5:1', // Interactive elements
+  },
+
+  // Touch targets - Medical grade precision
+  touchTargets: {
+    minimum: '44px', // WCAG minimum
+    recommended: '48px', // Recommended size
+    medical: '52px', // Medical interface standard
+    emergency: '56px', // Emergency action buttons
+  },
+
+  // Focus indicators - Professional medical UI
+  focus: {
+    outline: '2px solid #2563EB',
+    outlineOffset: '2px',
+    borderRadius: '4px',
+    boxShadow: '0 0 0 4px rgba(37, 99, 235, 0.1)',
+    medical: '3px solid #10B981', // Medical success color
+  },
+
+  // Screen reader support
+  screenReader: {
+    skipLink: 'sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50',
+    visuallyHidden: 'sr-only',
+    focusable: 'focus:not-sr-only',
+  },
+
+  // Keyboard navigation
+  keyboard: {
+    tabIndex: '0', // Focusable
+    tabIndexNegative: '-1', // Not in tab order
+    ariaLabel: 'aria-label',
+    ariaDescribedBy: 'aria-describedby',
+    role: 'role',
+  },
+
+  // Medical context ARIA labels
+  medicalAria: {
+    appointment: 'Đặt lịch khám bệnh',
+    doctor: 'Thông tin bác sĩ',
+    service: 'Dịch vụ y tế',
+    emergency: 'Cấp cứu y tế',
+    search: 'Tìm kiếm dịch vụ y tế',
+    profile: 'Hồ sơ bệnh nhân',
+    history: 'Lịch sử khám bệnh',
+    results: 'Kết quả xét nghiệm',
+  },
 } as const;

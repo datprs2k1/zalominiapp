@@ -4,6 +4,8 @@ import SearchBar from './search-bar';
 import { useMemo, useState, useEffect, useCallback } from 'react';
 import { searchAtom } from '@/services/search';
 import SuggestionList from './SuggestionList';
+import { motion, useReducedMotion } from 'framer-motion';
+import { getColorToken } from '@/styles/unified-color-system';
 import './mobile.css';
 import { useAnimation } from '@/contexts/animation-context';
 
@@ -15,6 +17,7 @@ function SearchResultPage() {
   const [isLoading, setIsLoading] = useState(false);
   const { getAnimationClass } = useAnimation();
   const [initialized, setInitialized] = useState(false);
+  const prefersReducedMotionHook = useReducedMotion();
 
   // Initialize animations
   useEffect(() => {
@@ -77,32 +80,79 @@ function SearchResultPage() {
   }, [result, activeFilter]);
 
   return (
-    <div className="flex flex-col h-full search-page-container w-full bg-gray-50">
-      <div className="px-4 pt-4 pb-3 bg-white shadow-sm border-b border-gray-100">
-        {/* Clean modern search bar */}
-        <div className="mb-4">
-          <SearchBar
-            defaultValue={keyword}
-            loading={isLoading}
-            onSearch={handleSearch}
-            variant="large"
-            autoFocus={!keyword}
-            placeholder="Tìm kiếm bác sĩ, dịch vụ, khoa..."
-            className="animate-fade-in"
-          />
+    <motion.div
+      className="flex flex-col h-full search-page-container w-full bg-gradient-to-br from-blue-50/30 via-white to-green-50/30"
+      initial={prefersReducedMotionHook ? {} : { opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      {/* Enhanced Medical Header */}
+      <motion.div
+        className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-8 text-white"
+        initial={prefersReducedMotionHook ? {} : { opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.1 }}
+      >
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+          </div>
+          <div>
+            <h1 className="text-xl font-bold">Tìm kiếm y tế</h1>
+            <p className="text-blue-100 text-sm">Tìm bác sĩ, khoa, dịch vụ và thông tin y tế</p>
+          </div>
         </div>
-      </div>
 
-      <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
-        {keyword && !isLoading && suggestions.length > 0 && (
-          <div className="mb-4 text-gray-600 text-sm flex items-center animate-fade-in">
-            <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-md mr-2">{suggestions.length}</span>
-            <span>
-              Kết quả tìm kiếm cho "<span className="font-medium text-blue-800">{keyword}</span>"
-            </span>
+        {/* Search Results Summary */}
+        {keyword && (
+          <div className="bg-white/10 rounded-xl p-4 border border-white/20">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-blue-100">Kết quả tìm kiếm cho:</p>
+                <p className="font-semibold text-white">"{keyword}"</p>
+              </div>
+              {suggestions.length > 0 && (
+                <div className="text-right">
+                  <p className="text-sm text-blue-100">Tìm thấy</p>
+                  <p className="font-bold text-white">{suggestions.length} kết quả</p>
+                </div>
+              )}
+            </div>
           </div>
         )}
+      </motion.div>
 
+      {/* Enhanced search bar */}
+      <motion.div
+        className="px-4 py-6 bg-white shadow-sm border-b border-gray-100"
+        initial={prefersReducedMotionHook ? {} : { opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
+        <SearchBar
+          defaultValue={keyword}
+          loading={isLoading}
+          onSearch={handleSearch}
+          variant="large"
+          autoFocus={!keyword}
+          placeholder="Tìm kiếm bác sĩ, dịch vụ, khoa..."
+          className="animate-fade-in"
+        />
+      </motion.div>
+
+      <motion.div
+        className="flex-1 overflow-y-auto p-4"
+        initial={prefersReducedMotionHook ? {} : { opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+      >
         {/* Main search results */}
         <div className="bg-gray-50 rounded-xl animate-fade-in" style={{ animationDelay: '200ms' }}>
           {isLoading ? (
@@ -197,8 +247,8 @@ function SearchResultPage() {
             </div>
           )}
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 

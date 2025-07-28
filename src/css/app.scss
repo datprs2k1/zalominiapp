@@ -1,6 +1,5 @@
 @import '../styles/mobile.css';
 @import '../styles/transitions.css';
-@import '../styles/unified-colors.css';
 
 /* Optimized skeleton animations for smooth performance */
 @keyframes shimmer {
@@ -38,20 +37,219 @@
   animation: shimmer 1.5s infinite;
 }
 
-/*
- * Color definitions are now managed by the unified color system
- * Import unified-colors.css for all color variables
- * This ensures single source of truth for all colors
- */
-
 :root {
-  /* Typography - Medical-optimized font families */
+  /* Enhanced Medical Color System - Premium Hospital Grade */
+
+  /* Primary Medical Blue Colors - Trust & Professionalism */
+  --color-primary: #2563eb; /* Primary medical blue - main brand color */
+  --color-primary-hover: #1e40af; /* Primary hover state */
+  --color-primary-active: #1d4ed8; /* Primary active state */
+  --color-primary-light: #dbeafe; /* Light primary background */
+  --color-primary-dark: #1e3a8a; /* Dark primary for emphasis */
+  --color-primary-50: #eff6ff; /* Ultra light medical background */
+  --color-primary-100: #dbeafe; /* Light medical background */
+  --color-primary-200: #bfdbfe; /* Light medical border */
+  --color-primary-300: #93c5fd; /* Medium light medical */
+  --color-primary-400: #60a5fa; /* Medium medical */
+  --color-primary-500: #2563eb; /* Primary medical blue */
+  --color-primary-600: #1e40af; /* Dark medical blue */
+  --color-primary-700: #1d4ed8; /* Darker medical blue */
+  --color-primary-800: #1e3a8a; /* Very dark medical blue */
+  --color-primary-900: #1e293b; /* Darkest medical blue */
+
+  /* Secondary Healing Green Colors - Health & Recovery */
+  --color-secondary: #10b981; /* Primary healing green */
+  --color-secondary-hover: #059669; /* Secondary hover state */
+  --color-secondary-light: #d1fae5; /* Light secondary background */
+  --color-secondary-dark: #065f46; /* Dark secondary for emphasis */
+  --color-secondary-50: #ecfdf5; /* Ultra light healing background */
+  --color-secondary-100: #d1fae5; /* Light healing background */
+  --color-secondary-200: #a7f3d0; /* Light healing border */
+  --color-secondary-300: #6ee7b7; /* Medium light healing */
+  --color-secondary-400: #34d399; /* Medium healing */
+  --color-secondary-500: #10b981; /* Primary healing green */
+  --color-secondary-600: #059669; /* Dark healing green */
+  --color-secondary-700: #047857; /* Darker healing green */
+  --color-secondary-800: #065f46; /* Very dark healing green */
+  --color-secondary-900: #064e3b; /* Darkest healing green */
+
+  /* Trust & Communication Cyan Colors - Enhanced Professional Medical Services */
+  --color-accent: #0891b2; /* Primary trust cyan */
+  --color-accent-hover: #0e7490; /* Accent hover state */
+  --color-accent-active: #155e75; /* Accent active state */
+  --color-accent-light: #cffafe; /* Light accent background */
+  --color-accent-dark: #164e63; /* Dark accent for emphasis */
+  --color-accent-50: #f0fdff; /* Ultra light trust background */
+  --color-accent-100: #cffafe; /* Light trust background */
+  --color-accent-200: #a5f3fc; /* Light trust border */
+  --color-accent-300: #67e8f9; /* Medium light trust */
+  --color-accent-400: #22d3ee; /* Medium trust */
+  --color-accent-500: #0891b2; /* Primary trust cyan */
+  --color-accent-600: #0e7490; /* Dark trust cyan */
+  --color-accent-700: #155e75; /* Darker trust cyan */
+  --color-accent-800: #164e63; /* Very dark trust cyan */
+  --color-accent-900: #083344; /* Darkest trust cyan */
+
+  /* Enhanced Medical Background Colors - Premium Hospital Environment */
+  --color-background: #ffffff; /* Pure hospital white */
+  --color-background-secondary: #fafbfc; /* Soft white background */
+  --color-background-tertiary: #f8fafc; /* Very light background */
+  --color-background-quaternary: #f1f5f9; /* Subtle medical gray */
+  --color-background-elevated: #ffffff; /* Elevated surfaces */
+  --color-background-overlay: rgba(0, 0, 0, 0.5); /* Modal overlays */
+  --color-background-medical: #fefefe; /* Slightly warm white for comfort */
+  --color-background-clinical: #fdfdfe; /* Cool white for clinical areas */
+  --color-background-emergency: #fef2f2; /* Emergency background */
+  --color-background-success: #ecfdf5; /* Success background */
+
+  /* Surface Colors - Clean Medical Surfaces */
+  --color-surface: #ffffff;              /* Pure white surfaces */
+  --color-surface-elevated: #ffffff;     /* Elevated surfaces */
+  --color-surface-hover: #f1f5f9;        /* Hover state surfaces */
+  --color-surface-medical: #f0fdf4;      /* Medical section surfaces */
+
+  /* Border Colors - Professional Medical Borders */
+  --color-border: #e2e8f0;               /* Default border */
+  --color-border-light: #f1f5f9;         /* Light border */
+  --color-border-strong: #cbd5e1;        /* Strong border */
+  --color-border-focus: #2563eb;         /* Focus border */
+  --color-border-error: #dc2626;         /* Error border */
+
+  /* Text Colors - Medical Typography */
+  --color-text-primary: #475569;         /* Primary text - excellent readability */
+  --color-text-secondary: #64748b;       /* Secondary text */
+  --color-text-muted: #94a3b8;           /* Muted text */
+  --color-text-disabled: #cbd5e1;        /* Disabled text */
+  --color-text-inverse: #ffffff;         /* White text for dark backgrounds */
+  --color-text-on-primary: #ffffff;      /* Text on primary background */
+  --color-text-on-secondary: #ffffff;    /* Text on secondary background */
+
+  /* Semantic State Colors */
+  --color-success: #22c55e;              /* Success green */
+  --color-success-light: #f0fdf4;        /* Light success background */
+  --color-success-hover: #16a34a;        /* Success hover state */
+
+  --color-warning: #f59e0b;              /* Warning amber */
+  --color-warning-light: #fffbeb;        /* Light warning background */
+  --color-warning-hover: #d97706;        /* Warning hover state */
+
+  --color-error: #dc2626;                /* Error red */
+  --color-error-light: #fef2f2;          /* Light error background */
+  --color-error-hover: #b91c1c;          /* Error hover state */
+
+  --color-info: #0ea5e9;                 /* Info blue */
+  --color-info-light: #f0f9ff;           /* Light info background */
+  --color-info-hover: #0284c7;           /* Info hover state */
+
+  /* Enhanced Medical Typography System - Premium Hospital Grade */
   --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   --font-family-medical: 'SF Pro Display', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-family-mono: 'SF Mono', 'JetBrains Mono', Monaco, 'Cascadia Code', 'Roboto Mono', monospace;
   --font-family-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
 
+  /* Medical Typography Scale - Hospital-Grade Hierarchy */
+  --font-size-hero: 2.5rem; /* 40px - Hero headings, main banners */
+  --font-size-hero-mobile: 2rem; /* 32px - Hero on mobile devices */
+  --font-size-h1: 2rem; /* 32px - Page titles, main headers */
+  --font-size-h1-mobile: 1.75rem; /* 28px - H1 on mobile */
+  --font-size-h2: 1.5rem; /* 24px - Section headers */
+  --font-size-h2-mobile: 1.375rem; /* 22px - H2 on mobile */
+  --font-size-h3: 1.25rem; /* 20px - Subsection headers */
+  --font-size-h3-mobile: 1.125rem; /* 18px - H3 on mobile */
+  --font-size-body: 1rem; /* 16px - Regular body text */
+  --font-size-body-large: 1.125rem; /* 18px - Large body text */
+  --font-size-body-small: 0.875rem; /* 14px - Small body text */
+  --font-size-caption: 0.875rem; /* 14px - Captions, secondary info */
+  --font-size-label: 0.875rem; /* 14px - Form labels, UI labels */
+  --font-size-button: 0.875rem; /* 14px - Button text */
+  --font-size-medical-data: 1rem; /* 16px - Medical data display */
+  --font-size-emergency: 1.125rem; /* 18px - Emergency text */
 
+  /* Medical Font Weights - Professional Hierarchy */
+  --font-weight-light: 300; /* Light text for subtle information */
+  --font-weight-normal: 400; /* Regular body text */
+  --font-weight-medium: 500; /* Emphasis, important information */
+  --font-weight-semibold: 600; /* Section headers, medical labels */
+  --font-weight-bold: 700; /* Strong emphasis, alerts */
+  --font-weight-extrabold: 800; /* Emergency, critical information */
+
+  /* Medical Line Heights - Optimized for Readability */
+  --line-height-tight: 1.25; /* Tight spacing for headers */
+  --line-height-normal: 1.5; /* Standard reading line height */
+  --line-height-relaxed: 1.625; /* Relaxed for long-form content */
+  --line-height-medical-data: 1.4; /* Medical data display */
+  --line-height-emergency: 1.3; /* Emergency information */
+
+  /* Medical Letter Spacing - Professional Appearance */
+  --letter-spacing-tighter: -0.05em; /* Tighter for large headers */
+  --letter-spacing-tight: -0.025em; /* Slightly tight for headers */
+  --letter-spacing-normal: 0em; /* Normal spacing */
+  --letter-spacing-wide: 0.025em; /* Wide for labels */
+  --letter-spacing-medical-label: 0.025em; /* Medical labels */
+  --letter-spacing-emergency: 0.05em; /* Emergency text */
+
+  /* Enhanced Medical Iconography System - Premium Hospital Icons */
+  --icon-size-xs: 12px; /* Micro icons, indicators */
+  --icon-size-sm: 16px; /* Small icons, inline text */
+  --icon-size-md: 20px; /* Standard icons, buttons */
+  --icon-size-lg: 24px; /* Large icons, headers */
+  --icon-size-xl: 32px; /* Extra large icons, features */
+  --icon-size-2xl: 40px; /* Hero icons, main features */
+  --icon-size-3xl: 48px; /* Large feature icons */
+  --icon-size-4xl: 64px; /* Department icons, major features */
+  --icon-size-vital: 28px; /* Vital signs display */
+  --icon-size-emergency: 36px; /* Emergency indicators */
+  --icon-size-department: 48px; /* Department icons */
+  --icon-size-hero: 64px; /* Hero section icons */
+  --icon-size-touch: 44px; /* Touch-friendly icon buttons */
+  --icon-size-touch-large: 56px; /* Large touch targets */
+
+  /* Medical Icon Colors - Context-Aware */
+  --icon-color-primary: #2563eb; /* Medical blue */
+  --icon-color-secondary: #10b981; /* Healing green */
+  --icon-color-accent: #0891b2; /* Trust cyan */
+  --icon-color-success: #10b981; /* Success green */
+  --icon-color-warning: #f59e0b; /* Warning amber */
+  --icon-color-error: #dc2626; /* Error red */
+  --icon-color-info: #2563eb; /* Info blue */
+  --icon-color-emergency: #dc2626; /* Emergency red */
+  --icon-color-critical: #b91c1c; /* Critical dark red */
+  --icon-color-stable: #10b981; /* Stable green */
+  --icon-color-monitoring: #f59e0b; /* Monitoring amber */
+  --icon-color-neutral: #6b7280; /* Neutral gray */
+  --icon-color-muted: #9ca3af; /* Muted gray */
+  --icon-color-disabled: #d1d5db; /* Disabled gray */
+
+  /* Department-Specific Icon Colors */
+  --icon-color-cardiology: #ef4444; /* Heart red */
+  --icon-color-neurology: #8b5cf6; /* Brain purple */
+  --icon-color-orthopedics: #f97316; /* Bone orange */
+  --icon-color-pediatrics: #06b6d4; /* Child cyan */
+  --icon-color-oncology: #ec4899; /* Cancer pink */
+
+  /* Status Colors for Medical Context - Enhanced with Better Contrast */
+  --success: #059669; /* Success green - matches secondary */
+  --success-light: #dcfce7; /* Light success background */
+  --success-dark: #047857; /* Dark success */
+  --warning: #d97706; /* Warning amber - medical caution */
+  --warning-light: #fef3c7; /* Light warning background */
+  --warning-dark: #92400e; /* Dark warning */
+  --error: #dc2626; /* Error red - medical alert */
+  --error-light: #fee2e2; /* Light error background */
+  --error-dark: #991b1b; /* Dark error */
+  --info: #0891b2; /* Info cyan - matches accent */
+  --info-light: #e0f2fe; /* Light info background */
+  --info-dark: #0e7490; /* Dark info */
+
+  /* Semantic Medical Colors - Enhanced */
+  --emergency: #dc2626; /* Emergency red */
+  --emergency-light: #fef2f2; /* Light emergency background */
+  --urgent: #f59e0b; /* Urgent amber */
+  --urgent-light: #fffbeb; /* Light urgent background */
+  --routine: #10b981; /* Routine green */
+  --routine-light: #ecfdf5; /* Light routine background */
+  --consultation: #6366f1; /* Consultation purple */
+  --consultation-light: #eef2ff; /* Light consultation background */
 
   /* Enhanced Highlights and Shadows */
   --highlight: rgba(0, 102, 204, 0.08); /* Primary highlight */
@@ -986,5 +1184,136 @@ html[lang='vi'] {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+}
+
+/* Enhanced Medical Animations - Premium Hospital Micro-Interactions */
+
+/* Medical Heartbeat Animation */
+@keyframes medical-heartbeat {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.1); }
+  50% { transform: scale(1); }
+  75% { transform: scale(1.05); }
+}
+
+.medical-heartbeat {
+  animation: medical-heartbeat 2s ease-in-out infinite;
+}
+
+/* Medical Breathing Animation */
+@keyframes medical-breathe {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+}
+
+.medical-breathe {
+  animation: medical-breathe 3s ease-in-out infinite;
+}
+
+/* Medical Pulse Animation for Status Indicators */
+@keyframes medical-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.02); }
+}
+
+.medical-pulse {
+  animation: medical-pulse 2s ease-in-out infinite;
+}
+
+/* Medical Glow Effect for Emergency Elements */
+@keyframes medical-glow {
+  0%, 100% { box-shadow: 0 0 5px var(--color-emergency); }
+  50% { box-shadow: 0 0 20px var(--color-emergency), 0 0 30px var(--color-emergency); }
+}
+
+.medical-glow {
+  animation: medical-glow 2s ease-in-out infinite;
+}
+
+/* Medical Blink Animation for Alerts */
+@keyframes medical-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.3; }
+}
+
+.medical-blink {
+  animation: medical-blink 1s ease-in-out infinite;
+}
+
+/* Enhanced Hover Animations for Medical Elements */
+.medical-hover-scale {
+  transition: transform 0.2s ease-in-out;
+}
+
+.medical-hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.medical-hover-lift {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.medical-hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+}
+
+/* Medical Focus Styles for Accessibility */
+.medical-focus {
+  transition: all 0.2s ease-in-out;
+}
+
+.medical-focus:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+/* Medical Card Animations */
+.medical-card-enter {
+  animation: medical-card-slide-in 0.3s ease-out;
+}
+
+@keyframes medical-card-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Medical Loading Spinner */
+@keyframes medical-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.medical-spinner {
+  animation: medical-spin 1s linear infinite;
+  border: 2px solid var(--color-primary-light);
+  border-top: 2px solid var(--color-primary);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .medical-heartbeat,
+  .medical-breathe,
+  .medical-pulse,
+  .medical-glow,
+  .medical-blink,
+  .medical-spinner {
+    animation: none;
+  }
+
+  .medical-hover-scale:hover,
+  .medical-hover-lift:hover {
+    transform: none;
   }
 }

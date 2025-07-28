@@ -1,7 +1,16 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Doctor } from '@/types';
-import { SPACING, combineClasses, BORDER_RADIUS, SHADOWS } from '@/styles/medical-design-system';
+import {
+  SPACING,
+  combineClasses,
+  BORDER_RADIUS,
+  SHADOWS,
+  MEDICAL_COLORS,
+  TYPOGRAPHY,
+  ANIMATIONS,
+  ACCESSIBILITY,
+} from '@/styles/medical-design-system';
 
 interface DoctorProfileCardProps {
   doctor: Doctor;
@@ -42,6 +51,7 @@ const getCareerTimeline = (doctor: Doctor): CareerTimelineItem[] => {
 export default function DoctorProfileCard({ doctor, className }: DoctorProfileCardProps) {
   const [imgError, setImgError] = useState(false);
   const careerTimeline = getCareerTimeline(doctor);
+  const prefersReducedMotion = useReducedMotion();
 
   // Get doctor image with fallback
   let avatarUrl = '/avatar-doctor-fallback.png';
@@ -55,28 +65,42 @@ export default function DoctorProfileCard({ doctor, className }: DoctorProfileCa
 
   // Extract degree/title from the title field (e.g., "Bác sĩ CKII")
   const degreeMatch = doctorTitle.match(/(Bác sĩ\s*CK[I]+|Thạc sĩ|Tiến sĩ|Bác sĩ)/i);
-  const degree = degreeMatch ? degreeMatch[0] : 'Bác sĩ';
+  const degree = degreeMatch ? degreeMatch[0] : 'Medical Doctor';
 
   return (
     <motion.div
-      className={combineClasses(
-        'bg-white overflow-hidden',
-        BORDER_RADIUS.cardLarge,
-        SHADOWS.medical,
-        'border border-gray-100',
-        className
-      )}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-      whileHover={{
-        y: -2,
-        boxShadow: '0 12px 32px rgba(0,102,204,0.12)',
-        transition: { duration: 0.3 },
+      className={combineClasses('bg-white overflow-hidden border', BORDER_RADIUS.cardLarge, className)}
+      style={{
+        borderColor: `${MEDICAL_COLORS.primary.blue}15`,
+        boxShadow: `0 4px 16px ${MEDICAL_COLORS.primary.blue}08`,
       }}
+      initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={
+        prefersReducedMotion
+          ? {}
+          : {
+              duration: 0.5,
+              ease: [0.25, 0.46, 0.45, 0.94],
+            }
+      }
+      whileHover={
+        prefersReducedMotion
+          ? {}
+          : {
+              y: -3,
+              boxShadow: `0 8px 24px ${MEDICAL_COLORS.primary.blue}15`,
+              transition: { duration: 0.3 },
+            }
+      }
     >
-      {/* Medical Header Accent */}
-      <div className="h-1 bg-gradient-to-r from-blue-500 via-blue-600 to-green-500" />
+      {/* Modern Hospital Header Accent */}
+      <div
+        className="h-2 bg-gradient-to-r"
+        style={{
+          background: `linear-gradient(90deg, ${MEDICAL_COLORS.primary.blue}, ${MEDICAL_COLORS.secondary.green})`,
+        }}
+      />
 
       <div className={SPACING.padding.cardLarge}>
         <div className="flex flex-col lg:flex-row gap-8">
@@ -93,25 +117,47 @@ export default function DoctorProfileCard({ doctor, className }: DoctorProfileCa
                   onError={() => setImgError(true)}
                 />
 
-                {/* Professional Badge Overlay */}
-                <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm rounded-full px-3 py-1.5 shadow-md">
+                {/* Modern Hospital Professional Badge */}
+                <div
+                  className="absolute top-4 left-4 backdrop-blur-sm rounded-full px-3 py-1.5 shadow-md border"
+                  style={{
+                    backgroundColor: `${MEDICAL_COLORS.white.soft}F5`,
+                    borderColor: `${MEDICAL_COLORS.secondary.green}30`,
+                  }}
+                >
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                    <span className="text-xs font-medium text-gray-700">Đang hoạt động</span>
+                    <div
+                      className="w-2 h-2 rounded-full animate-pulse"
+                      style={{ backgroundColor: MEDICAL_COLORS.secondary.green }}
+                    />
+                    <span className="text-xs font-medium" style={{ color: MEDICAL_COLORS.primary.blue }}>
+                      Available
+                    </span>
                   </div>
                 </div>
 
                 {/* Medical Cross Decoration */}
-                <div className="absolute bottom-4 right-4 w-8 h-8 bg-blue-500/10 rounded-full flex items-center justify-center">
-                  <svg className="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                <div
+                  className="absolute bottom-4 right-4 w-8 h-8 rounded-full flex items-center justify-center"
+                  style={{ backgroundColor: `${MEDICAL_COLORS.primary.blue}15` }}
+                >
+                  <svg
+                    className="w-4 h-4"
+                    style={{ color: MEDICAL_COLORS.primary.blue }}
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
                     <path d="M8 2v6H2v4h6v6h4v-6h6V8h-6V2H8z" />
                   </svg>
                 </div>
               </div>
 
-              {/* Trust Indicators */}
+              {/* Modern Hospital Trust Indicators */}
               <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 flex gap-2">
-                <div className="bg-blue-500 text-white p-2 rounded-full shadow-lg">
+                <div
+                  className="text-white p-2 rounded-full shadow-lg"
+                  style={{ backgroundColor: MEDICAL_COLORS.primary.blue }}
+                >
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                     <path
                       fillRule="evenodd"
@@ -120,7 +166,10 @@ export default function DoctorProfileCard({ doctor, className }: DoctorProfileCa
                     />
                   </svg>
                 </div>
-                <div className="bg-green-500 text-white p-2 rounded-full shadow-lg">
+                <div
+                  className="text-white p-2 rounded-full shadow-lg"
+                  style={{ backgroundColor: MEDICAL_COLORS.secondary.green }}
+                >
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
