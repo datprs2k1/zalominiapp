@@ -52,38 +52,28 @@ export default function Footer() {
           gridTemplateColumns: `repeat(${NAV_ITEMS.length}, 1fr)`,
         }}
       >
-        {NAV_ITEMS.map((item) => {
-          return item.isSpecial ? (
-            <div key={item.path} className="flex justify-center relative">
-              <item.icon />
-            </div>
-          ) : (
-            <TransitionLink
-              to={item.path}
-              key={item.path}
-              className="flex flex-col items-center space-y-0.5 p-1 active:scale-105 transition-transform duration-150"
-            >
-              {({ isActive }) =>
-                item.name ? (
-                  <>
-                    <div
-                      className={`w-6 h-6 flex justify-center items-center ${isActive ? 'scale-110' : ''} transition-transform duration-200`}
-                    >
-                      <item.icon active={isActive} />
-                    </div>
-                    <div
-                      className={`text-2xs truncate font-medium ${isActive ? 'text-blue-600' : 'text-disabled hover:text-gray-500 transition-colors'}`}
-                    >
-                      {item.name}
-                    </div>
-                  </>
-                ) : (
+        {NAV_ITEMS.map((item) => (
+          <TransitionLink
+            to={item.path}
+            key={item.path}
+            className="flex flex-col items-center space-y-0.5 p-1 active:scale-105 transition-transform duration-150"
+          >
+            {({ isActive }) => (
+              <>
+                <div
+                  className={`w-6 h-6 flex justify-center items-center ${isActive ? 'scale-110' : ''} transition-transform duration-200`}
+                >
                   <item.icon active={isActive} />
-                )
-              }
-            </TransitionLink>
-          );
-        })}
+                </div>
+                <div
+                  className={`text-2xs truncate font-medium ${isActive ? 'text-blue-600' : 'text-disabled hover:text-gray-500 transition-colors'}`}
+                >
+                  {item.name}
+                </div>
+              </>
+            )}
+          </TransitionLink>
+        ))}
       </div>
     </div>
   );
