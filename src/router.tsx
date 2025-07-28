@@ -1,27 +1,86 @@
 import Layout from '@/components/layout';
-import HomePage from '@/pages/home';
 import { createBrowserRouter } from 'react-router-dom';
-import ServicesPage from './pages/services';
-import CategoriesPage from './pages/categories';
-import ExplorePage from './pages/explore';
-import ServiceDetailPage from './pages/detail/service';
-import NotFound from './pages/404';
-import BookingPage from './pages/booking';
-import ScheduleHistoryPage from './pages/schedule/history';
-import ScheduleDetailPage from './pages/schedule/detail';
-import ProfilePage from './pages/profile';
-import InvoicesPage from './pages/invoices';
-import AskPage from './pages/ask';
-import FeedbackPage from './pages/feedback';
-import SearchResultPage from './pages/search';
+import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from './components/error-boundary';
-import DepartmentDetailPage from './pages/detail/department';
-import NewsPage from './pages/news';
-import AboutPage from './pages/about';
-import DoctorPage from './pages/doctor';
-import DepartmentsPage from './pages/departments';
-import DoctorDetailPage from './pages/detail/docter';
-import ServicePricesPage from './pages/services/prices';
+import { LoadingSpinner } from './components/loading-states';
+import PageErrorBoundary from './components/page-error-boundary';
+import {
+  ServicesPageSkeleton,
+  CategoriesPageSkeleton,
+  DetailPageSkeleton,
+  BookingPageSkeleton,
+  ListPageSkeleton,
+  SearchResultsSkeleton,
+  ProfilePageSkeleton,
+  GenericPageSkeleton,
+} from './components/route-skeletons';
+
+// Immediate load for critical pages
+import HomePage from '@/pages/home';
+import NotFound from './pages/404';
+
+// Lazy load non-critical pages for better performance
+const ServicesPage = lazy(() => import('./pages/services'));
+const CategoriesPage = lazy(() => import('./pages/categories'));
+const ExplorePage = lazy(() => import('./pages/explore'));
+const ServiceDetailPage = lazy(() => import('./pages/detail/service'));
+const BookingPage = lazy(() => import('./pages/booking'));
+const ScheduleHistoryPage = lazy(() => import('./pages/schedule/history'));
+const ScheduleDetailPage = lazy(() => import('./pages/schedule/detail'));
+const ProfilePage = lazy(() => import('./pages/profile'));
+const InvoicesPage = lazy(() => import('./pages/invoices'));
+const AskPage = lazy(() => import('./pages/ask'));
+const FeedbackPage = lazy(() => import('./pages/feedback'));
+const SearchResultPage = lazy(() => import('./pages/search'));
+const DepartmentDetailPage = lazy(() => import('./pages/detail/department'));
+const NewsPage = lazy(() => import('./pages/news'));
+const AboutPage = lazy(() => import('./pages/about'));
+const DoctorPage = lazy(() => import('./pages/doctor'));
+const DepartmentsPage = lazy(() => import('./pages/departments'));
+const DoctorDetailPage = lazy(() => import('./pages/detail/doctor'));
+const ServicePricesPage = lazy(() => import('./pages/services/prices'));
+const TransitionsDemoPage = lazy(() => import('./pages/demo/transitions'));
+const UIShowcasePage = lazy(() => import('./pages/demo/ui-showcase'));
+const InformationCardsPage = lazy(() => import('./pages/demo/information-cards'));
+const DoctorCardsPage = lazy(() => import('./pages/demo/doctor-cards'));
+
+// Wrapper components with skeleton fallbacks
+const withSkeleton = (
+  Component: React.ComponentType,
+  SkeletonComponent: React.ComponentType<{ className?: string; animated?: boolean }>
+) => {
+  return (props: any) => (
+    <Suspense fallback={<SkeletonComponent className="w-full h-full" animated={true} />}>
+      <Component {...props} />
+    </Suspense>
+  );
+};
+
+// Create wrapped components with appropriate skeletons
+const ServicesPageWithSkeleton = withSkeleton(ServicesPage, ServicesPageSkeleton);
+const CategoriesPageWithSkeleton = withSkeleton(CategoriesPage, CategoriesPageSkeleton);
+const ServiceDetailPageWithSkeleton = withSkeleton(ServiceDetailPage, DetailPageSkeleton);
+const DepartmentDetailPageWithSkeleton = withSkeleton(DepartmentDetailPage, DetailPageSkeleton);
+const DoctorDetailPageWithSkeleton = withSkeleton(DoctorDetailPage, DetailPageSkeleton);
+const BookingPageWithSkeleton = withSkeleton(BookingPage, BookingPageSkeleton);
+const ProfilePageWithSkeleton = withSkeleton(ProfilePage, ProfilePageSkeleton);
+const DepartmentsPageWithSkeleton = withSkeleton(DepartmentsPage, ListPageSkeleton);
+const DoctorPageWithSkeleton = withSkeleton(DoctorPage, ListPageSkeleton);
+const ScheduleHistoryPageWithSkeleton = withSkeleton(ScheduleHistoryPage, ListPageSkeleton);
+const ScheduleDetailPageWithSkeleton = withSkeleton(ScheduleDetailPage, DetailPageSkeleton);
+const InvoicesPageWithSkeleton = withSkeleton(InvoicesPage, ListPageSkeleton);
+const SearchResultPageWithSkeleton = withSkeleton(SearchResultPage, SearchResultsSkeleton);
+const NewsPageWithSkeleton = withSkeleton(NewsPage, ListPageSkeleton);
+const ServicePricesPageWithSkeleton = withSkeleton(ServicePricesPage, ListPageSkeleton);
+
+// Generic skeleton for simple pages
+const ExplorePageWithSkeleton = withSkeleton(ExplorePage, GenericPageSkeleton);
+const AskPageWithSkeleton = withSkeleton(AskPage, GenericPageSkeleton);
+const FeedbackPageWithSkeleton = withSkeleton(FeedbackPage, GenericPageSkeleton);
+const AboutPageWithSkeleton = withSkeleton(AboutPage, GenericPageSkeleton);
+const TransitionsDemoPageWithSkeleton = withSkeleton(TransitionsDemoPage, GenericPageSkeleton);
+const UIShowcasePageWithSkeleton = withSkeleton(UIShowcasePage, GenericPageSkeleton);
+const InformationCardsPageWithSkeleton = withSkeleton(InformationCardsPage, GenericPageSkeleton);
 
 const router = createBrowserRouter(
   [
@@ -35,15 +94,15 @@ const router = createBrowserRouter(
         },
         {
           path: '/about',
-          element: <AboutPage />,
+          element: <AboutPageWithSkeleton />,
         },
         {
           path: '/search',
-          element: <SearchResultPage />,
+          element: <SearchResultPageWithSkeleton />,
         },
         {
           path: '/categories',
-          element: <CategoriesPage />,
+          element: <CategoriesPageWithSkeleton />,
           handle: {
             back: true,
             title: 'Danh mục',
@@ -52,11 +111,11 @@ const router = createBrowserRouter(
         },
         {
           path: '/explore',
-          element: <ExplorePage />,
+          element: <ExplorePageWithSkeleton />,
         },
         {
           path: '/services',
-          element: <ServicesPage />,
+          element: <ServicesPageWithSkeleton />,
           handle: {
             back: true,
             title: 'Tất cả dịch vụ',
@@ -64,7 +123,7 @@ const router = createBrowserRouter(
         },
         {
           path: '/departments',
-          element: <DepartmentsPage />,
+          element: <DepartmentsPageWithSkeleton />,
           handle: {
             back: true,
             title: 'Tất cả khoa',
@@ -77,7 +136,7 @@ const router = createBrowserRouter(
            * - `doctor`: to default pick a doctor. For example: /service/1?tab=2&doctor=1
            */
           path: '/service/:id',
-          element: <ServiceDetailPage />,
+          element: <ServiceDetailPageWithSkeleton />,
           handle: {
             back: true,
             title: 'custom',
@@ -88,7 +147,7 @@ const router = createBrowserRouter(
            * Accepted params like above
            */
           path: '/department/:id',
-          element: <DepartmentDetailPage />,
+          element: <DepartmentDetailPageWithSkeleton />,
           handle: {
             back: true,
             title: 'custom',
@@ -96,7 +155,7 @@ const router = createBrowserRouter(
         },
         {
           path: '/booking/:step?',
-          element: <BookingPage />,
+          element: <BookingPageWithSkeleton />,
           handle: {
             back: true,
             title: 'Đặt lịch khám',
@@ -104,7 +163,7 @@ const router = createBrowserRouter(
         },
         {
           path: '/ask',
-          element: <AskPage />,
+          element: <AskPageWithSkeleton />,
           handle: {
             back: true,
             title: 'Gửi câu hỏi',
@@ -112,7 +171,7 @@ const router = createBrowserRouter(
         },
         {
           path: '/feedback',
-          element: <FeedbackPage />,
+          element: <FeedbackPageWithSkeleton />,
           handle: {
             back: true,
             title: 'Gửi phản ảnh',
@@ -120,11 +179,11 @@ const router = createBrowserRouter(
         },
         {
           path: '/schedule',
-          element: <ScheduleHistoryPage />,
+          element: <ScheduleHistoryPageWithSkeleton />,
         },
         {
           path: '/schedule/:id',
-          element: <ScheduleDetailPage />,
+          element: <ScheduleDetailPageWithSkeleton />,
           handle: {
             back: true,
             title: 'Chi tiết',
@@ -132,14 +191,14 @@ const router = createBrowserRouter(
         },
         {
           path: '/profile',
-          element: <ProfilePage />,
+          element: <ProfilePageWithSkeleton />,
           handle: {
             profile: true,
           },
         },
         {
           path: '/news/:id',
-          element: <NewsPage />,
+          element: <NewsPageWithSkeleton />,
           handle: {
             back: true,
             title: 'Tin tức',
@@ -147,7 +206,7 @@ const router = createBrowserRouter(
         },
         {
           path: '/invoices',
-          element: <InvoicesPage />,
+          element: <InvoicesPageWithSkeleton />,
           handle: {
             back: true,
             title: 'Hóa đơn',
@@ -155,7 +214,7 @@ const router = createBrowserRouter(
         },
         {
           path: '/doctor',
-          element: <DoctorPage />,
+          element: <DoctorPageWithSkeleton />,
           handle: {
             back: true,
             title: 'Bác sĩ',
@@ -163,7 +222,7 @@ const router = createBrowserRouter(
         },
         {
           path: '/doctor/:id',
-          element: <DoctorDetailPage />,
+          element: <DoctorDetailPageWithSkeleton />,
           handle: {
             back: true,
             title: 'Bác sĩ',
@@ -171,10 +230,26 @@ const router = createBrowserRouter(
         },
         {
           path: '/service-prices',
-          element: <ServicePricesPage />,
+          element: <ServicePricesPageWithSkeleton />,
           handle: {
             back: true,
             title: 'Giá dịch vụ',
+          },
+        },
+        {
+          path: '/demo/transitions',
+          element: <TransitionsDemoPageWithSkeleton />,
+          handle: {
+            back: true,
+            title: 'Demo Transitions',
+          },
+        },
+        {
+          path: '/demo/ui-showcase',
+          element: <UIShowcasePageWithSkeleton />,
+          handle: {
+            back: true,
+            title: 'UI Showcase',
           },
         },
         {

@@ -79,8 +79,32 @@ export function useAnimation(key?: string) {
     }
   }, [key, markVisited]);
 
+  // Add the getAnimationClass function
+  const getAnimationClass = (animationType: string, speed: 'fast' | 'normal' | 'slow' = 'normal') => {
+    // Animation classes based on type and speed
+    const speedClasses = {
+      fast: 'duration-300',
+      normal: 'duration-500',
+      slow: 'duration-700',
+    };
+
+    const animationClasses: Record<string, string> = {
+      fade: 'animate-fade-in',
+      'slide-up': 'animate-slide-up',
+      'slide-down': 'animate-slide-down',
+      'slide-left': 'animate-slide-left',
+      'slide-right': 'animate-slide-right',
+    };
+
+    const animationClass = animationClasses[animationType] || '';
+    const speedClass = speedClasses[speed] || speedClasses.normal;
+
+    return `${animationClass} ${speedClass}`;
+  };
+
   return {
     shouldAnimate: key ? shouldAnimate(key) : context.isFirstVisit,
     isFirstVisit: context.isFirstVisit,
+    getAnimationClass,
   };
 }

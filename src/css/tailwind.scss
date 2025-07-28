@@ -20,88 +20,170 @@
     @apply text-foreground;
   }
 
-  /* Mobile optimizations */
+  /* Enhanced Mobile optimizations for medical UI */
   @media (max-width: 768px) {
     :root {
-      /* Slightly smaller text sizes for mobile */
+      /* Optimized text sizes for mobile medical interface */
       font-size: 15px;
     }
-    
-    /* Better tap target sizes */
-    button, 
+
+    /* Enhanced tap target sizes for medical accessibility */
+    button,
     [role="button"],
     a.btn,
     input[type="submit"],
-    input[type="button"] {
+    input[type="button"],
+    .medical-touch-target {
       min-height: 44px;
       min-width: 44px;
+      touch-action: manipulation;
     }
-    
+
+    /* Large touch targets for critical medical actions */
+    .medical-touch-large {
+      min-height: 56px;
+      min-width: 56px;
+    }
+
     /* Fix for iOS 100vh issue */
     .min-h-screen {
       min-height: 100vh;
       min-height: -webkit-fill-available;
     }
-    
-    /* Improved form controls for mobile */
+
+    /* Improved form controls for mobile medical interface */
     input, select, textarea {
       font-size: 16px !important; /* Prevents zoom on focus in iOS */
+      border-radius: 12px; /* Medical-friendly rounded corners */
     }
-    
-    /* Smoother animations */
-    .slide-up {
-      animation: slideUp 0.4s ease-out forwards;
+
+    /* Enhanced medical animations for mobile */
+    .medical-slide-up {
+      animation: medicalSlideUp 0.4s var(--medical-ease) forwards;
       opacity: 0;
       transform: translateY(20px);
     }
-    
-    /* Delayed animations */
-    .delay-100 {
+
+    /* Medical staggered animations */
+    .medical-delay-100 {
       animation-delay: 100ms;
     }
-    
-    .delay-200 {
+
+    .medical-delay-200 {
       animation-delay: 200ms;
     }
-    
-    .delay-300 {
+
+    .medical-delay-300 {
       animation-delay: 300ms;
     }
-    
-    @keyframes slideUp {
+
+    @keyframes medicalSlideUp {
       to {
         opacity: 1;
         transform: translateY(0);
       }
     }
-    
-    /* Card hover effect for touch */
-    .touch-hover {
-      @apply transition-all duration-200;
+
+    /* Enhanced touch feedback for medical cards */
+    .medical-touch-hover {
+      @apply transition-all duration-300;
+      transform-origin: center;
     }
-    
-    .active\:scale-98:active {
+
+    .medical-touch-hover:active {
       transform: scale(0.98);
+      transition-duration: 150ms;
+    }
+
+    /* Medical card spacing for mobile */
+    .medical-card-mobile {
+      margin-bottom: 16px;
+      padding: 16px;
+      border-radius: 16px;
+    }
+
+    /* Emergency service mobile indicators */
+    .emergency-mobile {
+      border-left: 4px solid #dc2626;
+      background: linear-gradient(90deg, #fef2f2 0%, #ffffff 100%);
+    }
+
+    /* Mobile-specific medical gradients */
+    .medical-gradient-mobile {
+      background: linear-gradient(135deg, var(--primary-50) 0%, var(--secondary-50) 100%);
     }
   }
 }
 
 @layer components {
-  /* Add your components here */
+  /* Enhanced medical components */
   .btn-primary {
-    @apply bg-primary text-white px-4 py-2 rounded-lg;
+    @apply bg-primary text-white px-4 py-2 rounded-lg min-h-[44px] transition-all duration-300;
   }
-  
-  /* Mobile navigation bar */
+
+  .btn-medical {
+    @apply bg-gradient-to-r from-primary to-primary-dark text-white px-6 py-3 rounded-lg min-h-[44px] shadow-medical hover:shadow-medical-hover transition-all duration-300 font-medium;
+  }
+
+  .btn-emergency {
+    @apply bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-3 rounded-lg min-h-[44px] shadow-emergency transition-all duration-300 font-medium;
+  }
+
+  /* Enhanced mobile navigation bar with medical theming */
   .mobile-nav-bar {
-    @apply fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around items-center p-2 z-40;
+    @apply fixed bottom-0 left-0 right-0 bg-gradient-to-r from-white to-gray-50 border-t border-primary-200 flex justify-around items-center p-2 z-40;
     height: 60px;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 -4px 20px rgba(0, 102, 204, 0.1);
   }
-  
-  /* Bottom safe area padding for mobile */
+
+  /* Medical card components */
+  .medical-card {
+    @apply bg-gradient-to-r from-white to-gray-50 rounded-xl border border-primary-200 shadow-card hover:shadow-card-hover transition-all duration-300 p-4;
+  }
+
+  .medical-card-emergency {
+    @apply bg-gradient-to-r from-red-50 to-red-25 border-red-200 shadow-emergency;
+  }
+
+  /* Mobile-specific medical components */
+  @media (max-width: 768px) {
+    .medical-card {
+      @apply p-4 mb-4;
+    }
+
+    .medical-search-mobile {
+      @apply w-full px-4 py-3 text-base rounded-xl border-2 border-primary-200 focus:border-primary focus:ring-2 focus:ring-primary-100;
+    }
+
+    .medical-filter-mobile {
+      @apply flex overflow-x-auto space-x-3 pb-2 px-4 -mx-4;
+    }
+
+    .medical-pagination-mobile {
+      @apply flex justify-between items-center px-4 py-3 bg-gradient-to-r from-primary-50 to-secondary-50;
+    }
+  }
+
+  /* Enhanced safe area padding for mobile */
   .pb-safe {
     padding-bottom: env(safe-area-inset-bottom, 20px);
+  }
+
+  .pt-safe {
+    padding-top: max(var(--safe-top, env(safe-area-inset-top, 44px)), 44px);
+  }
+
+  .pt-safe-enhanced {
+    padding-top: max(44px, env(safe-area-inset-top));
+  }
+
+  /* Safe area utilities for different scenarios */
+  .safe-area-top {
+    height: max(44px, env(safe-area-inset-top));
+  }
+
+  .safe-area-bottom {
+    height: max(20px, env(safe-area-inset-bottom));
   }
 }
 

@@ -1,4 +1,4 @@
-import SearchIcon from '@/components/icons/search';
+import { SearchIcon } from '@/components/icons/medical-icons';
 import { HTMLProps } from 'react';
 
 export default function SearchInput({ className, ...props }: HTMLProps<HTMLInputElement>) {

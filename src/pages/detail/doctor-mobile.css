@@ -1,0 +1,1001 @@
+/* Enhanced Doctor Detail Page - Modern Clean Hospital Theme */
+
+/* Enhanced Mobile Hero Section with Medical Design */
+.mobile-hero-clean {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 60%, #f0f9ff 100%);
+  border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+  /* Enhanced subtle medical pattern overlay */
+  background-image:
+    radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.02) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.01) 0%, transparent 50%);
+}
+
+.mobile-hero-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.1;
+  transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.mobile-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, rgba(248, 250, 252, 0.9) 0%, rgba(248, 250, 252, 0.5) 50%, transparent 100%),
+    linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, transparent 50%, rgba(16, 185, 129, 0.03) 100%);
+  pointer-events: none;
+}
+
+/* Clean Mobile Avatar Design - Modern Hospital Style */
+.mobile-avatar-clean {
+  width: 96px;
+  height: 96px;
+  border-radius: 16px;
+  border: 3px solid #ffffff;
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.1),
+    0 4px 10px rgba(59, 130, 246, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.05);
+  background: #ffffff;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+}
+
+.mobile-avatar-clean::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 13px;
+  background:
+    linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+    linear-gradient(225deg, rgba(16, 185, 129, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.mobile-avatar-clean:hover {
+  transform: scale(1.05);
+  border-color: #3b82f6;
+  box-shadow:
+    0 15px 35px rgba(0, 0, 0, 0.15),
+    0 8px 20px rgba(59, 130, 246, 0.2),
+    0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Clean Status Indicator - Modern Medical Style */
+.mobile-status-indicator {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  width: 24px;
+  height: 24px;
+  background: #10b981;
+  border-radius: 50%;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+  animation: statusPulse 3s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+  0%, 100% {
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+  }
+  50% {
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.5), 0 0 0 4px rgba(16, 185, 129, 0.1);
+  }
+}
+
+/* Enhanced Mobile Contact Buttons with Modern Hospital Theme & Touch Optimization */
+.mobile-contact-floating {
+  position: fixed;
+  bottom: 80px; /* Above bottom navigation */
+  left: 16px;
+  right: 16px;
+  z-index: 40;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 24px;
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.15),
+    0 20px 25px -5px rgba(59, 130, 246, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  backdrop-filter: blur(24px);
+  padding: 16px;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  /* Enhanced medical glow with better touch feedback */
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.15),
+    0 20px 25px -5px rgba(59, 130, 246, 0.1),
+    0 0 0 1px rgba(16, 185, 129, 0.05);
+  /* Touch optimization */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Enhanced touch targets for mobile buttons */
+.mobile-contact-floating .contact-button {
+  min-height: 56px; /* Minimum touch target size */
+  min-width: 56px;
+  padding: 12px 16px;
+  border-radius: 16px;
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.mobile-contact-floating .contact-button:active {
+  transform: scale(0.96);
+  transition-duration: 0.1s;
+}
+
+/* Responsive Design for Different Mobile Screen Sizes */
+
+/* Small Mobile Devices (320px - 375px) */
+@media (max-width: 375px) {
+  .mobile-hero-fullscreen {
+    max-height: 520px;
+  }
+
+  .mobile-avatar-ultra {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+  }
+
+  .mobile-avatar-ultra::before {
+    border-radius: 17px;
+  }
+
+  .mobile-status-indicator {
+    width: 28px;
+    height: 28px;
+    bottom: -5px;
+    right: -5px;
+    border-width: 2px;
+  }
+
+  .mobile-contact-floating {
+    left: 12px;
+    right: 12px;
+    padding: 14px;
+  }
+}
+
+.mobile-contact-floating::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 100%);
+  pointer-events: none;
+}
+
+.mobile-contact-button {
+  border-radius: 18px;
+  padding: 16px 20px;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  min-height: 56px; /* Enhanced touch target */
+  box-shadow:
+    0 10px 20px -4px rgba(0, 0, 0, 0.1),
+    0 6px 12px -2px rgba(0, 0, 0, 0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.mobile-contact-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+  pointer-events: none;
+  border-radius: 16px;
+}
+
+.mobile-contact-button:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow:
+    0 12px 24px -4px rgba(0, 0, 0, 0.15),
+    0 8px 16px -4px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-contact-button:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow:
+    0 4px 8px -2px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Enhanced Mobile Content Sections with Modern Hospital Theme */
+.mobile-content-section {
+  margin: 0 16px;
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow:
+    0 10px 25px -5px rgba(0, 0, 0, 0.08),
+    0 8px 16px -8px rgba(37, 99, 235, 0.06),
+    0 4px 8px -4px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(226, 232, 240, 0.6);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.mobile-content-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-500) 0%, var(--primary-400) 50%, var(--primary-500) 100%);
+  border-radius: 24px 24px 0 0;
+}
+
+.mobile-content-section h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid rgba(0, 102, 204, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+}
+
+.mobile-content-section h2::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-500) 0%, var(--primary-400) 100%);
+  border-radius: 1px;
+}
+
+/* Enhanced Mobile Typography with Medical Theme */
+.mobile-doctor-name {
+  font-size: 24px;
+  font-weight: 800;
+  color: white;
+  line-height: 1.2;
+  margin-bottom: 6px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-doctor-position {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(191, 219, 254, 1);
+  margin-bottom: 4px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-doctor-department {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(191, 219, 254, 0.9);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Enhanced Mobile Booking Button with Hospital Theme */
+.mobile-booking-button {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 50%, #1e40af 100%);
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 18px 36px;
+  border-radius: 20px;
+  box-shadow:
+    0 12px 24px rgba(0, 102, 204, 0.3),
+    0 8px 16px rgba(0, 102, 204, 0.2),
+    0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  margin-top: 32px;
+  margin-bottom: 120px; /* Space for floating contact buttons */
+  min-height: 56px;
+  position: relative;
+  overflow: hidden;
+}
+
+.mobile-booking-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+  border-radius: 20px;
+  pointer-events: none;
+}
+
+.mobile-booking-button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.6s ease-out;
+  pointer-events: none;
+}
+
+.mobile-booking-button:hover {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, #1e40af 50%, #1e3a8a 100%);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow:
+    0 16px 32px rgba(0, 102, 204, 0.4),
+    0 12px 24px rgba(0, 102, 204, 0.3),
+    0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.mobile-booking-button:hover::after {
+  width: 300px;
+  height: 300px;
+}
+
+.mobile-booking-button:active {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow:
+    0 8px 16px rgba(0, 102, 204, 0.3),
+    0 4px 8px rgba(0, 102, 204, 0.2);
+}
+
+/* Mobile Loading States */
+.mobile-skeleton-card {
+  margin: 0 16px;
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.mobile-skeleton-hero {
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  padding: 24px 16px 32px;
+  border-radius: 0;
+}
+
+/* Mobile Responsive Utilities */
+@media (max-width: 640px) {
+  .mobile-hidden {
+    display: none !important;
+  }
+  
+  .mobile-full-width {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  
+  .mobile-no-border-radius {
+    border-radius: 0 !important;
+  }
+  
+  .mobile-no-shadow {
+    box-shadow: none !important;
+  }
+  
+  .mobile-bg-gray {
+    background-color: #f9fafb !important;
+  }
+}
+
+/* Touch Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .mobile-contact-button:hover {
+    transform: none;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+  
+  .mobile-booking-button:hover {
+    transform: none;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    box-shadow: 0 8px 16px rgba(37, 99, 235, 0.3);
+  }
+}
+
+/* Enhanced Accessibility Improvements */
+@media (prefers-reduced-motion: reduce) {
+  .doctor-avatar-mobile,
+  .mobile-contact-button,
+  .mobile-booking-button,
+  .mobile-content-section {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .mobile-contact-button:hover,
+  .mobile-booking-button:hover,
+  .mobile-content-section:hover {
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .mobile-booking-button::after {
+    transition: none !important;
+  }
+}
+
+/* High contrast mode enhancements */
+@media (prefers-contrast: high) {
+  .mobile-content-section {
+    border: 2px solid var(--primary-dark);
+    background: white;
+  }
+
+  .mobile-contact-button {
+    border: 2px solid currentColor;
+  }
+
+  .mobile-booking-button {
+    border: 2px solid white;
+    background: var(--primary-dark);
+  }
+
+  .doctor-avatar-mobile {
+    border: 4px solid white;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .mobile-content-section {
+    background: #1f2937;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+  
+  .mobile-content-section h2 {
+    color: #f9fafb;
+    border-color: #374151;
+  }
+  
+  .mobile-contact-floating {
+    background: #1f2937;
+    border-color: #374151;
+  }
+}
+
+/* Enhanced Performance Optimizations with Modern Effects */
+.mobile-content-section,
+.mobile-contact-floating,
+.mobile-contact-button,
+.mobile-booking-button,
+.doctor-avatar-mobile {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+/* Enhanced Hospital-Themed Animations with Medical Aesthetics */
+@keyframes medicalPulse {
+  0%, 100% {
+    box-shadow:
+      0 0 0 0 rgba(30, 64, 175, 0.4),
+      0 8px 16px rgba(30, 64, 175, 0.2),
+      0 0 0 1px rgba(5, 150, 105, 0.1);
+  }
+  50% {
+    box-shadow:
+      0 0 0 12px rgba(30, 64, 175, 0),
+      0 12px 24px rgba(30, 64, 175, 0.3),
+      0 0 0 1px rgba(5, 150, 105, 0.2);
+  }
+}
+
+@keyframes medicalGlow {
+  0%, 100% {
+    filter: brightness(1) saturate(1);
+    box-shadow: 0 0 20px rgba(5, 150, 105, 0.1);
+  }
+  50% {
+    filter: brightness(1.05) saturate(1.1);
+    box-shadow: 0 0 30px rgba(5, 150, 105, 0.2);
+  }
+}
+
+@keyframes floatingCard {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes medicalCrossRotate {
+  0% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0.1;
+  }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+    opacity: 0.05;
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+    opacity: 0.1;
+  }
+}
+
+/* Apply animations to key elements */
+.mobile-booking-button {
+  animation: medicalPulse 3s ease-in-out infinite;
+}
+
+.doctor-avatar-mobile {
+  animation: medicalGlow 4s ease-in-out infinite;
+}
+
+.mobile-content-section {
+  animation: floatingCard 6s ease-in-out infinite;
+}
+
+/* Hover state enhancements */
+.mobile-content-section:hover {
+  animation-play-state: paused;
+  transform: translateY(-4px) scale(1.01);
+  box-shadow:
+    0 15px 35px -5px rgba(0, 0, 0, 0.15),
+    0 12px 24px -8px rgba(0, 102, 204, 0.15);
+}
+
+/* Ultra Large Image Desktop Styles */
+.desktop-hero-image {
+  height: 320px;
+  background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 50%, #f0f9ff 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.desktop-hero-image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.3;
+  transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.desktop-floating-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.15),
+    0 15px 30px rgba(0, 0, 0, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: absolute;
+  bottom: 32px;
+  left: 32px;
+  right: 32px;
+}
+
+.desktop-side-image {
+  width: 384px;
+  height: 500px;
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+  box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.15),
+    0 15px 30px rgba(0, 0, 0, 0.1);
+  border: 4px solid white;
+  background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%);
+}
+
+.desktop-side-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.desktop-side-image:hover img {
+  transform: scale(1.02) rotate(1deg);
+}
+
+.desktop-info-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.desktop-info-card {
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.desktop-info-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Safe Area Handling for iOS */
+@supports (padding: max(0px)) {
+  .mobile-contact-floating {
+    bottom: max(80px, env(safe-area-inset-bottom));
+    left: max(16px, env(safe-area-inset-left));
+    right: max(16px, env(safe-area-inset-right));
+  }
+
+  .mobile-booking-button {
+    margin-bottom: max(120px, calc(120px + env(safe-area-inset-bottom)));
+  }
+
+  .mobile-hero-fullscreen {
+    height: 100vh;
+    height: calc(100vh - env(safe-area-inset-top));
+    max-height: 580px;
+  }
+}
+
+/* Additional Responsive Breakpoints for Optimal Mobile Experience */
+
+/* Extra Small Mobile Devices (320px - 360px) */
+@media (max-width: 360px) {
+  .mobile-hero-fullscreen {
+    max-height: 500px;
+  }
+
+  .mobile-avatar-ultra {
+    width: 76px;
+    height: 76px;
+    border-radius: 19px;
+    border-width: 2px;
+  }
+
+  .mobile-avatar-ultra::before {
+    border-radius: 17px;
+  }
+
+  .mobile-status-indicator {
+    width: 26px;
+    height: 26px;
+    bottom: -4px;
+    right: -4px;
+    border-width: 2px;
+  }
+
+  .mobile-contact-floating {
+    left: 10px;
+    right: 10px;
+    padding: 12px;
+    border-radius: 16px;
+  }
+
+  .mobile-content-section {
+    margin: 0 12px;
+    padding: 20px;
+    border-radius: 20px;
+  }
+}
+
+/* Medium Mobile Devices (361px - 414px) */
+@media (min-width: 361px) and (max-width: 414px) {
+  .mobile-hero-fullscreen {
+    max-height: 540px;
+  }
+
+  .mobile-avatar-ultra {
+    width: 84px;
+    height: 84px;
+    border-radius: 21px;
+  }
+
+  .mobile-avatar-ultra::before {
+    border-radius: 18px;
+  }
+
+  .mobile-status-indicator {
+    width: 29px;
+    height: 29px;
+    bottom: -5px;
+    right: -5px;
+  }
+}
+
+/* Large Mobile Devices (415px - 480px) */
+@media (min-width: 415px) and (max-width: 480px) {
+  .mobile-hero-fullscreen {
+    max-height: 560px;
+  }
+
+  .mobile-avatar-ultra {
+    width: 92px;
+    height: 92px;
+    border-radius: 23px;
+  }
+
+  .mobile-avatar-ultra::before {
+    border-radius: 20px;
+  }
+
+  .mobile-contact-floating {
+    left: 18px;
+    right: 18px;
+    padding: 17px;
+  }
+}
+
+/* Tablet Portrait (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .mobile-hero-fullscreen {
+    max-height: 580px;
+  }
+
+  .mobile-avatar-ultra {
+    width: 96px;
+    height: 96px;
+    border-radius: 24px;
+  }
+
+  .mobile-contact-floating {
+    left: 24px;
+    right: 24px;
+    padding: 20px;
+  }
+
+  .mobile-content-section {
+    margin: 0 20px;
+    padding: 28px;
+  }
+}
+
+/* Enhanced Touch Optimization for Mobile Devices - Improved Layout */
+@media (max-width: 640px) {
+  .mobile-hero-fullscreen {
+    max-height: 420px; /* Optimized for better content visibility */
+  }
+
+  .mobile-contact-floating {
+    bottom: 80px; /* Better thumb reach */
+    padding: 16px; /* Comfortable spacing */
+    border-radius: 20px;
+  }
+
+  .mobile-contact-floating .contact-button {
+    min-height: 56px; /* Optimal touch target size */
+    font-size: 14px;
+    padding: 14px 12px;
+    border-radius: 16px;
+  }
+}
+
+/* Extra small screens (iPhone SE, etc.) - Enhanced */
+@media (max-width: 375px) {
+  .mobile-hero-fullscreen {
+    max-height: 400px; /* Better content visibility */
+  }
+
+  .mobile-contact-floating {
+    left: 12px;
+    right: 12px;
+    padding: 14px;
+  }
+
+  .mobile-contact-floating .contact-button {
+    min-height: 52px;
+    font-size: 13px;
+    padding: 12px 8px;
+    gap: 8px;
+  }
+}
+
+/* Medium mobile screens optimization - Enhanced */
+@media (min-width: 375px) and (max-width: 414px) {
+  .mobile-contact-floating .contact-button {
+    min-height: 56px;
+    padding: 14px 16px;
+    font-size: 14px;
+    gap: 10px;
+  }
+}
+
+/* Large mobile screens optimization - New */
+@media (min-width: 414px) and (max-width: 640px) {
+  .mobile-contact-floating .contact-button {
+    min-height: 58px;
+    padding: 16px 18px;
+    font-size: 15px;
+    gap: 12px;
+  }
+}
+
+/* Touch device specific optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .mobile-contact-floating .contact-button:hover {
+    transform: none;
+  }
+
+  .mobile-contact-floating .contact-button:active {
+    transform: scale(0.95);
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+}
+
+/* Enhanced Accessibility Improvements */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .mobile-hero-fullscreen .floating-elements > div {
+    animation: none !important;
+  }
+
+  .mobile-contact-floating {
+    animation: none !important;
+  }
+
+  /* Disable all medical animations for reduced motion */
+  @keyframes medicalPulse,
+  @keyframes medicalGlow,
+  @keyframes floatingCard,
+  @keyframes medicalCrossRotate {
+    from, to {
+      transform: none;
+      opacity: 1;
+      filter: none;
+      box-shadow: none;
+    }
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .mobile-hero-fullscreen {
+    background: #000000 !important;
+    color: #ffffff !important;
+  }
+
+  .mobile-contact-floating {
+    background: #ffffff !important;
+    border: 3px solid #000000 !important;
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #000000 !important;
+  }
+
+  .mobile-contact-floating .contact-button {
+    border: 2px solid #000000 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .mobile-contact-floating .contact-button:hover,
+  .mobile-contact-floating .contact-button:focus {
+    background: #000000 !important;
+    color: #ffffff !important;
+  }
+
+  /* High contrast for medical icons */
+  .medical-cross-icon,
+  .medical-icon {
+    filter: contrast(200%) brightness(150%);
+  }
+}
+
+/* Enhanced Focus Management for Keyboard Navigation */
+.medical-focus:focus,
+.contact-button:focus,
+[tabindex]:focus,
+button:focus,
+a:focus {
+  outline: 3px solid #3b82f6 !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 5px #3b82f6 !important;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Enhanced Screen Reader Only Content */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.sr-only:focus {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 0.5rem !important;
+  margin: 0 !important;
+  overflow: visible !important;
+  clip: auto !important;
+  white-space: normal !important;
+}
+
+/* Enhanced Skip Links for Keyboard Navigation */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: #3b82f6;
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  border-radius: 8px;
+  z-index: 1000;
+  transition: top 0.3s ease-in-out;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.skip-link:focus {
+  top: 6px;
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+}
+
+/* Enhanced Keyboard Navigation Support */
+.keyboard-navigation {
+  outline: none;
+}
+
+.keyboard-navigation:focus-visible {
+  outline: 3px solid #3b82f6;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Enhanced ARIA Live Regions */
+.sr-live-polite {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Enhanced Color Contrast for Text */
+.high-contrast-text {
+  color: #1f2937;
+  font-weight: 500;
+}
+
+.high-contrast-secondary {
+  color: #374151;
+  font-weight: 400;
+}

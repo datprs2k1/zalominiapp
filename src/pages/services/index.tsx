@@ -8,6 +8,10 @@ import { getConfig } from '@/utils/miscellaneous';
 import { servicesAtom } from '@/services/post';
 import { useAtomValue } from 'jotai';
 import TransitionLink from '@/components/transition-link';
+import { motion } from 'framer-motion';
+import { Skeleton, ProgressiveLoader } from '@/components/loading-states';
+import { usePageLoading } from '@/hooks/use-route-transition';
+import { useEffect } from 'react';
 
 const POST_ATOM_PARAMS = {};
 
@@ -16,13 +20,37 @@ function ServicesPage() {
   const posts = (data as any) || [];
   const isEmpty = posts.length === 0;
   const sortedPosts = [...posts].sort((a, b) => a.title.rendered.localeCompare(b.title.rendered));
+  const pageLoading = usePageLoading('services');
+
+  // Simulate loading state for demo purposes
+  useEffect(() => {
+    if (posts.length === 0) {
+      pageLoading.setLoading('services', true);
+      // This would normally be handled by your data fetching logic
+      setTimeout(() => {
+        pageLoading.setLoading('services', false);
+      }, 1000);
+    }
+  }, [posts.length]);
   return (
     <Section className="pt-4 px-2 sm:pt-8 sm:px-4 md:px-8" isCard>
-      <div className="mb-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Dịch vụ nổi bật</h2>
+      <motion.div
+        className="mb-6"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        <motion.h2
+          className="text-xl font-bold text-gray-900 mb-4"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.1, duration: 0.4 }}
+        >
+          Dịch vụ nổi bật
+        </motion.h2>
 
         {/* Chat OA Card - Featured */}
-        <div
+        <motion.div
           className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl shadow-sm p-5 cursor-pointer hover:shadow-md transition mb-4"
           onClick={() =>
             openChat({
@@ -30,6 +58,11 @@ function ServicesPage() {
               id: getConfig((c) => c.template.oaID),
             })
           }
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2, duration: 0.4 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
         >
           <div className="flex items-center gap-4">
             <div className="flex items-center justify-center w-14 h-14 rounded-full bg-white border border-blue-200 shadow-sm overflow-hidden">
@@ -45,11 +78,18 @@ function ServicesPage() {
               </svg>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Service Prices Card */}
         <TransitionLink to="/service-prices" className="block">
-          <div className="bg-gradient-to-r from-green-50 to-green-100 rounded-2xl shadow-sm p-5 cursor-pointer hover:shadow-md transition mb-4">
+          <motion.div
+            className="bg-gradient-to-r from-green-50 to-green-100 rounded-2xl shadow-sm p-5 cursor-pointer hover:shadow-md transition mb-4"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3, duration: 0.4 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
             <div className="flex items-center gap-4">
               <div className="flex items-center justify-center w-14 h-14 rounded-full bg-white border border-green-200 shadow-sm overflow-hidden">
                 <img src={invoice} alt="Service Prices" className="w-8 h-8 object-contain" />
@@ -64,33 +104,35 @@ function ServicesPage() {
                 </svg>
               </div>
             </div>
-          </div>
+          </motion.div>
         </TransitionLink>
-      </div>
+      </motion.div>
 
-      <div>
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Tất cả dịch vụ</h2>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4, duration: 0.5 }}
+      >
+        <motion.h2
+          className="text-xl font-bold text-gray-900 mb-4"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.5, duration: 0.4 }}
+        >
+          Tất cả dịch vụ
+        </motion.h2>
 
-        {isEmpty ? (
-          <div className="text-center text-gray-400 py-12 bg-gray-50 rounded-xl text-base sm:text-lg">
-            <svg className="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-              />
-            </svg>
-            Hiện chưa có dịch vụ nào.
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {sortedPosts.map((post) => (
-              <TransitionLink
-                key={post.id}
-                to={`/service/${post.id}`}
-                className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition border border-gray-100"
-              >
+        <ProgressiveLoader
+          items={sortedPosts}
+          isLoading={pageLoading.isLoading('services') || isEmpty}
+          skeletonCount={6}
+          renderItem={(post, index) => (
+            <TransitionLink
+              key={post.id}
+              to={`/service/${post.id}`}
+              className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition border border-gray-100"
+            >
+              <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
                 <div className="h-40 bg-gray-50 overflow-hidden">
                   <img
                     src={post?._embedded?.['wp:featuredmedia']?.[0]?.source_url || heartAndPill}
@@ -118,11 +160,39 @@ function ServicesPage() {
                     </div>
                   </div>
                 </div>
-              </TransitionLink>
-            ))}
-          </div>
+              </motion.div>
+            </TransitionLink>
+          )}
+        />
+
+        {/* Empty state with animation */}
+        {!pageLoading.isLoading('services') && isEmpty && (
+          <motion.div
+            className="text-center text-gray-400 py-12 bg-gray-50 rounded-xl text-base sm:text-lg"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4 }}
+          >
+            <motion.svg
+              className="w-12 h-12 mx-auto mb-3 text-gray-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              initial={{ rotate: -10 }}
+              animate={{ rotate: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+              />
+            </motion.svg>
+            Hiện chưa có dịch vụ nào.
+          </motion.div>
         )}
-      </div>
+      </motion.div>
     </Section>
   );
 }

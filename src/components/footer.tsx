@@ -1,255 +1,204 @@
-import HorizontalDivider from './horizontal-divider';
-import { useAtomValue } from 'jotai';
-import TransitionLink from './transition-link';
-import HomeIcon from './icons/home';
-import ExploreIcon from './icons/explore';
-import ChatIcon from './icons/cart';
-import ProfileIcon from './icons/profile';
-import BigPlusIcon from './icons/big-plus';
 import { useRouteHandle } from '@/hooks';
-import FooterWave from './icons/footer-wave';
-import { useEffect, useRef, useState } from 'react';
-import book from '@/static/book.svg';
-import history from '@/static/history.svg';
-import all from '@/static/services/all.svg';
-import hospital from '@/static/services/hospital.svg';
-import QuickAccessIcon from './icons/quick-access';
+import TransitionLink from './transition-link';
+import { useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { MedicalIcons } from './icons/medical-icons';
 
-interface QuickAccessItem {
-  to: string;
-  icon: string;
-  title: string;
-}
-
-function QuickAccessButton({ active }: { active?: boolean }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
-  const buttonRef = useRef<HTMLDivElement>(null);
-  const [isPulsing, setIsPulsing] = useState(false);
-
-  useEffect(() => {
-    // Add a pulsing animation every 10 seconds when menu is closed
-    let pulseInterval: number | undefined;
-    if (!isOpen) {
-      pulseInterval = window.setInterval(() => {
-        setIsPulsing(true);
-        setTimeout(() => setIsPulsing(false), 1500);
-      }, 10000);
-    }
-    return () => {
-      if (pulseInterval) clearInterval(pulseInterval);
-    };
-  }, [isOpen]);
-
-  const quickAccessItems: QuickAccessItem[] = [
-    { to: '/booking', icon: book, title: 'Đặt lịch khám' },
-    { to: '/schedule', icon: history, title: 'Lịch sử khám' },
-    { to: '/services', icon: all, title: 'Dịch vụ y tế' },
-    { to: '/departments', icon: hospital, title: 'Khoa chuyên môn' },
-  ];
-
-  const toggleMenu = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsOpen(!isOpen);
-  };
-
-  const closeMenu = () => {
-    setIsOpen(false);
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
-      if (
-        menuRef.current &&
-        buttonRef.current &&
-        !menuRef.current.contains(event.target as Node) &&
-        !buttonRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('touchstart', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('touchstart', handleClickOutside);
-    };
-  }, []);
-
-  return (
-    <>
-      {isOpen && (
-        <div ref={menuRef} className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 animate-fade-in">
-          <div className="absolute inset-0" onClick={closeMenu} aria-hidden="true"></div>
-          <div
-            className="mx-6 w-full max-w-xs bg-white rounded-3xl shadow-2xl py-5 px-4 animate-scale-in relative"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex justify-between items-center px-1 mb-3">
-              <h3 className="text-lg font-bold text-gray-900">Truy cập nhanh</h3>
-              <button onClick={closeMenu} className="text-gray-500 p-1 hover:bg-gray-100 rounded-full">
-                <span className="sr-only">Đóng</span>
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              {quickAccessItems.map((item, index) => (
-                <TransitionLink
-                  key={index}
-                  to={item.to}
-                  className="flex flex-col items-center gap-2 p-4 rounded-2xl hover:bg-gray-50 active:bg-gray-100 active:scale-95 transition-all duration-200"
-                  onClick={closeMenu}
-                >
-                  <div
-                    className={`flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full ${
-                      index === 0
-                        ? 'bg-teal-500/15'
-                        : index === 1
-                          ? 'bg-orange-400/15'
-                          : index === 2
-                            ? 'bg-blue-500/15'
-                            : 'bg-purple-500/15'
-                    }`}
-                  >
-                    <img src={item.icon} className="h-6 w-6" alt={item.title} />
-                  </div>
-                  <span className="text-sm font-medium text-center text-gray-800">{item.title}</span>
-                </TransitionLink>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-      <div
-        ref={buttonRef}
-        onClick={toggleMenu}
-        className={`
-          w-12 h-12 
-          bg-gradient-to-r from-blue-600 to-blue-500
-          rounded-full flex items-center justify-center -mt-4 
-          shadow-lg ${isOpen ? 'shadow-highlight/40' : 'shadow-highlight/30'} 
-          hover:shadow-highlight/50
-          active:scale-95 
-          transition-all duration-300
-          cursor-pointer
-          ${isPulsing ? 'animate-pulse' : ''}
-          relative
-          overflow-hidden
-        `}
-        aria-label="Quick access menu"
-      >
-        <span
-          className={`
-          absolute inset-0 bg-white/20 scale-0 rounded-full
-          ${isOpen ? '' : 'hover:scale-100'} 
-          transition-transform duration-300 ease-out
-        `}
-        ></span>
-        <QuickAccessIcon
-          className={`
-            w-7 h-7 text-white 
-            transition-all duration-300 
-            ${isOpen ? 'rotate-45 scale-110' : 'scale-100'} 
-            drop-shadow-md
-          `}
-        />
-      </div>
-    </>
-  );
-}
-
+// Enhanced medical navigation items with healthcare icons and accessibility
 const NAV_ITEMS = [
   {
     name: 'Trang chủ',
     path: '/',
-    icon: HomeIcon,
+    ariaLabel: 'Trang chủ ứng dụng y tế',
+    icon: ({ active }) => (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={`transition-all duration-300 ${active ? 'text-primary' : 'text-text-muted'}`}
+        aria-hidden="true"
+      >
+        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+      </svg>
+    ),
   },
   {
-    name: 'Bảng giá',
+    name: 'Dịch vụ',
     path: '/service-prices',
-    icon: ExploreIcon,
+    ariaLabel: 'Dịch vụ y tế và khám chữa bệnh',
+    icon: ({ active }) => (
+      <MedicalIcons.Stethoscope
+        className={`transition-all duration-300 ${active ? 'text-primary' : 'text-text-muted'}`}
+        aria-hidden="true"
+      />
+    ),
   },
   {
-    path: '/quick-access',
-    icon: QuickAccessButton,
+    name: 'Đặt lịch',
+    path: '/booking',
+    ariaLabel: 'Đặt lịch khám bệnh và hẹn tái khám',
     isSpecial: true,
+    icon: ({ active }) => (
+      <div className="relative">
+        <motion.div
+          initial={{ opacity: 0.2, scale: 0.9 }}
+          animate={{ opacity: [0.2, 0.4, 0.2], scale: [0.9, 1.1, 0.9] }}
+          transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute inset-0 rounded-full bg-primary blur-md"
+        ></motion.div>
+        <motion.div
+          whileTap={{ scale: 0.95 }}
+          className={`relative flex items-center justify-center h-14 w-14 rounded-full ${
+            active ? 'bg-gradient-to-r from-primary-dark to-primary' : 'bg-gradient-to-r from-primary to-primary-light'
+          } -mt-7 shadow-medical`}
+        >
+          <MedicalIcons.MedicalCross size="lg" className="text-text-inverse" aria-hidden="true" />
+        </motion.div>
+      </div>
+    ),
   },
   {
     name: 'Bác sĩ',
     path: '/doctor',
-    icon: ChatIcon,
+    ariaLabel: 'Thông tin bác sĩ và chuyên khoa',
+    icon: ({ active }) => (
+      <MedicalIcons.User
+        className={`transition-all duration-300 ${active ? 'text-primary' : 'text-text-muted'}`}
+        aria-hidden="true"
+      />
+    ),
   },
   {
-    name: 'Thông tin',
+    name: 'Giới thiệu',
     path: '/about',
-    icon: ProfileIcon,
+    ariaLabel: 'Thông tin giới thiệu và liên hệ',
+    icon: ({ active }) => (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={`transition-all duration-300 ${active ? 'text-primary' : 'text-text-muted'}`}
+        aria-hidden="true"
+      >
+        <circle cx="12" cy="8" r="5"></circle>
+        <path d="M20 21a8 8 0 1 0-16 0"></path>
+      </svg>
+    ),
   },
 ];
 
 export default function Footer() {
   const [handle] = useRouteHandle();
+  const location = useLocation();
+
   if (handle.back) {
-    return <></>;
+    return null;
   }
 
   return (
-    <div className="w-full relative">
-      <FooterWave
-        className="absolute inset-x-0 bottom-sb z-10 h-24 -mb-6"
-        style={{
-          filter: 'drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.08))',
-        }}
-      />
-      <div
-        className="w-full px-4 pt-2 grid text-3xs relative z-20 justify-center pb-sb bg-white"
-        style={{
-          gridTemplateColumns: `repeat(${NAV_ITEMS.length}, 1fr)`,
-        }}
-      >
-        {NAV_ITEMS.map((item) => {
-          return item.isSpecial ? (
-            <div key={item.path} className="flex justify-center relative">
-              <item.icon />
-            </div>
-          ) : (
+    <motion.div
+      role="contentinfo"
+      aria-label="Điều hướng chính của ứng dụng y tế"
+      className="relative w-full"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+    >
+      {/* Modern Medical Footer Background */}
+      <div className="absolute bottom-0 left-0 right-0 h-20">
+        {/* Glass morphism background */}
+        <div className="absolute inset-0 bg-surface/95 backdrop-blur-xl border-t border-border shadow-footer"></div>
+
+        {/* Medical gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent"></div>
+
+        {/* Subtle medical pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <svg width="100%" height="100%" viewBox="0 0 60 60" className="w-full h-full">
+            <defs>
+              <pattern id="footer-medical" patternUnits="userSpaceOnUse" width="30" height="30">
+                <circle cx="15" cy="15" r="1" fill="currentColor" className="text-primary" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#footer-medical)" />
+          </svg>
+        </div>
+      </div>
+
+      {/* Navigation */}
+      <nav className="relative z-10 w-full pb-safe" role="navigation" aria-label="Điều hướng chính">
+        <div className="mx-auto grid" style={{ gridTemplateColumns: `repeat(${NAV_ITEMS.length}, 1fr)` }}>
+          {NAV_ITEMS.map((item, index) => (
             <TransitionLink
               to={item.path}
               key={item.path}
-              className="flex flex-col items-center space-y-0.5 p-1 active:scale-105 transition-transform duration-150"
+              aria-label={item.ariaLabel || item.name}
+              className={`flex flex-col items-center justify-center py-sm min-w-touch min-h-touch ${item.isSpecial ? 'pt-0' : 'pt-sm'} medical-focus`}
             >
-              {({ isActive }) =>
-                item.name ? (
-                  <>
-                    <div
-                      className={`w-6 h-6 flex justify-center items-center ${isActive ? 'scale-110' : ''} transition-transform duration-200`}
-                    >
-                      <item.icon active={isActive} />
-                    </div>
-                    <div
-                      className={`text-2xs truncate font-medium ${isActive ? 'text-blue-600' : 'text-disabled hover:text-gray-500 transition-colors'}`}
-                    >
-                      {item.name}
-                    </div>
-                  </>
-                ) : (
-                  <item.icon active={isActive} />
-                )
-              }
+              {({ isActive }) => (
+                <motion.div
+                  className="relative flex flex-col items-center"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {/* Icon Container */}
+                  <motion.div
+                    className="relative"
+                    animate={
+                      isActive && !item.isSpecial
+                        ? {
+                            scale: [1, 1.1, 1],
+                            transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] },
+                          }
+                        : {}
+                    }
+                  >
+                    <item.icon active={isActive || item.path === location.pathname} />
+
+                    {/* Active indicator */}
+                    {isActive && !item.isSpecial && (
+                      <motion.div
+                        className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-primary rounded-full"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ duration: 0.2 }}
+                      />
+                    )}
+                  </motion.div>
+
+                  {/* Label */}
+                  <motion.div
+                    className={`text-xs font-medium mt-1.5 transition-colors duration-200 ${
+                      isActive || item.path === location.pathname ? 'text-primary font-semibold' : 'text-text-muted'
+                    }`}
+                    animate={{
+                      y: isActive && !item.isSpecial ? [0, -2, 0] : 0,
+                      transition: { duration: 0.3 },
+                    }}
+                  >
+                    {item.name}
+                  </motion.div>
+                </motion.div>
+              )}
             </TransitionLink>
-          );
-        })}
-      </div>
-    </div>
+          ))}
+        </div>
+      </nav>
+    </motion.div>
   );
 }

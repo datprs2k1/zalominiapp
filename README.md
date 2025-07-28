@@ -1,147 +1,112 @@
-# HTML Content Processor với Tailwind CSS
+# Zalo Healthcare App
 
-Hệ thống này cho phép chuyển đổi nội dung HTML từ WordPress (hoặc các nguồn khác) sang định dạng tương thích với Tailwind CSS, loại bỏ các thuộc tính style inline và thêm vào các class phù hợp của Tailwind.
+A modern healthcare application built on the Zalo Mini App platform, enabling users to find doctors, book appointments, explore medical services, view health news, and manage their healthcare needs.
 
-## Tính năng chính
+## Features
 
-- Loại bỏ tất cả các thuộc tính style và class gốc không cần thiết
-- Chuyển đổi các phần tử HTML sang các lớp Tailwind CSS phù hợp
-- Bảo toàn cấu trúc và chức năng của các phần tử form
-- Tự động định dạng các thành phần phổ biến (headings, tables, lists, images, etc.)
-- Hỗ trợ xử lý responsive cho cấu trúc grid
-- Giao diện trực quan để xem từng bước trong quá trình xử lý
+- **Doctor Discovery**: Find and filter doctors by specialty and location
+- **Appointment Booking**: Schedule medical appointments with preferred doctors
+- **Service Exploration**: Browse available healthcare services and treatments
+- **Health News**: Access the latest articles and information on healthcare topics
+- **User Profile**: View appointment history, test results, and manage personal information
+- **Search Functionality**: Search across doctors, services, and departments
+- **Mobile-Optimized**: Responsive design with mobile-first approach
 
-## Các thành phần
+## Getting Started
 
-### 1. Hàm `normalizeHtml`
+### Prerequisites
 
-Hàm chính xử lý việc chuyển đổi HTML sang định dạng Tailwind CSS:
+- Node.js (v16+)
+- Yarn package manager
+- Zalo Mini App CLI
 
-```typescript
-// src/utils/normalHTML.tsx
-export const normalizeHtml = (html: string): string => {
-  // Logic xử lý và áp dụng các class Tailwind
-  // ...
-};
+### Installation
+
+1. Clone the repository:
+
+   ```
+   git clone https://github.com/your-repo/zalo-healthcare.git
+   cd zalo-healthcare
+   ```
+
+2. Install dependencies:
+
+   ```
+   yarn install
+   ```
+
+3. Login to Zalo Mini App platform:
+
+   ```
+   yarn login
+   ```
+
+4. Start the development server:
+   ```
+   yarn start
+   ```
+
+## Project Structure
+
+```
+src/
+├── app.ts                 # Application entry point
+├── components/            # Shared UI components
+│   ├── button.tsx         # Button component
+│   ├── form/              # Form-related components
+│   ├── icons/             # SVG icons as React components
+│   ├── items/             # List item components
+│   └── ...
+├── contexts/              # React context providers
+├── css/                   # Global styles
+├── data/                  # Mock data and constants
+├── pages/                 # Application pages/routes
+│   ├── home/              # Home page components
+│   ├── booking/           # Appointment booking flow
+│   ├── profile/           # User profile pages
+│   └── ...
+├── services/              # API services
+├── static/                # Static assets
+├── styles/                # Component-specific styles
+├── utils/                 # Utility functions
+└── router.tsx             # Application routing
 ```
 
-### 2. Component `HtmlContentDisplay`
+## Development
 
-Component để hiển thị nội dung HTML đã được xử lý:
+### Available Scripts
 
-```typescript
-// src/components/HtmlContentDisplay.tsx
-import React from 'react';
-import { normalizeHtml } from '../utils/normalHTML';
+- `yarn start` - Starts the development server
+- `yarn deploy` - Deploys the app to the Zalo Mini App platform
+- `yarn format` - Formats code using Prettier
 
-interface HtmlContentDisplayProps {
-  htmlContent: string;
-  className?: string;
-}
+### Key Technologies
 
-export const HtmlContentDisplay: React.FC<HtmlContentDisplayProps> = ({ htmlContent, className = '' }) => {
-  // Logic xử lý và hiển thị HTML
-  // ...
-};
-```
+- React 18
+- TypeScript
+- Tailwind CSS
+- Jotai (State Management)
+- React Router
+- Framer Motion (Animations)
 
-### 3. Các hàm tiện ích
+## Documentation
 
-Các hàm hỗ trợ xử lý HTML từ các nguồn khác nhau:
+For more detailed information, please refer to the following documentation:
 
-```typescript
-// src/utils/htmlProcessingHelpers.ts
-export const extractRawHtml = (html: string): string => {
-  // Logic trích xuất HTML thuần từ WordPress hoặc các nguồn khác
-  // ...
-};
+- [Architecture Overview](docs/architecture-overview.md) - System architecture, key technologies, and design patterns
+- [Component Documentation](docs/component-documentation.md) - Detailed documentation of key components and their usage
+- [API Services Guide](docs/api-services-guide.md) - Information about API services and data flow
+- [HTML Content Processing Guide](docs/html-processing-guide.md) - Guide for the HTML content processing system
+- [Mobile Redesign Guide](docs/mobile-redesign-guide.md) - Guidelines for mobile-specific design and components
+- [User State Guide](docs/user-state-guide.md) - Information on handling user state and authentication
 
-export const addTailwindStructure = (html: string): string => {
-  // Logic thêm cấu trúc Tailwind CSS
-  // ...
-};
-```
+## Contributing
 
-### 4. Component `ContentProcessor`
+1. Create a feature branch: `git checkout -b feature/amazing-feature`
+2. Commit your changes: `git commit -m 'Add amazing feature'`
+3. Push to the branch: `git push origin feature/amazing-feature`
+4. Open a Pull Request
 
-Giao diện người dùng để xử lý và hiển thị nội dung:
+## License
 
-```typescript
-// src/components/ContentProcessor.tsx
-import React, { useState } from 'react';
-import { HtmlContentDisplay } from './HtmlContentDisplay';
-import { extractRawHtml, addTailwindStructure } from '../utils/htmlProcessingHelpers';
-import { normalizeHtml } from '../utils/normalHTML';
-
-export const ContentProcessor: React.FC = () => {
-  // Logic xử lý và hiển thị UI
-  // ...
-};
-```
-
-## Cách sử dụng
-
-### Trực tiếp với hàm `normalizeHtml`
-
-```typescript
-import { normalizeHtml } from './utils/normalHTML';
-
-// Sử dụng trong component của bạn
-const MyComponent = ({ htmlContent }) => {
-  const normalizedHtml = normalizeHtml(htmlContent);
-
-  return (
-    <div dangerouslySetInnerHTML={{ __html: normalizedHtml }} />
-  );
-};
-```
-
-### Sử dụng component `HtmlContentDisplay`
-
-```typescript
-import { HtmlContentDisplay } from './components/HtmlContentDisplay';
-
-// Sử dụng trong component của bạn
-const MyComponent = ({ htmlContent }) => {
-  return (
-    <div className="my-content">
-      <HtmlContentDisplay htmlContent={htmlContent} className="additional-class" />
-    </div>
-  );
-};
-```
-
-### Sử dụng giao diện `ContentProcessor`
-
-1. Import và sử dụng component ContentProcessor trong ứng dụng của bạn
-2. Dán nội dung HTML vào ô text
-3. Nhấn "Xử lý nội dung" để chuyển đổi
-4. Xem kết quả và các bước trung gian trong quá trình xử lý
-
-```typescript
-import { ContentProcessor } from './components/ContentProcessor';
-
-const App = () => {
-  return (
-    <div className="app">
-      <ContentProcessor />
-    </div>
-  );
-};
-```
-
-## Tùy chỉnh
-
-Bạn có thể tùy chỉnh các lớp Tailwind CSS được áp dụng cho từng phần tử bằng cách chỉnh sửa hàm `normalizeHtml` trong file `src/utils/normalHTML.tsx`.
-
-## Yêu cầu
-
-- React 16.8+ (cho các hooks)
-- Tailwind CSS đã được cấu hình trong dự án
-- Chỉ hoạt động ở phía client (cần DOMParser)
-
-## Lưu ý
-
-- Luôn kiểm tra kết quả và điều chỉnh các lớp CSS nếu cần thiết
-- Một số cấu trúc HTML phức tạp có thể cần được xử lý thêm
-- Sử dụng `dangerouslySetInnerHTML` cẩn thận và đảm bảo HTML đã được sanitize
+This project is licensed under the UNLICENSED license.

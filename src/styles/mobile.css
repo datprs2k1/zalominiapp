@@ -1,29 +1,33 @@
-/* Mobile-specific styles for better UX */
+/* Mobile-specific styles for Hospital Theme - Enhanced Accessibility */
 
-/* Improve touch targets */
-button, 
-a, 
-[role="button"] {
+/* Improve touch targets - WCAG AA compliance */
+button,
+a,
+[role="button"],
+.medical-touch-target {
   min-height: 44px;
   min-width: 44px;
+  /* Enhanced touch feedback */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(37, 99, 235, 0.1);
 }
 
 /* Better scrolling on mobile */
 * {
   -webkit-overflow-scrolling: touch;
+  /* Prevent horizontal scrolling issues */
+  overscroll-behavior-x: none;
 }
 
-/* Improve text readability */
+/* Improve text readability - Hospital theme optimized */
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-/* Better focus states for accessibility */
-button:focus,
-a:focus,
-input:focus {
-  outline-offset: 2px;
+  text-rendering: optimizeLegibility;
+  /* Ensure proper font family */
+  font-family: var(--font-family-primary, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif);
+  /* Hospital white background */
+  background-color: #FFFFFF;
 }
 
 /* Optimize images for mobile */
@@ -32,14 +36,16 @@ img {
   height: auto;
 }
 
-/* Better spacing for mobile */
+/* Better spacing for mobile - Hospital theme */
 .mobile-spacing {
   padding: 1rem;
 }
 
-/* Improve card shadows on mobile */
+/* Improve card shadows on mobile - Hospital theme */
 .card-shadow {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    0 2px 4px rgba(37, 99, 235, 0.04);
 }
 
 /* Better button states */
@@ -51,11 +57,25 @@ img {
   transform: scale(0.98);
 }
 
-/* Improve form elements */
-input, 
-textarea, 
+/* Improve form elements - Hospital theme accessibility */
+input,
+textarea,
 select {
   font-size: 16px; /* Prevents zoom on iOS */
+  font-family: var(--font-family-primary);
+  /* Enhanced contrast for medical forms */
+  border: 2px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 12px 16px;
+  transition: border-color 0.2s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #2563EB;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 /* Better loading states */
@@ -86,12 +106,105 @@ select {
     text-align: center !important;
   }
   
-  /* Fix for header on mobile */
+  /* Fix for header on mobile - Enhanced safe area handling */
   header {
     width: 100% !important;
     max-width: 100% !important;
     overflow-x: hidden !important;
+    /* Ensure proper spacing from status bar */
+    padding-top: max(var(--safe-top, env(safe-area-inset-top, 44px)), 44px) !important;
   }
+
+  /* Additional safe area support for different devices */
+  @supports (padding: max(0px)) {
+    header {
+      padding-top: max(44px, env(safe-area-inset-top)) !important;
+    }
+  }
+
+  /* Specific handling for iOS devices with notch */
+  @media screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+    header {
+      padding-top: 44px !important;
+    }
+  }
+
+  /* iPhone 12/13/14 Pro Max */
+  @media screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) {
+    header {
+      padding-top: 47px !important;
+    }
+  }
+
+  /* iPhone 14 Pro */
+  @media screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) {
+    header {
+      padding-top: 54px !important;
+    }
+  }
+}
+
+/* Enhanced Accessibility Features - Hospital Theme */
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .card-shadow {
+    border: 2px solid #2563EB;
+  }
+
+  button,
+  .medical-touch-target {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Focus indicators for keyboard navigation */
+.medical-focus:focus-visible {
+  outline: 3px solid #2563EB;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Screen reader only content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Skip to main content link */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: #2563EB;
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+.skip-link:focus {
+  top: 6px;
 }
 
 /* Footer-specific mobile optimizations */

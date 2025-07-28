@@ -21,15 +21,19 @@ export interface DetailPageTemplateProps {
   title: string;
   subtitle?: string;
   icon?: string;
+  imageUrl?: string;
+  category?: string;
+  status?: 'available' | 'busy' | 'offline' | 'emergency';
   stats?: StatItem[];
   related?: RelatedItem[];
+  hideTabs?: boolean; // New prop to hide tabs 2 and 3
   tab1: {
     htmlContent: string;
   };
-  tab2: {
+  tab2?: {
     department: Department;
   };
-  tab3: {
+  tab3?: {
     formData: typeof symptomFormState;
   };
 }

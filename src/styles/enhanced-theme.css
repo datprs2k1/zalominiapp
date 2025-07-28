@@ -1,0 +1,316 @@
+/* Enhanced Theme CSS Variables */
+/* This file provides CSS custom properties for the enhanced theme system */
+
+:root {
+  /* Light Theme Colors */
+  --color-background-primary: #FAFAFA;
+  --color-background-secondary: #FFFFFF;
+  --color-background-tertiary: #F5F5F5;
+  --color-background-overlay: rgba(0, 0, 0, 0.5);
+
+  --color-text-primary: #171717;
+  --color-text-secondary: #404040;
+  --color-text-muted: #737373;
+  --color-text-disabled: #A3A3A3;
+  --color-text-inverse: #FFFFFF;
+
+  --color-border-primary: #E5E5E5;
+  --color-border-secondary: #D4D4D4;
+  --color-border-focus: #0066CC;
+  --color-border-error: #EF4444;
+
+  --color-surface-primary: #FFFFFF;
+  --color-surface-secondary: #FAFAFA;
+  --color-surface-elevated: #FFFFFF;
+  --color-surface-overlay: rgba(255, 255, 255, 0.95);
+
+  --color-medical-vital: #EF4444;
+  --color-medical-normal: #22C55E;
+  --color-medical-caution: #F59E0B;
+  --color-medical-emergency: #DC2626;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-medical: 0 4px 12px rgba(0, 102, 204, 0.15);
+  --shadow-emergency: 0 4px 12px rgba(220, 38, 38, 0.25);
+}
+
+/* Dark Theme Colors */
+.dark {
+  --color-background-primary: #0F172A;
+  --color-background-secondary: #1E293B;
+  --color-background-tertiary: #334155;
+  --color-background-overlay: rgba(0, 0, 0, 0.8);
+
+  --color-text-primary: #F8FAFC;
+  --color-text-secondary: #CBD5E1;
+  --color-text-muted: #94A3B8;
+  --color-text-disabled: #64748B;
+  --color-text-inverse: #171717;
+
+  --color-border-primary: #334155;
+  --color-border-secondary: #475569;
+  --color-border-focus: #3B82F6;
+  --color-border-error: #F87171;
+
+  --color-surface-primary: #1E293B;
+  --color-surface-secondary: #334155;
+  --color-surface-elevated: #475569;
+  --color-surface-overlay: rgba(15, 23, 42, 0.95);
+
+  --color-medical-vital: #F87171;
+  --color-medical-normal: #4ADE80;
+  --color-medical-caution: #FBBF24;
+  --color-medical-emergency: #EF4444;
+
+  /* Dark Theme Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+  --shadow-medical: 0 4px 12px rgba(59, 130, 246, 0.3);
+  --shadow-emergency: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+/* Utility Classes for Theme Colors */
+.bg-background-primary { background-color: var(--color-background-primary); }
+.bg-background-secondary { background-color: var(--color-background-secondary); }
+.bg-background-tertiary { background-color: var(--color-background-tertiary); }
+
+.bg-surface-primary { background-color: var(--color-surface-primary); }
+.bg-surface-secondary { background-color: var(--color-surface-secondary); }
+.bg-surface-elevated { background-color: var(--color-surface-elevated); }
+
+.text-text-primary { color: var(--color-text-primary); }
+.text-text-secondary { color: var(--color-text-secondary); }
+.text-text-muted { color: var(--color-text-muted); }
+.text-text-disabled { color: var(--color-text-disabled); }
+.text-text-inverse { color: var(--color-text-inverse); }
+
+.border-border-primary { border-color: var(--color-border-primary); }
+.border-border-secondary { border-color: var(--color-border-secondary); }
+.border-border-focus { border-color: var(--color-border-focus); }
+.border-border-error { border-color: var(--color-border-error); }
+
+.text-medical-vital { color: var(--color-medical-vital); }
+.text-medical-normal { color: var(--color-medical-normal); }
+.text-medical-caution { color: var(--color-medical-caution); }
+.text-medical-emergency { color: var(--color-medical-emergency); }
+
+.bg-medical-vital { background-color: var(--color-medical-vital); }
+.bg-medical-normal { background-color: var(--color-medical-normal); }
+.bg-medical-caution { background-color: var(--color-medical-caution); }
+.bg-medical-emergency { background-color: var(--color-medical-emergency); }
+
+/* Shadow Utilities */
+.shadow-medical { box-shadow: var(--shadow-medical); }
+.shadow-emergency { box-shadow: var(--shadow-emergency); }
+
+/* Enhanced Focus Styles */
+.medical-focus {
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.medical-focus:focus {
+  box-shadow: 0 0 0 2px var(--color-border-focus);
+  border-color: var(--color-border-focus);
+}
+
+.medical-focus:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-border-focus);
+  border-color: var(--color-border-focus);
+}
+
+/* Medical Card Styles */
+.medical-card {
+  transition: all 0.2s ease;
+  border: 1px solid var(--color-border-primary);
+  background-color: var(--color-surface-primary);
+}
+
+.medical-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+/* Enhanced Button Styles */
+.btn-medical {
+  background: linear-gradient(135deg, #0066CC 0%, #00AA44 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-medical:hover {
+  background: linear-gradient(135deg, #0052A3 0%, #008844 100%);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-medical:active {
+  transform: translateY(0);
+}
+
+.btn-emergency {
+  background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  animation: pulse 2s infinite;
+}
+
+.btn-emergency:hover {
+  background: linear-gradient(135deg, #B91C1C 0%, #991B1B 100%);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-emergency);
+}
+
+/* Loading Animation Styles */
+@keyframes medical-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.3);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.3);
+  }
+  70% {
+    transform: scale(1);
+  }
+}
+
+.medical-pulse {
+  animation: medical-pulse 2s ease-in-out infinite;
+}
+
+.heartbeat {
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+/* Responsive Utilities */
+@media (max-width: 640px) {
+  .mobile-hidden {
+    display: none !important;
+  }
+  
+  .mobile-full {
+    width: 100% !important;
+  }
+  
+  .mobile-text-center {
+    text-align: center !important;
+  }
+}
+
+@media (min-width: 641px) {
+  .desktop-hidden {
+    display: none !important;
+  }
+}
+
+/* Accessibility Enhancements */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  :root {
+    --color-text-primary: #000000;
+    --color-background-primary: #FFFFFF;
+    --color-border-primary: #000000;
+  }
+  
+  .dark {
+    --color-text-primary: #FFFFFF;
+    --color-background-primary: #000000;
+    --color-border-primary: #FFFFFF;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  * {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  .medical-card {
+    border: 1px solid #000 !important;
+    break-inside: avoid;
+  }
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-secondary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-primary);
+}
+
+/* Selection Styles */
+::selection {
+  background-color: rgba(0, 102, 204, 0.2);
+  color: var(--color-text-primary);
+}
+
+::-moz-selection {
+  background-color: rgba(0, 102, 204, 0.2);
+  color: var(--color-text-primary);
+}

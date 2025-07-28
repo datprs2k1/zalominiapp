@@ -1,62 +1,381 @@
-/* Mobile-specific styles for search page */
+/* Modern mobile-specific styles for search page - Hospital Theme */
 
 /* Full-height layout for search page */
-@media (max-width: 768px) {
-  .search-page-container {
-    min-height: calc(100vh - 60px); /* Adjust for footer height */
-    display: flex;
-    flex-direction: column;
+.search-page-container {
+  min-height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: #F8FAFC;
+}
+
+/* Hide scrollbar but allow scrolling */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Medical themed decorative elements */
+.medical-decoration {
+  position: absolute;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.04);
+  z-index: 0;
+  opacity: 0.8;
+  background-image: linear-gradient(to bottom right, rgba(0, 112, 243, 0.05), rgba(71, 139, 214, 0.1));
+  border: 1px solid rgba(230, 235, 245, 0.7);
+  transform: translate3d(0, 0, 0);
+  animation: float-decoration 8s ease-in-out infinite;
+}
+
+@keyframes float-decoration {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
   }
-  
-  /* Improve scrolling for search results */
-  .search-results-container {
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    flex: 1;
-  }
-  
-  /* Better tap targets for search items */
-  .search-item {
-    min-height: 64px;
-    padding: 12px;
-  }
-  
-  /* Optimized search bar for mobile */
-  .search-bar-mobile {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    padding: 8px 16px;
-    background-color: rgba(249, 250, 251, 0.95);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-  }
-  
-  /* Improved touch states for search items */
-  .search-result-item:active {
-    background-color: rgba(16, 185, 129, 0.05);
-  }
-  
-  /* No results state */
-  .no-results-container {
-    padding: 32px 16px;
-    text-align: center;
+  50% {
+    transform: translateY(-10px) rotate(5deg);
   }
 }
 
-/* Enhanced loading state for search */
+/* Glass morphism for search bar container */
+.search-bar-container {
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(230, 235, 245, 0.7);
+  z-index: 10;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px -8px rgba(71, 139, 214, 0.08);
+}
+
+/* Scrolling behavior for search results */
+.search-results-container {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  flex: 1;
+  scroll-padding: 20px;
+  scroll-behavior: smooth;
+  padding-bottom: 100px; /* Extra padding for comfortable scrolling */
+}
+
+/* Beautiful scroll bar */
+.search-results-container::-webkit-scrollbar {
+  width: 5px;
+}
+
+.search-results-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.search-results-container::-webkit-scrollbar-thumb {
+  background: rgba(0, 112, 243, 0.1);
+  border-radius: 10px;
+}
+
+.search-results-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 112, 243, 0.2);
+}
+
+/* Modern search bar styling */
+input[type="text"] {
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 16px;
+  padding: 14px 20px 14px 44px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
+  font-size: 16px;
+  width: 100%;
+  color: #1F2937;
+  letter-spacing: -0.01em;
+}
+
+input[type="text"]:focus {
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+  transform: translateY(-1px);
+}
+
+/* Modern card styling */
+.search-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+  overflow: hidden;
+  border: 1px solid rgba(230, 235, 245, 0.7);
+}
+
+.search-card:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 12px rgba(71, 139, 214, 0.05);
+}
+
+/* Suggestion list styling */
+.suggestion-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Modern item interactions */
+.suggestion-item {
+  border-radius: 12px;
+  transition: all 0.25s ease;
+  position: relative;
+  background-color: white;
+  border: 1px solid rgba(230, 235, 245, 0.7);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transform-origin: center;
+}
+
+.suggestion-item:active {
+  background-color: rgba(71, 139, 214, 0.04);
+  transform: translateX(4px) scale(0.99);
+}
+
+/* Enhanced loading state for search with modern shimmer effect */
 .search-loading-skeleton {
-  animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  background: linear-gradient(90deg, #f3f4f6 0%, #e5e7eb 50%, #f3f4f6 100%);
+  background: linear-gradient(90deg, 
+    rgba(245, 249, 255, 0.8) 0%, 
+    rgba(240, 245, 255, 0.4) 50%, 
+    rgba(245, 249, 255, 0.8) 100%);
   background-size: 200% 100%;
   background-position: 0% 0%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: 10px;
 }
 
-@keyframes pulse {
+/* Animation keyframes */
+@keyframes shimmer {
   0% {
-    background-position: 0% 0%;
+    background-position: -200% 0;
   }
   100% {
-    background-position: -200% 0%;
+    background-position: 200% 0;
   }
+}
+
+/* Health service quick access button styling */
+.health-service-btn {
+  background: white;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 112, 243, 0.1);
+  box-shadow: 0 3px 12px rgba(71, 139, 214, 0.06);
+  transition: all 0.2s ease;
+}
+
+.health-service-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 4px rgba(71, 139, 214, 0.04);
+}
+
+/* Custom animations */
+@keyframes gentle-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+.animate-gentle-pulse {
+  animation: gentle-pulse 3s infinite ease-in-out;
+}
+
+/* Hospital-themed empty state */
+.no-results-container {
+  animation: fade-in 0.5s ease-out;
+}
+
+/* Floating decoration elements */
+.search-decoration {
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.6;
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Interactive feedback for tappable elements */
+.tap-highlight {
+  position: relative;
+  overflow: hidden;
+}
+
+.tap-highlight::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(0, 112, 243, 0.3);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1) translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.tap-highlight:active::after {
+  animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(1) translate(-50%, -50%);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(80) translate(-50%, -50%);
+    opacity: 0;
+  }
+}
+
+/* Elegant card shadow effects */
+.shadow-medical-card {
+  box-shadow: 0 10px 30px rgba(0, 112, 243, 0.08);
+}
+
+/* Animation classes for items entering the viewport */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slide-down {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slide-left {
+  from { transform: translateX(20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slide-right {
+  from { transform: translateX(-20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* Scale animation for hover and focus effects */
+@keyframes scale-in {
+  0% { transform: scale(0.95); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.animate-scale-in {
+  animation: scale-in 0.3s ease-out forwards;
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s infinite;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s ease-out forwards;
+}
+
+.animate-slide-down {
+  animation: slide-down 0.5s ease-out forwards;
+}
+
+.animate-slide-left {
+  animation: slide-left 0.5s ease-out forwards;
+}
+
+.animate-slide-right {
+  animation: slide-right 0.5s ease-out forwards;
+}
+
+/* Animation delays for staggered effects */
+.delay-100 {
+  animation-delay: 100ms !important;
+}
+
+.delay-200 {
+  animation-delay: 200ms !important;
+}
+
+.delay-300 {
+  animation-delay: 300ms !important;
+}
+
+.delay-400 {
+  animation-delay: 400ms !important;
+}
+
+.duration-200 {
+  animation-duration: 200ms !important;
+}
+
+.duration-300 {
+  animation-duration: 300ms !important;
+}
+
+.duration-500 {
+  animation-duration: 500ms !important;
+}
+
+.duration-700 {
+  animation-duration: 700ms !important;
+}
+
+/* Modern hospital UI scales */
+.scale-102 {
+  transform: scale(1.02);
+}
+
+.scale-105 {
+  transform: scale(1.05);
+}
+
+/* Button and filter animations */
+.filter-btn {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.filter-btn.active {
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+}
+
+.filter-btn:not(.active):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Gradient backgrounds */
+.bg-medical-gradient {
+  background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+}
+
+.bg-subtle-gradient {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(37, 99, 235, 0.1) 100%);
 } 

@@ -55,6 +55,7 @@ export const ScrollRestoration: FC = () => {
         const saveScrollPosition = (e: Event) => {
           // Save position on scroll
           scrollPositions[key] = content.scrollTop;
+          console.log(scrollPositions);
         };
 
         content.addEventListener('scroll', saveScrollPosition);

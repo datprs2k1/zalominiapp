@@ -1,0 +1,528 @@
+/**
+ * Modern Hospital-Themed Doctor Component Styles
+ * Optimized for medical UI, trust-building, and mobile accessibility
+ */
+
+/* Modern Hospital Doctor Card - Enhanced for Medical UI */
+.doctor-card-mobile {
+  /* Enhanced touch targets for healthcare accessibility - WCAG AA+ compliant */
+  min-height: 120px; /* Larger for better medical content display */
+  min-width: 44px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(59, 130, 246, 0.08); /* Softer medical blue */
+
+  /* Advanced performance optimizations for smooth medical UX */
+  transform: translateZ(0);
+  will-change: transform, opacity, box-shadow;
+  backface-visibility: hidden;
+  contain: layout style paint;
+  content-visibility: auto;
+
+  /* Enhanced scrolling for medical content */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+
+  /* Professional medical interactions */
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+
+  /* Enhanced accessibility for healthcare applications */
+  position: relative;
+  outline-offset: 3px; /* Better visibility for medical context */
+
+  /* Modern hospital spacing */
+  padding: 20px;
+  margin: 12px 0;
+
+  /* Hospital-grade layout optimization */
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  /* Modern hospital background */
+  background: linear-gradient(135deg, #ffffff 0%, rgba(239, 246, 255, 0.3) 50%, rgba(240, 253, 244, 0.2) 100%);
+
+  /* Professional medical borders */
+  border: 2px solid rgba(59, 130, 246, 0.15);
+  border-radius: 16px;
+
+  /* Enhanced medical shadows for depth and trust */
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
+
+  /* Smooth medical transitions */
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Modern Hospital Avatar - Larger, More Prominent Design */
+.doctor-avatar-mobile {
+  /* Crystal-clear medical imagery */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+
+  /* Professional image protection */
+  -webkit-user-select: none;
+  user-select: none;
+
+  /* Perfect circular medical portrait */
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 50%;
+
+  /* Larger, more prominent sizing for trust-building */
+  width: 96px;
+  height: 96px;
+
+  /* Enhanced medical visual effects for professionalism */
+  box-shadow:
+    0 12px 40px rgba(59, 130, 246, 0.2),
+    0 4px 16px rgba(0, 0, 0, 0.08);
+  border: 4px solid white;
+
+  /* Subtle medical gradient background */
+  background: linear-gradient(135deg, rgba(239, 246, 255, 0.8) 0%, #ffffff 50%, rgba(240, 253, 244, 0.6) 100%);
+
+  /* Performance optimization for smooth medical UX */
+  transform: translateZ(0);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Modern Hospital Typography - Enhanced Medical Hierarchy */
+.doctor-name-mobile {
+  /* Medical-grade text rendering for clarity */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1, "liga" 1;
+
+  /* Professional name handling */
+  word-break: break-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+
+  /* Enhanced medical typography hierarchy */
+  line-height: 1.15;
+  font-size: 24px; /* Larger for prominence and trust */
+  font-weight: 900; /* Maximum weight for authority */
+  letter-spacing: -0.025em; /* Tighter tracking for modern look */
+
+  /* Professional medical gradient for trust */
+  background: linear-gradient(135deg, #1f2937 0%, #1e40af 40%, #0f766e 70%, #1f2937 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  /* Enhanced spacing for medical hierarchy */
+  margin-bottom: 16px;
+
+  /* Subtle text shadow for depth */
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+.doctor-title-mobile {
+  /* Professional title display */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  /* Enhanced medical blue for trust */
+  color: #1e40af;
+  font-weight: 700; /* Bolder for authority */
+  font-size: 16px; /* Larger for better hierarchy */
+
+  /* Modern hospital badge styling */
+  background: linear-gradient(135deg, rgba(239, 246, 255, 0.8) 0%, rgba(219, 234, 254, 0.9) 100%);
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: 2px solid rgba(59, 130, 246, 0.2);
+  display: inline-block;
+  margin-bottom: 12px;
+
+  /* Enhanced shadow for depth */
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+.doctor-department-mobile {
+  /* Enhanced responsive text sizing */
+  font-size: clamp(14px, 3vw, 16px);
+
+  /* Professional medical color */
+  color: #374151;
+  font-weight: 600; /* Stronger weight for better hierarchy */
+
+  /* Modern hospital department styling */
+  background: linear-gradient(135deg, rgba(249, 250, 251, 0.8) 0%, rgba(243, 244, 246, 0.9) 100%);
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(156, 163, 175, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Modern Hospital Hover Effects */
+.doctor-card-mobile:hover {
+  /* Enhanced shadow for depth */
+  box-shadow:
+    0 16px 48px rgba(59, 130, 246, 0.18),
+    0 8px 24px rgba(0, 0, 0, 0.08);
+
+  /* Subtle lift effect */
+  transform: translateY(-4px) translateZ(0);
+
+  /* Enhanced border for interactivity */
+  border-color: rgba(59, 130, 246, 0.3);
+
+  /* Brighter background for engagement */
+  background: linear-gradient(135deg, #ffffff 0%, rgba(239, 246, 255, 0.5) 50%, rgba(240, 253, 244, 0.3) 100%);
+}
+
+.doctor-avatar-mobile:hover {
+  /* Enhanced medical avatar hover */
+  transform: scale(1.05) translateZ(0);
+  box-shadow:
+    0 16px 48px rgba(59, 130, 246, 0.25),
+    0 8px 24px rgba(0, 0, 0, 0.12);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+/* Enhanced Mobile Accessibility */
+.doctor-card-mobile:focus-visible {
+  outline: 4px solid #3b82f6;
+  outline-offset: 3px;
+  border-radius: 16px;
+  box-shadow:
+    0 0 0 4px rgba(59, 130, 246, 0.2),
+    0 16px 48px rgba(59, 130, 246, 0.18);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .doctor-card-mobile {
+    border: 2px solid #2563eb;
+  }
+  
+  .doctor-name-mobile {
+    color: #000000;
+    font-weight: 700;
+  }
+  
+  .doctor-title-mobile {
+    color: #1e40af;
+    border: 1px solid #1e40af;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .doctor-card-mobile,
+  .doctor-avatar-mobile {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Modern Hospital Responsive Design - Enhanced Mobile-First */
+
+/* Extra small mobile devices (320px and below) */
+@media (max-width: 320px) {
+  .doctor-card-mobile {
+    padding: 16px;
+    margin: 8px 0;
+    border-radius: 12px;
+  }
+
+  .doctor-name-mobile {
+    font-size: 18px;
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+
+  .doctor-title-mobile {
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 8px;
+  }
+
+  .doctor-department-mobile {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+
+  .doctor-avatar-mobile {
+    width: 72px;
+    height: 72px;
+  }
+}
+
+/* Small mobile devices (321px - 375px) */
+@media (min-width: 321px) and (max-width: 375px) {
+  .doctor-card-mobile {
+    padding: 18px 20px;
+    margin: 10px 0;
+    border-radius: 14px;
+  }
+
+  .doctor-name-mobile {
+    font-size: 20px;
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+
+  .doctor-title-mobile {
+    font-size: 14px;
+    padding: 6px 14px;
+    border-radius: 10px;
+  }
+
+  .doctor-department-mobile {
+    font-size: 13px;
+    padding: 5px 10px;
+  }
+
+  .doctor-avatar-mobile {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* Standard mobile devices (376px - 480px) */
+@media (min-width: 376px) and (max-width: 480px) {
+  .doctor-card-mobile {
+    padding: 20px 24px;
+    margin: 12px 0;
+    border-radius: 16px;
+  }
+
+  .doctor-name-mobile {
+    font-size: 22px;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+
+  .doctor-title-mobile {
+    font-size: 15px;
+    padding: 7px 16px;
+    border-radius: 12px;
+  }
+
+  .doctor-department-mobile {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+
+  .doctor-avatar-mobile {
+    width: 88px;
+    height: 88px;
+  }
+}
+
+/* Large mobile devices and small tablets (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .doctor-card-mobile {
+    padding: 24px 28px;
+    margin: 16px 0;
+    border-radius: 18px;
+  }
+
+  .doctor-name-mobile {
+    font-size: 26px;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+
+  .doctor-title-mobile {
+    font-size: 16px;
+    padding: 8px 18px;
+    border-radius: 12px;
+  }
+
+  .doctor-department-mobile {
+    font-size: 15px;
+    padding: 7px 14px;
+  }
+
+  .doctor-avatar-mobile {
+    width: 104px;
+    height: 104px;
+  }
+}
+
+/* Desktop and large tablets (769px+) */
+@media (min-width: 769px) {
+  .doctor-card-mobile {
+    padding: 28px 32px;
+    margin: 20px 0;
+    border-radius: 20px;
+  }
+
+  .doctor-name-mobile {
+    font-size: 30px;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .doctor-title-mobile {
+    font-size: 18px;
+    padding: 10px 20px;
+    border-radius: 14px;
+  }
+
+  .doctor-department-mobile {
+    font-size: 16px;
+    padding: 8px 16px;
+  }
+
+  .doctor-avatar-mobile {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+/* Modern Hospital Landscape Optimization */
+@media (orientation: landscape) and (max-height: 480px) {
+  .doctor-card-mobile {
+    padding: 16px 20px;
+    margin: 8px 0;
+  }
+
+  .doctor-avatar-mobile {
+    width: 80px;
+    height: 80px;
+  }
+
+  .doctor-name-mobile {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+}
+
+/* Modern Hospital Safe Area Support */
+@supports (padding: max(0px)) {
+  .doctor-card-mobile {
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+  }
+}
+
+/* Enhanced Performance Optimizations for Medical UX */
+.doctor-card-mobile * {
+  /* GPU acceleration for smooth medical interactions */
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Professional Medical Hover States */
+@media (hover: hover) and (pointer: fine) {
+  .doctor-card-mobile:hover {
+    transform: translateY(-6px) translateZ(0);
+    box-shadow:
+      0 20px 60px rgba(59, 130, 246, 0.2),
+      0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+
+  .doctor-avatar-mobile:hover {
+    transform: scale(1.08) translateZ(0);
+  }
+}
+
+/* Modern Hospital Touch States */
+.doctor-card-mobile:active {
+  transform: scale(0.97) translateZ(0);
+  transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Modern Hospital Availability Indicator */
+.doctor-availability-mobile {
+  /* Enhanced visibility for medical context */
+  min-width: 40px;
+  min-height: 40px;
+
+  /* Professional positioning */
+  bottom: -6px;
+  right: -6px;
+
+  /* Medical-grade styling */
+  border-radius: 50%;
+  border: 4px solid white;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Modern Hospital Loading States */
+.doctor-card-loading {
+  background: linear-gradient(
+    90deg,
+    rgba(239, 246, 255, 0.6) 25%,
+    rgba(219, 234, 254, 0.8) 50%,
+    rgba(239, 246, 255, 0.6) 75%
+  );
+  background-size: 200% 100%;
+  animation: medical-shimmer 2s infinite;
+}
+
+@keyframes medical-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Medical Error States */
+.doctor-card-error {
+  border-color: #ef4444;
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  box-shadow: 0 8px 32px rgba(239, 68, 68, 0.15);
+}
+
+.doctor-card-error .doctor-name-mobile {
+  color: #dc2626;
+  background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Medical Success States */
+.doctor-card-available {
+  border-left: 6px solid #10b981;
+  background: linear-gradient(135deg, #ffffff 0%, rgba(240, 253, 244, 0.4) 100%);
+}
+
+.doctor-card-unavailable {
+  opacity: 0.75;
+  border-left: 6px solid #6b7280;
+  filter: saturate(0.7);
+}
+
+/* Enhanced Medical Animations */
+@media (prefers-reduced-motion: no-preference) {
+  .doctor-card-mobile {
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .doctor-avatar-mobile {
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .doctor-name-mobile,
+  .doctor-title-mobile,
+  .doctor-department-mobile {
+    transition: all 0.3s ease-out;
+  }
+}
+
+/* Modern Hospital Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .doctor-card-mobile {
+    background: linear-gradient(135deg, #1f2937 0%, rgba(30, 58, 138, 0.1) 50%, rgba(6, 78, 59, 0.1) 100%);
+    border-color: rgba(59, 130, 246, 0.3);
+    color: #f9fafb;
+  }
+
+  .doctor-name-mobile {
+    background: linear-gradient(135deg, #f9fafb 0%, #3b82f6 40%, #10b981 70%, #f9fafb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
