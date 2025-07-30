@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>iOS Functionality Test</title>
+    <style>
+        /* iOS-specific fixes */
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #f5f5f5;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior-x: none;
+            overscroll-behavior-y: auto;
+            touch-action: pan-y;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #2563eb;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #2563eb;
+        }
+
+        .test-section h2 {
+            margin-top: 0;
+            color: #1e293b;
+            font-size: 18px;
+        }
+
+        /* Form elements - iOS optimized */
+        input, textarea, select, button {
+            font-size: 16px !important;
+            touch-action: manipulation;
+            -webkit-appearance: none;
+            appearance: none;
+            -webkit-touch-callout: none;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            transition: border-color 0.2s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Buttons - iOS optimized */
+        button {
+            min-height: 44px;
+            min-width: 44px;
+            padding: 12px 24px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 5px;
+            transition: background-color 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button:hover {
+            background: #1e40af;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        button.secondary {
+            background: #6b7280;
+        }
+
+        button.secondary:hover {
+            background: #4b5563;
+        }
+
+        button.danger {
+            background: #dc2626;
+        }
+
+        button.danger:hover {
+            background: #b91c1c;
+        }
+
+        /* Toast container - iOS safe */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            pointer-events: none !important;
+            z-index: 1000;
+            /* Removed problematic transforms */
+            transform: none !important;
+            -webkit-transform: none !important;
+            will-change: auto !important;
+            backface-visibility: visible !important;
+        }
+
+        .toast {
+            pointer-events: auto !important;
+            background: white;
+            padding: 16px 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            margin-bottom: 10px;
+            border-left: 4px solid #2563eb;
+            transform: none !important;
+            -webkit-transform: none !important;
+            touch-action: manipulation !important;
+        }
+
+        .toast.success {
+            border-left-color: #10b981;
+        }
+
+        .toast.error {
+            border-left-color: #dc2626;
+        }
+
+        /* Scrollable content */
+        .scrollable-content {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+            touch-action: pan-y;
+        }
+
+        .content-item {
+            padding: 15px;
+            margin-bottom: 10px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Status indicators */
+        .status {
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+
+        .status.success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status.error {
+            background: #fef2f2;
+            color: #991b1b;
+        }
+
+        .status.info {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        /* iOS device detection */
+        .ios-only {
+            display: none;
+        }
+
+        @supports (-webkit-touch-callout: none) {
+            .ios-only {
+                display: block;
+            }
+            .non-ios-only {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍎 iOS Functionality Test</h1>
+        
+        <div id="device-info" class="status info">
+            Detecting device...
+        </div>
+
+        <div class="test-section">
+            <h2>📱 Form Input Test</h2>
+            <p>These inputs should not zoom when focused on iOS:</p>
+            <input type="text" placeholder="Text input - should not zoom on focus">
+            <input type="email" placeholder="Email input - test@example.com">
+            <textarea rows="3" placeholder="Textarea - type your message here..."></textarea>
+            <select>
+                <option>Select option 1</option>
+                <option>Select option 2</option>
+                <option>Select option 3</option>
+            </select>
+        </div>
+
+        <div class="test-section">
+            <h2>👆 Button Interaction Test</h2>
+            <p>These buttons should respond immediately to taps:</p>
+            <button onclick="showToast('success', '✅ Primary button works!')">Primary Button</button>
+            <button class="secondary" onclick="showToast('info', 'ℹ️ Secondary button works!')">Secondary Button</button>
+            <button class="danger" onclick="showToast('error', '❌ Danger button works!')">Danger Button</button>
+        </div>
+
+        <div class="test-section">
+            <h2>📜 Scroll Test</h2>
+            <p>This area should scroll smoothly with momentum on iOS:</p>
+            <div class="scrollable-content">
+                <div class="content-item">Scroll Item 1 - Test momentum scrolling</div>
+                <div class="content-item">Scroll Item 2 - Should be smooth on iOS</div>
+                <div class="content-item">Scroll Item 3 - No lag or blocking</div>
+                <div class="content-item">Scroll Item 4 - Native iOS feel</div>
+                <div class="content-item">Scroll Item 5 - Overscroll contained</div>
+                <div class="content-item">Scroll Item 6 - Touch events work</div>
+                <div class="content-item">Scroll Item 7 - No interference</div>
+                <div class="content-item">Scroll Item 8 - Proper momentum</div>
+                <div class="content-item">Scroll Item 9 - iOS optimized</div>
+                <div class="content-item">Scroll Item 10 - End of content</div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>🍞 Toast + Scroll Test</h2>
+            <p>Show toasts and try scrolling - should work together:</p>
+            <button onclick="testToastScrolling()">Test Toast + Scrolling</button>
+            <button onclick="clearToasts()">Clear Toasts</button>
+        </div>
+
+        <div class="ios-only">
+            <div class="status success">
+                ✅ iOS device detected - All tests are relevant
+            </div>
+        </div>
+
+        <div class="non-ios-only">
+            <div class="status error">
+                ⚠️ Non-iOS device - Use iOS Safari for accurate testing
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script>
+        // iOS device detection
+        function isIOSDevice() {
+            return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                   (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        }
+
+        function isIOSSafari() {
+            return isIOSDevice() && /Safari/.test(navigator.userAgent) && !/CriOS|FxiOS/.test(navigator.userAgent);
+        }
+
+        // Update device info
+        function updateDeviceInfo() {
+            const deviceInfo = document.getElementById('device-info');
+            const isIOS = isIOSDevice();
+            const isSafari = isIOSSafari();
+            
+            if (isIOS) {
+                deviceInfo.className = 'status success';
+                deviceInfo.textContent = `✅ iOS device detected (Safari: ${isSafari ? 'Yes' : 'No'})`;
+            } else {
+                deviceInfo.className = 'status error';
+                deviceInfo.textContent = '⚠️ Non-iOS device - Use iOS Safari for accurate testing';
+            }
+        }
+
+        // Toast functionality
+        function showToast(type, message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            
+            container.appendChild(toast);
+            
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 3000);
+        }
+
+        function clearToasts() {
+            const container = document.getElementById('toast-container');
+            container.innerHTML = '';
+        }
+
+        function testToastScrolling() {
+            showToast('success', '✅ Toast 1 - Try scrolling now!');
+            setTimeout(() => showToast('info', 'ℹ️ Toast 2 - Scrolling should work'), 500);
+            setTimeout(() => showToast('error', '❌ Toast 3 - No scroll blocking'), 1000);
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDeviceInfo();
+            
+            // Log device information
+            console.log('Device Info:', {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+                maxTouchPoints: navigator.maxTouchPoints,
+                isIOSDevice: isIOSDevice(),
+                isIOSSafari: isIOSSafari()
+            });
+        });
+    </script>
+</body>
+</html>

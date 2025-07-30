@@ -209,4 +209,22 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  /* Medical-themed scrollbar for date picker and other components */
+  .medical-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .medical-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .medical-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(8, 145, 178, 0.3);
+    border-radius: 3px;
+  }
+
+  .medical-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(8, 145, 178, 0.5);
+  }
 }

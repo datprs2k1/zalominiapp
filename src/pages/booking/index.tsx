@@ -70,7 +70,7 @@ function BookingPage() {
   };
 
   return (
-    <motion.div
+    <motion.main
       className="booking-page flex flex-col min-h-screen"
       style={{ backgroundColor: MEDICAL_COLORS.white.soft }}
       initial={prefersReducedMotion ? {} : { opacity: 0 }}
@@ -83,9 +83,11 @@ function BookingPage() {
               ease: [0.16, 1, 0.3, 1],
             }
       }
+      role="main"
+      aria-label="Trang đặt lịch khám bệnh"
     >
-      {/* Modern Hospital Header with Progress Indicator */}
-      <motion.div
+      {/* Enhanced Medical Header with Progress Indicator */}
+      <motion.header
         className="bg-white shadow-sm sticky top-0 z-10 border-b"
         style={{ borderColor: `${MEDICAL_COLORS.primary.blue}15` }}
         initial={prefersReducedMotion ? {} : { opacity: 0, y: -20 }}
@@ -98,162 +100,45 @@ function BookingPage() {
                 ease: [0.16, 1, 0.3, 1],
               }
         }
+        role="banner"
+        aria-label="Tiêu đề trang đặt lịch khám"
       >
-        <div className="container mx-auto px-4 pt-6 pb-4">
-          {/* Medical Step Progress Indicator */}
-          <div className="flex items-center justify-between mb-4">
-            {[1, 2, 3].map((idx) => (
-              <motion.div
-                key={idx}
-                className="flex flex-col items-center flex-1 relative"
-                initial={prefersReducedMotion ? {} : { opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={
-                  prefersReducedMotion
-                    ? {}
-                    : {
-                        duration: 0.3,
-                        delay: idx * 0.1,
-                        ease: [0.16, 1, 0.3, 1],
-                      }
-                }
-              >
-                <motion.div
-                  className={`w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center
-                             font-semibold text-sm md:text-base transition-all duration-300 shadow-lg`}
-                  style={{
-                    backgroundColor:
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-3 sm:pt-4 pb-3">
+          {/* Thanh tiến trình đơn giản */}
+          <div className="flex items-center justify-center mb-6">
+            <div className="flex items-center gap-2">
+              {[1, 2, 3].map((idx) => (
+                <div key={idx} className="flex items-center">
+                  <div
+                    className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all ${
                       idx === currentStep
-                        ? MEDICAL_COLORS.primary.blue
+                        ? 'bg-blue-600 text-white shadow-lg'
                         : idx < currentStep
-                          ? MEDICAL_COLORS.secondary.green
-                          : `${MEDICAL_COLORS.primary.blue}15`,
-                    color: idx <= currentStep ? 'white' : MEDICAL_COLORS.primary.blue,
-                    boxShadow:
-                      idx === currentStep
-                        ? `0 4px 12px ${MEDICAL_COLORS.primary.blue}30`
-                        : idx < currentStep
-                          ? `0 2px 8px ${MEDICAL_COLORS.secondary.green}20`
-                          : 'none',
-                  }}
-                  whileHover={prefersReducedMotion ? {} : { scale: 1.05 }}
-                  whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
-                >
-                  {idx < currentStep ? (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                  ) : (
-                    <span className="font-semibold">{idx}</span>
-                  )}
-                </motion.div>
-
-                <span
-                  className={`text-xs mt-2 font-medium transition-colors duration-200`}
-                  style={{
-                    color:
-                      idx === currentStep
-                        ? MEDICAL_COLORS.primary.blue
-                        : idx < currentStep
-                          ? MEDICAL_COLORS.secondary.green
-                          : `${MEDICAL_COLORS.primary.blue}60`,
-                  }}
-                >
-                  {idx === 1 ? 'Service' : idx === 2 ? 'Details' : 'Confirm'}
-                </span>
-
-                {/* Modern Medical Connector Line */}
-                {idx < 3 && (
-                  <div className="absolute top-6 left-1/2 w-full h-[3px] -z-10">
-                    <motion.div
-                      className="h-full rounded-full transition-all duration-500"
-                      style={{
-                        backgroundColor:
-                          idx < currentStep ? MEDICAL_COLORS.secondary.green : `${MEDICAL_COLORS.primary.blue}20`,
-                      }}
-                      initial={prefersReducedMotion ? {} : { scaleX: 0 }}
-                      animate={{ scaleX: 1 }}
-                      transition={
-                        prefersReducedMotion
-                          ? {}
-                          : {
-                              duration: 0.6,
-                              delay: idx * 0.2,
-                              ease: [0.16, 1, 0.3, 1],
-                            }
-                      }
-                    />
+                          ? 'bg-green-500 text-white'
+                          : 'bg-gray-200 text-gray-500'
+                    }`}
+                  >
+                    {idx < currentStep ? '✓' : idx}
                   </div>
-                )}
-              </motion.div>
-            ))}
+                  {idx < 3 && (
+                    <div className={`w-8 h-0.5 mx-1 ${idx < currentStep ? 'bg-green-500' : 'bg-gray-200'}`} />
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Modern Hospital Step Title with Trust Indicators */}
-          <motion.div
-            className="text-center mt-6"
-            initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={
-              prefersReducedMotion
-                ? {}
-                : {
-                    duration: 0.4,
-                    delay: 0.3,
-                    ease: [0.16, 1, 0.3, 1],
-                  }
-            }
-          >
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <h1 className="text-xl md:text-2xl font-bold" style={{ color: MEDICAL_COLORS.primary.blue }}>
-                {getStepTitle()}
-              </h1>
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-            </div>
-            <p className="text-sm md:text-base mb-4" style={{ color: `${MEDICAL_COLORS.primary.blue}80` }}>
-              {getStepDescription()}
-            </p>
-
-            {/* Trust Indicators Bar */}
-            <motion.div
-              className="flex items-center justify-center gap-4 py-3 px-4 bg-blue-50 rounded-xl border border-blue-100 max-w-2xl mx-auto"
-              initial={prefersReducedMotion ? {} : { opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, delay: 0.4 }}
-            >
-              <div className="flex items-center gap-1 text-xs text-blue-700">
-                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
-                </svg>
-                <span className="font-medium">Bảo mật SSL</span>
-              </div>
-              <div className="flex items-center gap-1 text-xs text-blue-700">
-                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span className="font-medium">Miễn phí đặt lịch</span>
-              </div>
-              <div className="flex items-center gap-1 text-xs text-blue-700">
-                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                </svg>
-                <span className="font-medium">Đội ngũ chuyên gia</span>
-              </div>
-            </motion.div>
-          </motion.div>
+          {/* Tiêu đề đơn giản */}
+          <div className="text-center mb-6">
+            <h1 className="text-2xl font-bold text-blue-600 mb-2">{getStepTitle()}</h1>
+            <p className="text-gray-600 text-sm">{getStepDescription()}</p>
+          </div>
         </div>
-      </motion.div>
+      </motion.header>
 
-      {/* Modern Hospital Main Content */}
-      <motion.div
-        className="flex-grow container mx-auto px-4 py-6"
+      {/* Compact Medical Main Content Container */}
+      <motion.section
+        className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4 lg:py-5"
         initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={
@@ -265,18 +150,40 @@ function BookingPage() {
                 ease: [0.16, 1, 0.3, 1],
               }
         }
+        role="region"
+        aria-labelledby="main-heading"
+        aria-live="polite"
       >
         <div
-          className="bg-white rounded-2xl shadow-lg overflow-hidden border"
+          className="bg-white rounded-3xl shadow-xl border-2 relative"
           style={{
-            borderColor: `${MEDICAL_COLORS.primary.blue}10`,
-            boxShadow: `0 4px 16px ${MEDICAL_COLORS.primary.blue}08`,
+            borderColor: `${MEDICAL_COLORS.primary.blue}15`,
+            boxShadow: `0 8px 32px ${MEDICAL_COLORS.primary.blue}12, 0 2px 8px ${MEDICAL_COLORS.primary.blue}08`,
           }}
         >
-          {renderStepContent()}
+          {/* Medical Content Header Accent */}
+          <div
+            className="h-1 w-full"
+            style={{
+              background: `linear-gradient(90deg, ${MEDICAL_COLORS.primary.blue}, ${MEDICAL_COLORS.secondary.green}, ${MEDICAL_COLORS.accent.cyan})`,
+            }}
+          />
+
+          {/* Content Area */}
+          <div className="relative">
+            {/* Subtle Medical Pattern Background */}
+            <div
+              className="absolute inset-0 opacity-[0.02] pointer-events-none"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='${MEDICAL_COLORS.primary.blue.replace('#', '%23')}' fill-opacity='1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+              }}
+            />
+
+            {renderStepContent()}
+          </div>
         </div>
-      </motion.div>
-    </motion.div>
+      </motion.section>
+    </motion.main>
   );
 }
 

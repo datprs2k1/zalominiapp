@@ -1,30 +1,23 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ThemeProvider, ThemeToggle, useTheme } from '@/components/theme-provider';
-import { 
-  PageTitle, 
-  SectionTitle, 
-  CardTitle, 
-  BodyText, 
-  VitalSign, 
+import {
+  PageTitle,
+  SectionTitle,
+  CardTitle,
+  BodyText,
+  VitalSign,
   MedicalLabel,
   ResponsiveTitle,
   GradientText,
-  TypewriterText
+  TypewriterText,
 } from '@/components/typography';
-import { 
-  Grid, 
-  Container, 
-  Card, 
-  Stack, 
-  Section, 
-  MedicalCard 
-} from '@/components/enhanced-layout';
+import { Grid, Container, Card, Stack, Section, MedicalCard } from '@/components/enhanced-layout';
 import {
   EnhancedLoadingSpinner,
   SkeletonScreen,
   ProgressiveLoading,
-  LoadingWave
+  LoadingWave,
 } from '@/components/enhanced-loading-states';
 import {
   AnimatedContainer,
@@ -33,7 +26,7 @@ import {
   FloatingActionButton,
   AnimatedStatusIndicator,
   AnimatedToast,
-  AnimatedProgressBar
+  AnimatedProgressBar,
 } from '@/components/enhanced-animations';
 
 function UIShowcaseContent() {
@@ -46,12 +39,12 @@ function UIShowcaseContent() {
     'Đang kết nối với hệ thống...',
     'Đang xác thực thông tin...',
     'Đang tải dữ liệu bệnh nhân...',
-    'Hoàn tất!'
+    'Hoàn tất!',
   ];
 
   React.useEffect(() => {
     const interval = setInterval(() => {
-      setLoadingStep(prev => (prev + 1) % loadingSteps.length);
+      setLoadingStep((prev) => (prev + 1) % loadingSteps.length);
     }, 2000);
     return () => clearInterval(interval);
   }, []);
@@ -62,17 +55,14 @@ function UIShowcaseContent() {
       <Section background="gradient" padding="lg">
         <Stack direction="row" justify="between" align="center" className="mb-8">
           <ResponsiveTitle level="hero">
-            <GradientText gradient="from-blue-600 to-green-600">
-              UI/UX Showcase
-            </GradientText>
+            <GradientText gradient="from-blue-600 to-green-600">UI/UX Showcase</GradientText>
           </ResponsiveTitle>
           <ThemeToggle />
         </Stack>
-        
+
         <BodyText size="xl" className="text-center max-w-3xl mx-auto">
           <TypewriterText speed={30}>
-            Khám phá hệ thống thiết kế y tế hiện đại với animations mượt mà, 
-            responsive design và dark mode support.
+            Khám phá hệ thống thiết kế y tế hiện đại với animations mượt mà, responsive design và dark mode support.
           </TypewriterText>
         </BodyText>
       </Section>
@@ -105,8 +95,8 @@ function UIShowcaseContent() {
       </Section>
 
       {/* Loading States Section */}
-      <Section 
-        title="Loading States" 
+      <Section
+        title="Loading States"
         subtitle="Các trạng thái loading được thiết kế đặc biệt cho ngữ cảnh y tế"
         background="muted"
       >
@@ -136,11 +126,7 @@ function UIShowcaseContent() {
         <AnimatedContainer animation="fadeInUp" delay={0.4}>
           <Card variant="elevated" padding="lg" className="mt-8">
             <CardTitle>Progressive Loading</CardTitle>
-            <ProgressiveLoading 
-              steps={loadingSteps}
-              currentStep={loadingStep}
-              showProgress={true}
-            />
+            <ProgressiveLoading steps={loadingSteps} currentStep={loadingStep} showProgress={true} />
           </Card>
         </AnimatedContainer>
       </Section>
@@ -152,15 +138,9 @@ function UIShowcaseContent() {
             <Card variant="elevated" padding="lg">
               <CardTitle>Interactive Buttons</CardTitle>
               <Stack spacing="md">
-                <AnimatedButton variant="primary">
-                  Primary Button
-                </AnimatedButton>
-                <AnimatedButton variant="medical">
-                  Medical Button
-                </AnimatedButton>
-                <AnimatedButton variant="emergency">
-                  Emergency Button
-                </AnimatedButton>
+                <AnimatedButton variant="primary">Primary Button</AnimatedButton>
+                <AnimatedButton variant="medical">Medical Button</AnimatedButton>
+                <AnimatedButton variant="emergency">Emergency Button</AnimatedButton>
               </Stack>
             </Card>
           </AnimatedContainer>
@@ -194,22 +174,12 @@ function UIShowcaseContent() {
           <Card variant="elevated" padding="lg" className="mt-8">
             <CardTitle>Progress Indicators</CardTitle>
             <Stack spacing="lg">
-              <AnimatedProgressBar 
-                progress={progress} 
-                label="Treatment Progress"
-                color="#10B981"
-              />
+              <AnimatedProgressBar progress={progress} label="Treatment Progress" color="#10B981" />
               <Stack direction="row" spacing="md">
-                <AnimatedButton 
-                  variant="secondary" 
-                  onClick={() => setProgress(Math.max(0, progress - 10))}
-                >
+                <AnimatedButton variant="secondary" onClick={() => setProgress(Math.max(0, progress - 10))}>
                   Decrease
                 </AnimatedButton>
-                <AnimatedButton 
-                  variant="primary" 
-                  onClick={() => setProgress(Math.min(100, progress + 10))}
-                >
+                <AnimatedButton variant="primary" onClick={() => setProgress(Math.min(100, progress + 10))}>
                   Increase
                 </AnimatedButton>
               </Stack>
@@ -219,8 +189,8 @@ function UIShowcaseContent() {
       </Section>
 
       {/* Medical Cards Section */}
-      <Section 
-        title="Medical Components" 
+      <Section
+        title="Medical Components"
         subtitle="Components được thiết kế đặc biệt cho ứng dụng y tế"
         background="muted"
       >
@@ -231,7 +201,11 @@ function UIShowcaseContent() {
             subtitle="Bác sĩ Nguyễn Văn A"
             icon={
               <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                <path
+                  fillRule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clipRule="evenodd"
+                />
               </svg>
             }
             hoverable
@@ -246,7 +220,11 @@ function UIShowcaseContent() {
             subtitle="Bác sĩ Trần Thị B"
             icon={
               <svg className="w-6 h-6 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                <path
+                  fillRule="evenodd"
+                  d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                  clipRule="evenodd"
+                />
               </svg>
             }
             hoverable
@@ -261,7 +239,11 @@ function UIShowcaseContent() {
             subtitle="Khoa Cấp cứu"
             icon={
               <svg className="w-6 h-6 text-red-600" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                <path
+                  fillRule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                  clipRule="evenodd"
+                />
               </svg>
             }
             hoverable
@@ -297,10 +279,7 @@ function UIShowcaseContent() {
           <Card variant="elevated" padding="lg" className="text-center">
             <CardTitle>Toast Demo</CardTitle>
             <Stack direction="row" justify="center" spacing="md">
-              <AnimatedButton 
-                variant="primary"
-                onClick={() => setShowToast(true)}
-              >
+              <AnimatedButton variant="primary" onClick={() => setShowToast(true)}>
                 Show Toast
               </AnimatedButton>
             </Stack>
@@ -309,21 +288,18 @@ function UIShowcaseContent() {
       </Section>
 
       {/* Floating Action Button */}
-      <FloatingActionButton
-        variant="primary"
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-      >
+      <FloatingActionButton variant="primary" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
         <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-          <path fillRule="evenodd" d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
+          <path
+            fillRule="evenodd"
+            d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z"
+            clipRule="evenodd"
+          />
         </svg>
       </FloatingActionButton>
 
       {/* Toast */}
-      <AnimatedToast
-        type="success"
-        isVisible={showToast}
-        onClose={() => setShowToast(false)}
-      >
+      <AnimatedToast type="success" isVisible={showToast} onClose={() => setShowToast(false)}>
         🎉 UI Showcase đã được tải thành công!
       </AnimatedToast>
     </div>

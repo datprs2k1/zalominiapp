@@ -8,17 +8,61 @@
  * @version 2.0.0
  * @author Medical Development Team
  * @since 2024-07-22
+ *
+ * EXPORT STRATEGY:
+ * - Primary exports: Enhanced functions from posts.ts (fetchPost, fetchPosts)
+ * - Aliased exports: Generic functions from common.ts (fetchPostGeneric, fetchPostsGeneric)
+ * - This resolves TypeScript export ambiguity while maintaining backward compatibility
  */
 
-// Enhanced service modules with medical-specific features
+// Enhanced service modules with medical-specific features - Primary exports
 export * from './posts';
 export * from './services';
 export * from './departments';
 export * from './doctors';
 export * from './search';
 
-// Core utilities and common functions
-export * from './common';
+// Core utilities and common functions - Explicit exports to avoid conflicts
+export {
+  // WordPress API endpoints
+  WP_ENDPOINTS,
+  DEFAULT_EMBED,
+  DOCTOR_EMBED,
+
+  // Generic fetch functions (aliased to avoid conflicts with posts.ts)
+  fetchPages,
+  fetchPage,
+  fetchDoctors,
+  fetchDoctor,
+  fetchSearchResults,
+  fetchPosts as fetchPostsGeneric,
+  fetchPost as fetchPostGeneric,
+
+  // Parameter builders
+  buildPostsParams,
+  buildPagesParams,
+  buildDoctorsParams,
+  buildSearchParams,
+
+  // Atom factories
+  createListAtomFamily,
+  createItemAtomFamily,
+  createSimpleAtom,
+
+  // Utility functions
+  extractFeaturedImageUrl,
+  extractCategories,
+  extractPlainText,
+  truncateText,
+  formatMedicalDate,
+  isValidWPContent,
+
+  // Content filters
+  filterMedicalContent,
+  sortByMedicalPriority,
+} from './common';
+
+// WordPress types
 export * from './wp-types';
 
 // Cache management and API utilities
@@ -37,52 +81,3 @@ export {
 
 // API client and health monitoring
 export { default as api, checkAPIHealth, getAPILogs, clearAPILogs, apiLogger, MedicalAPILogger } from './api';
-
-/**
- * Service version and metadata
- */
-export const SERVICE_VERSION = '2.0.0';
-export const SERVICE_BUILD_DATE = '2024-07-22';
-export const SERVICE_FEATURES = [
-  'Enhanced Type Safety',
-  'LRU Caching with Size Limits',
-  'Medical Error Handling',
-  'Vietnamese Localization',
-  'Performance Optimization',
-  'Comprehensive Logging',
-  'Medical Content Filtering',
-  'Priority-based Sorting',
-  'Retry Logic with Backoff',
-  'Health Monitoring',
-] as const;
-
-/**
- * Quick health check for all services
- */
-export const checkServicesHealth = async () => {
-  const { checkAPIHealth } = await import('./api');
-  const { getCacheStats } = await import('./cache');
-
-  try {
-    const [apiHealth, cacheStats] = await Promise.all([
-      checkAPIHealth().catch((error) => ({ status: 'unhealthy' as const, error: error.message })),
-      Promise.resolve(getCacheStats()).catch((error) => ({ error: error.message })),
-    ]);
-
-    return {
-      timestamp: new Date().toISOString(),
-      version: SERVICE_VERSION,
-      api: apiHealth,
-      cache: cacheStats,
-      features: SERVICE_FEATURES,
-    };
-  } catch (error) {
-    return {
-      timestamp: new Date().toISOString(),
-      version: SERVICE_VERSION,
-      api: { status: 'unhealthy' as const, error: 'Health check failed' },
-      cache: { error: 'Cache stats unavailable' },
-      features: SERVICE_FEATURES,
-    };
-  }
-};

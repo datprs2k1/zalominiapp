@@ -495,20 +495,7 @@
 }
 
 /* Enhanced Hospital-Themed Animations with Medical Aesthetics */
-@keyframes medicalPulse {
-  0%, 100% {
-    box-shadow:
-      0 0 0 0 rgba(30, 64, 175, 0.4),
-      0 8px 16px rgba(30, 64, 175, 0.2),
-      0 0 0 1px rgba(5, 150, 105, 0.1);
-  }
-  50% {
-    box-shadow:
-      0 0 0 12px rgba(30, 64, 175, 0),
-      0 12px 24px rgba(30, 64, 175, 0.3),
-      0 0 0 1px rgba(5, 150, 105, 0.2);
-  }
-}
+/* Note: medicalPulse keyframes moved to main app.scss to avoid conflicts */
 
 @keyframes medicalGlow {
   0%, 100% {
@@ -547,7 +534,7 @@
 
 /* Apply animations to key elements */
 .mobile-booking-button {
-  animation: medicalPulse 3s ease-in-out infinite;
+  animation: medical-pulse 3s ease-in-out infinite;
 }
 
 .doctor-avatar-mobile {
@@ -864,9 +851,33 @@
   }
 
   /* Disable all medical animations for reduced motion */
-  @keyframes medicalPulse,
-  @keyframes medicalGlow,
-  @keyframes floatingCard,
+  @keyframes medical-pulse {
+    from, to {
+      transform: none;
+      opacity: 1;
+      filter: none;
+      box-shadow: none;
+    }
+  }
+
+  @keyframes medicalGlow {
+    from, to {
+      transform: none;
+      opacity: 1;
+      filter: none;
+      box-shadow: none;
+    }
+  }
+
+  @keyframes floatingCard {
+    from, to {
+      transform: none;
+      opacity: 1;
+      filter: none;
+      box-shadow: none;
+    }
+  }
+
   @keyframes medicalCrossRotate {
     from, to {
       transform: none;

@@ -194,16 +194,26 @@ const BackButton = memo(
   )
 );
 
-// Error boundary component for header
+// Error boundary component for header - Fixed to prevent cross-component updates
 const HeaderErrorBoundary = ({ children, fallback }: HeaderErrorBoundaryProps) => {
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     const handleError = (error: ErrorEvent) => {
-      console.error('Header Error:', error);
-      setHasError(true);
+      // Only handle errors that are specifically related to the header component
+      // to prevent interference with other components
+      const isHeaderRelated = error.filename?.includes('header') || error.message?.toLowerCase().includes('header');
+
+      if (isHeaderRelated) {
+        console.error('Header Error:', error);
+        // Use setTimeout to prevent setState during render
+        setTimeout(() => {
+          setHasError(true);
+        }, 0);
+      }
     };
 
+    // Use a more specific error handler to avoid conflicts
     window.addEventListener('error', handleError);
     return () => window.removeEventListener('error', handleError);
   }, []);
@@ -294,13 +304,12 @@ function Header() {
         aria-label={headerAriaLabel}
         className={`
         flex-none w-full min-h-[64px] md:min-h-[72px] lg:min-h-[80px]
-        transition-all duration-300 ease-out
-        ${showMainHeader ? 'bg-transparent' : `bg-white/95 backdrop-blur-md border-b border-gray-200/60`}
+        transition-all duration-300 ease-out sticky top-0 z-50
+        ${showMainHeader ? 'bg-white' : `bg-white border-b border-gray-200/60`}
         ${
           scrolled
-            ? `sticky top-0 z-50 bg-white/98 backdrop-blur-lg border-b border-gray-200/80
-             shadow-[0_4px_12px_rgba(37,99,235,0.08),0_2px_4px_rgba(37,99,235,0.04)]
-             supports-[backdrop-filter]:bg-white/90`
+            ? `sticky top-0 z-50 bg-white border-b border-gray-200/80
+             shadow-[0_4px_12px_rgba(37,99,235,0.08),0_2px_4px_rgba(37,99,235,0.04)]`
             : 'relative z-30'
         }
         px-4 md:px-6 lg:px-8 pt-safe pb-2 md:pb-3 lg:pb-4
@@ -324,10 +333,7 @@ function Header() {
             <div className="absolute h-[160px] md:h-[200px] lg:h-[240px] w-full" style={HEADER_STYLES} />
 
             {/* Subtle overlay for enhanced text readability */}
-            <div
-              className="absolute inset-0 bg-gradient-to-b from-transparent via-white/20 to-white/40"
-              style={{ backdropFilter: 'blur(0.5px)' }}
-            />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/20 to-white/40" />
 
             {/* Enhanced Medical Pattern - Hospital Grade */}
             <MedicalBackgroundPattern />

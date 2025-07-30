@@ -1,0 +1,344 @@
+/**
+ * iOS-Specific Scroll Fixes
+ * Addresses known iOS Safari scrolling issues and touch event blocking
+ * 
+ * Key Issues Addressed:
+ * 1. Fixed position elements blocking scroll events
+ * 2. Transform properties creating problematic stacking contexts
+ * 3. High z-index elements interfering with touch events
+ * 4. Pointer events blocking native scroll behavior
+ */
+
+/* ===== GLOBAL iOS SCROLL OPTIMIZATIONS ===== */
+
+/* Ensure body allows native iOS scrolling */
+body {
+  /* Enable momentum scrolling on iOS */
+  -webkit-overflow-scrolling: touch;
+  /* Prevent horizontal overscroll bounce */
+  overscroll-behavior-x: none;
+  /* Allow vertical scrolling with momentum */
+  overscroll-behavior-y: auto;
+  /* Optimize touch interactions */
+  touch-action: pan-y;
+  /* Prevent text selection during scroll */
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Optimize main content area for iOS scrolling */
+main {
+  /* Enable momentum scrolling */
+  -webkit-overflow-scrolling: touch;
+  /* Prevent overscroll bounce within main content */
+  overscroll-behavior: contain;
+  /* Allow vertical panning only */
+  touch-action: pan-y;
+}
+
+/* ===== TOAST CONTAINER iOS FIXES ===== */
+
+/* Fix toast container to not block scroll events - Override enhanced-toast.css */
+.toast-container {
+  /* Container should not block touch events */
+  pointer-events: none !important;
+  /* CRITICAL: Remove problematic transforms that can block iOS scrolling */
+  transform: none !important;
+  -webkit-transform: none !important;
+  -moz-transform: none !important;
+  -ms-transform: none !important;
+  /* Reduce will-change to prevent iOS scroll blocking */
+  will-change: auto !important;
+  /* Remove hardware acceleration that can interfere */
+  backface-visibility: visible !important;
+  /* Remove perspective that can cause stacking issues */
+  perspective: none !important;
+  /* Remove contain that might interfere with scrolling */
+  contain: none !important;
+  /* Remove isolation that might create stacking context issues */
+  isolation: auto !important;
+}
+
+/* Specific overrides for medical toast containers */
+.toast-container.medical-notifications,
+.toast-container.medical-notifications.sticky-toaster {
+  /* CRITICAL: Override enhanced-toast.css problematic styles */
+  transform: none !important;
+  -webkit-transform: none !important;
+  -moz-transform: none !important;
+  -ms-transform: none !important;
+  will-change: auto !important;
+  backface-visibility: visible !important;
+  perspective: none !important;
+  contain: none !important;
+  isolation: auto !important;
+  /* Ensure container doesn't block scroll events */
+  pointer-events: none !important;
+}
+
+/* Individual toasts should allow interaction - CRITICAL iOS FIX */
+/* Use highly specific selectors to override enhanced-toast.css */
+.toast-container > div,
+.toast-container.medical-notifications > div,
+.toast-container.medical-notifications.sticky-toaster > div,
+.medical-toast,
+div[data-testid*="toast"] {
+  /* CRITICAL: Allow pointer events on individual toasts */
+  pointer-events: auto !important;
+  /* CRITICAL: Remove ALL problematic transforms that block iOS touch events */
+  transform: none !important;
+  -webkit-transform: none !important;
+  -moz-transform: none !important;
+  -ms-transform: none !important;
+  /* CRITICAL: Remove hardware acceleration properties that interfere with iOS */
+  will-change: auto !important;
+  backface-visibility: visible !important;
+  contain: none !important;
+  isolation: auto !important;
+  perspective: none !important;
+  /* CRITICAL: Optimize touch interactions for iOS */
+  touch-action: manipulation !important;
+  /* Prevent text selection during touch */
+  -webkit-user-select: none !important;
+  -webkit-touch-callout: none !important;
+  /* Remove opacity tricks that can cause stacking issues */
+  opacity: 1 !important;
+}
+
+/* ===== FIXED POSITION ELEMENTS iOS FIXES ===== */
+
+/* Optimize fixed position elements for iOS */
+[style*="position: fixed"],
+.fixed {
+  /* Ensure fixed elements don't block scrolling */
+  pointer-events: auto;
+  /* Remove transforms that can cause stacking context issues */
+  transform: none !important;
+  -webkit-transform: none !important;
+  /* Optimize for iOS rendering */
+  -webkit-backface-visibility: visible;
+  backface-visibility: visible;
+}
+
+/* Special handling for header elements */
+header {
+  /* Ensure header doesn't block scroll events */
+  pointer-events: auto;
+  /* Remove problematic transforms */
+  transform: none !important;
+  /* Optimize touch interactions */
+  touch-action: manipulation;
+}
+
+/* ===== HIGH Z-INDEX ELEMENTS iOS FIXES ===== */
+
+/* Elements with very high z-index that might block scrolling */
+[style*="z-index: 999"],
+[style*="z-index: 9999"],
+[style*="z-index: 99999"],
+[style*="z-index: 999999"] {
+  /* Ensure they don't block touch events unless needed */
+  pointer-events: auto;
+  /* Remove transforms that can interfere with scrolling */
+  transform: none !important;
+  -webkit-transform: none !important;
+}
+
+/* ===== FORM ELEMENTS iOS OPTIMIZATIONS ===== */
+
+/* Optimize form elements for iOS */
+input,
+textarea,
+select,
+button {
+  /* Prevent zoom on focus (iOS Safari) */
+  font-size: 16px !important;
+  /* Optimize touch interactions */
+  touch-action: manipulation;
+  /* Remove iOS default styling */
+  -webkit-appearance: none;
+  appearance: none;
+  /* Prevent callouts */
+  -webkit-touch-callout: none;
+}
+
+/* ===== SCROLLABLE CONTAINERS iOS FIXES ===== */
+
+/* Optimize scrollable containers */
+.overflow-auto,
+.overflow-y-auto,
+.overflow-scroll,
+[style*="overflow: auto"],
+[style*="overflow-y: auto"],
+[style*="overflow: scroll"] {
+  /* Enable momentum scrolling */
+  -webkit-overflow-scrolling: touch;
+  /* Prevent overscroll bounce */
+  overscroll-behavior: contain;
+  /* Allow vertical panning */
+  touch-action: pan-y;
+  /* Remove problematic transforms */
+  transform: none !important;
+  -webkit-transform: none !important;
+}
+
+/* ===== ANIMATION AND TRANSITION iOS FIXES ===== */
+
+/* Optimize animations for iOS */
+@media (prefers-reduced-motion: no-preference) {
+  /* Remove transforms from animations that can block scrolling */
+  .animate-pulse,
+  .animate-bounce,
+  .animate-spin {
+    transform: none !important;
+    -webkit-transform: none !important;
+  }
+}
+
+/* ===== COMPREHENSIVE iOS FIXES FOR ALL COMPONENTS ===== */
+
+/* Fix all elements with problematic transforms */
+.doctor-card-mobile,
+.doctor-card-mobile *,
+.medical-card-enhanced,
+.medical-department-card,
+.medical-hospital-dashboard,
+.medical-search-section,
+.medical-hero-section,
+.medical-services-section,
+.medical-departments-section,
+.medical-news-section,
+.doctor-item-touch,
+.pagination-button,
+.medical-badge,
+.skeleton-optimized {
+  /* Remove problematic transforms that block iOS touch events */
+  transform: none !important;
+  -webkit-transform: none !important;
+  /* Remove hardware acceleration that interferes with iOS */
+  backface-visibility: visible !important;
+  will-change: auto !important;
+  /* Optimize for iOS touch */
+  touch-action: manipulation !important;
+}
+
+/* Fix elements with translateZ specifically */
+[style*="translateZ"],
+[style*="translate3d"] {
+  transform: none !important;
+  -webkit-transform: none !important;
+  backface-visibility: visible !important;
+  will-change: auto !important;
+}
+
+/* Fix medical cards and interactive elements */
+.medical-card,
+.btn-medical,
+.btn-emergency,
+.medical-touch-target,
+[class*="medical-"],
+[class*="doctor-"],
+[class*="department-"] {
+  /* Ensure iOS-safe properties */
+  transform: none !important;
+  -webkit-transform: none !important;
+  backface-visibility: visible !important;
+  will-change: auto !important;
+  touch-action: manipulation !important;
+  /* Ensure minimum touch targets */
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* ===== SPECIFIC iOS DEVICE FIXES ===== */
+
+/* iOS Safari specific fixes */
+@supports (-webkit-touch-callout: none) {
+  /* This targets iOS Safari specifically */
+  
+  /* Ensure body scrolling works */
+  body {
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  
+  /* Fix for iOS viewport height issues */
+  .min-h-screen {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+  
+  /* Optimize touch targets */
+  button,
+  a,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+    touch-action: manipulation;
+  }
+}
+
+/* ===== DEBUGGING AIDS (Remove in production) ===== */
+
+/* Uncomment for debugging scroll issues */
+/*
+.debug-scroll {
+  outline: 2px solid red !important;
+}
+
+.debug-scroll::after {
+  content: "SCROLL DEBUG";
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: red;
+  color: white;
+  font-size: 10px;
+  padding: 2px;
+  z-index: 999999;
+}
+*/
+
+/* ===== MEDIA QUERIES FOR DIFFERENT iOS DEVICES ===== */
+
+/* iPhone specific optimizations */
+@media screen and (max-device-width: 428px) {
+  /* Optimize for smaller screens */
+  .toast-container {
+    left: 8px !important;
+    right: 8px !important;
+    max-width: calc(100vw - 16px) !important;
+  }
+  
+  /* Ensure touch targets are large enough */
+  button,
+  a,
+  [role="button"] {
+    min-height: 48px;
+    min-width: 48px;
+  }
+}
+
+/* iPad specific optimizations */
+@media screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+  /* iPad-specific scroll optimizations */
+  body {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ===== FALLBACKS FOR OLDER iOS VERSIONS ===== */
+
+/* iOS 12 and below fallbacks */
+@supports not (overscroll-behavior: contain) {
+  /* Fallback for older iOS versions */
+  body {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .overflow-auto,
+  .overflow-y-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+}

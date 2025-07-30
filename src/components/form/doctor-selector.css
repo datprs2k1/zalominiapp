@@ -110,16 +110,7 @@
 }
 
 /* Medical-themed animations */
-@keyframes medicalPulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 0.8;
-  }
-}
+/* Note: medicalPulse keyframes moved to main app.scss to avoid conflicts */
 
 @keyframes medicalFloat {
   0%, 100% {

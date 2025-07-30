@@ -149,7 +149,7 @@ export const MEDICAL_ICON_SIZES = {
   emergency: '36px', // Emergency indicators
   department: '48px', // Department icons
   hero: '64px', // Hero section icons
-  
+
   // Touch targets (minimum 44px for accessibility)
   touch: '44px', // Touch-friendly icon buttons
   'touch-large': '56px', // Large touch targets
@@ -161,24 +161,24 @@ export const MEDICAL_ICON_COLORS = {
   primary: '#2563EB', // Medical blue
   secondary: '#10B981', // Healing green
   accent: '#0891B2', // Trust cyan
-  
+
   // Status colors
   success: '#10B981', // Success green
   warning: '#F59E0B', // Warning amber
   error: '#DC2626', // Error red
   info: '#2563EB', // Info blue
-  
+
   // Medical context colors
   emergency: '#DC2626', // Emergency red
   critical: '#B91C1C', // Critical dark red
   stable: '#10B981', // Stable green
   monitoring: '#F59E0B', // Monitoring amber
-  
+
   // Neutral colors
   neutral: '#6B7280', // Neutral gray
   muted: '#9CA3AF', // Muted gray
   disabled: '#D1D5DB', // Disabled gray
-  
+
   // Department colors
   cardiology: '#EF4444', // Heart red
   neurology: '#8B5CF6', // Brain purple
@@ -195,35 +195,35 @@ export const MEDICAL_ICON_PRESETS = {
     color: MEDICAL_ICON_COLORS.emergency,
     className: 'medical-icon-emergency animate-pulse',
   },
-  
+
   // Department icons
   department: {
     size: MEDICAL_ICON_SIZES.department,
     color: MEDICAL_ICON_COLORS.primary,
     className: 'medical-icon-department',
   },
-  
+
   // Status icons
   status: {
     size: MEDICAL_ICON_SIZES.md,
     color: MEDICAL_ICON_COLORS.neutral,
     className: 'medical-icon-status',
   },
-  
+
   // Button icons
   button: {
     size: MEDICAL_ICON_SIZES.sm,
     color: 'currentColor',
     className: 'medical-icon-button',
   },
-  
+
   // Hero icons
   hero: {
     size: MEDICAL_ICON_SIZES.hero,
     color: MEDICAL_ICON_COLORS.primary,
     className: 'medical-icon-hero',
   },
-  
+
   // Touch icons (for mobile)
   touch: {
     size: MEDICAL_ICON_SIZES.touch,
@@ -239,13 +239,13 @@ export const MEDICAL_ICON_ANIMATIONS = {
   bounce: 'animate-bounce', // Bounce for notifications
   spin: 'animate-spin', // Spin for loading states
   ping: 'animate-ping', // Ping for alerts
-  
+
   // Custom medical animations
   heartbeat: 'medical-heartbeat', // Heartbeat animation
   breathe: 'medical-breathe', // Breathing animation
   blink: 'medical-blink', // Blinking for alerts
   glow: 'medical-glow', // Glow effect for emergency
-  
+
   // Hover animations
   'hover-scale': 'hover:scale-110 transition-transform duration-200',
   'hover-rotate': 'hover:rotate-12 transition-transform duration-200',
@@ -261,20 +261,20 @@ export const MEDICAL_ICON_LABELS = {
   hospital: 'Bệnh viện',
   ambulance: 'Xe cứu thương',
   prescription: 'Đơn thuốc',
-  
+
   // Departments
   cardiology: 'Khoa tim mạch',
   neurology: 'Khoa thần kinh',
   orthopedics: 'Khoa chỉnh hình',
   pediatrics: 'Khoa nhi',
   emergency: 'Khoa cấp cứu',
-  
+
   // Services
   appointment: 'Đặt lịch khám',
   consultation: 'Tư vấn y tế',
   telemedicine: 'Khám bệnh từ xa',
   vaccination: 'Tiêm chủng',
-  
+
   // Status
   healthy: 'Khỏe mạnh',
   critical: 'Nguy kịch',
@@ -299,17 +299,17 @@ export function getMedicalIconLabel(icon: keyof typeof MEDICAL_ICON_LABELS): str
 // CSS Custom Properties for Icons
 export function generateIconVariables(): Record<string, string> {
   const variables: Record<string, string> = {};
-  
+
   // Icon sizes
   Object.entries(MEDICAL_ICON_SIZES).forEach(([key, value]) => {
     variables[`--icon-size-${key}`] = value;
   });
-  
+
   // Icon colors
   Object.entries(MEDICAL_ICON_COLORS).forEach(([key, value]) => {
     variables[`--icon-color-${key}`] = value;
   });
-  
+
   return variables;
 }
 

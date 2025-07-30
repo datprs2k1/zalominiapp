@@ -3,17 +3,6 @@ import { createBrowserRouter } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from './components/error-boundary';
 import { LoadingSpinner } from './components/loading-states';
-import PageErrorBoundary from './components/page-error-boundary';
-import {
-  ServicesPageSkeleton,
-  CategoriesPageSkeleton,
-  DetailPageSkeleton,
-  BookingPageSkeleton,
-  ListPageSkeleton,
-  SearchResultsSkeleton,
-  ProfilePageSkeleton,
-  GenericPageSkeleton,
-} from './components/route-skeletons';
 
 // Immediate load for critical pages
 import HomePage from '@/pages/home';
@@ -42,45 +31,10 @@ const ServicePricesPage = lazy(() => import('./pages/services/prices'));
 const TransitionsDemoPage = lazy(() => import('./pages/demo/transitions'));
 const UIShowcasePage = lazy(() => import('./pages/demo/ui-showcase'));
 const InformationCardsPage = lazy(() => import('./pages/demo/information-cards'));
+const EnhancedFormsPage = lazy(() => import('./pages/demo/enhanced-forms'));
 const DoctorCardsPage = lazy(() => import('./pages/demo/doctor-cards'));
-
-// Wrapper components with skeleton fallbacks
-const withSkeleton = (
-  Component: React.ComponentType,
-  SkeletonComponent: React.ComponentType<{ className?: string; animated?: boolean }>
-) => {
-  return (props: any) => (
-    <Suspense fallback={<SkeletonComponent className="w-full h-full" animated={true} />}>
-      <Component {...props} />
-    </Suspense>
-  );
-};
-
-// Create wrapped components with appropriate skeletons
-const ServicesPageWithSkeleton = withSkeleton(ServicesPage, ServicesPageSkeleton);
-const CategoriesPageWithSkeleton = withSkeleton(CategoriesPage, CategoriesPageSkeleton);
-const ServiceDetailPageWithSkeleton = withSkeleton(ServiceDetailPage, DetailPageSkeleton);
-const DepartmentDetailPageWithSkeleton = withSkeleton(DepartmentDetailPage, DetailPageSkeleton);
-const DoctorDetailPageWithSkeleton = withSkeleton(DoctorDetailPage, DetailPageSkeleton);
-const BookingPageWithSkeleton = withSkeleton(BookingPage, BookingPageSkeleton);
-const ProfilePageWithSkeleton = withSkeleton(ProfilePage, ProfilePageSkeleton);
-const DepartmentsPageWithSkeleton = withSkeleton(DepartmentsPage, ListPageSkeleton);
-const DoctorPageWithSkeleton = withSkeleton(DoctorPage, ListPageSkeleton);
-const ScheduleHistoryPageWithSkeleton = withSkeleton(ScheduleHistoryPage, ListPageSkeleton);
-const ScheduleDetailPageWithSkeleton = withSkeleton(ScheduleDetailPage, DetailPageSkeleton);
-const InvoicesPageWithSkeleton = withSkeleton(InvoicesPage, ListPageSkeleton);
-const SearchResultPageWithSkeleton = withSkeleton(SearchResultPage, SearchResultsSkeleton);
-const NewsPageWithSkeleton = withSkeleton(NewsPage, ListPageSkeleton);
-const ServicePricesPageWithSkeleton = withSkeleton(ServicePricesPage, ListPageSkeleton);
-
-// Generic skeleton for simple pages
-const ExplorePageWithSkeleton = withSkeleton(ExplorePage, GenericPageSkeleton);
-const AskPageWithSkeleton = withSkeleton(AskPage, GenericPageSkeleton);
-const FeedbackPageWithSkeleton = withSkeleton(FeedbackPage, GenericPageSkeleton);
-const AboutPageWithSkeleton = withSkeleton(AboutPage, GenericPageSkeleton);
-const TransitionsDemoPageWithSkeleton = withSkeleton(TransitionsDemoPage, GenericPageSkeleton);
-const UIShowcasePageWithSkeleton = withSkeleton(UIShowcasePage, GenericPageSkeleton);
-const InformationCardsPageWithSkeleton = withSkeleton(InformationCardsPage, GenericPageSkeleton);
+const ScrollRestorationDemoPage = lazy(() => import('./pages/demo/scroll-restoration'));
+const IOSScrollTestPage = lazy(() => import('./pages/ios-scroll-test'));
 
 const router = createBrowserRouter(
   [
@@ -94,15 +48,27 @@ const router = createBrowserRouter(
         },
         {
           path: '/about',
-          element: <AboutPageWithSkeleton />,
+          element: (
+            <Suspense fallback={<LoadingSpinner />}>
+              <AboutPage />
+            </Suspense>
+          ),
         },
         {
           path: '/search',
-          element: <SearchResultPageWithSkeleton />,
+          element: (
+            <Suspense fallback={<LoadingSpinner />}>
+              <SearchResultPage />
+            </Suspense>
+          ),
         },
         {
           path: '/categories',
-          element: <CategoriesPageWithSkeleton />,
+          element: (
+            <Suspense fallback={<LoadingSpinner />}>
+              <CategoriesPage />
+            </Suspense>
+          ),
           handle: {
             back: true,
             title: 'Danh mục',
@@ -111,11 +77,19 @@ const router = createBrowserRouter(
         },
         {
           path: '/explore',
-          element: <ExplorePageWithSkeleton />,
+          element: (
+            <Suspense fallback={<LoadingSpinner />}>
+              <ExplorePage />
+            </Suspense>
+          ),
         },
         {
           path: '/services',
-          element: <ServicesPageWithSkeleton />,
+          element: (
+            <Suspense fallback={<LoadingSpinner />}>
+              <ServicesPage />
+            </Suspense>
+          ),
           handle: {
             back: true,
             title: 'Tất cả dịch vụ',
@@ -123,7 +97,11 @@ const router = createBrowserRouter(
         },
         {
           path: '/departments',
-          element: <DepartmentsPageWithSkeleton />,
+          element: (
+            <Suspense fallback={<LoadingSpinner />}>
+              <DepartmentsPage />
+            </Suspense>
+          ),
           handle: {
             back: true,
             title: 'Tất cả khoa',
@@ -136,7 +114,11 @@ const router = createBrowserRouter(
            * - `doctor`: to default pick a doctor. For example: /service/1?tab=2&doctor=1
            */
           path: '/service/:id',
-          element: <ServiceDetailPageWithSkeleton />,
+          element: (
+            <Suspense fallback={<LoadingSpinner />}>
+              <ServiceDetailPage />
+            </Suspense>
+          ),
           handle: {
             back: true,
             title: 'custom',
@@ -147,7 +129,11 @@ const router = createBrowserRouter(
            * Accepted params like above
            */
           path: '/department/:id',
-          element: <DepartmentDetailPageWithSkeleton />,
+          element: (
+            <Suspense fallback={<LoadingSpinner />}>
+              <DepartmentDetailPage />
+            </Suspense>
+          ),
           handle: {
             back: true,
             title: 'custom',
@@ -155,7 +141,11 @@ const router = createBrowserRouter(
         },
         {
           path: '/booking/:step?',
-          element: <BookingPageWithSkeleton />,
+          element: (
+            <Suspense fallback={<LoadingSpinner />}>
+              <BookingPage />
+            </Suspense>
+          ),
           handle: {
             back: true,
             title: 'Đặt lịch khám',
@@ -163,7 +153,11 @@ const router = createBrowserRouter(
         },
         {
           path: '/ask',
-          element: <AskPageWithSkeleton />,
+          element: (
+            <Suspense fallback={<LoadingSpinner />}>
+              <AskPage />
+            </Suspense>
+          ),
           handle: {
             back: true,
             title: 'Gửi câu hỏi',
@@ -171,7 +165,11 @@ const router = createBrowserRouter(
         },
         {
           path: '/feedback',
-          element: <FeedbackPageWithSkeleton />,
+          element: (
+            <Suspense fallback={<LoadingSpinner />}>
+              <FeedbackPage />
+            </Suspense>
+          ),
           handle: {
             back: true,
             title: 'Gửi phản ảnh',
@@ -179,11 +177,19 @@ const router = createBrowserRouter(
         },
         {
           path: '/schedule',
-          element: <ScheduleHistoryPageWithSkeleton />,
+          element: (
+            <Suspense fallback={<LoadingSpinner />}>
+              <ScheduleHistoryPage />
+            </Suspense>
+          ),
         },
         {
           path: '/schedule/:id',
-          element: <ScheduleDetailPageWithSkeleton />,
+          element: (
+            <Suspense fallback={<LoadingSpinner />}>
+              <ScheduleDetailPage />
+            </Suspense>
+          ),
           handle: {
             back: true,
             title: 'Chi tiết',
@@ -191,14 +197,22 @@ const router = createBrowserRouter(
         },
         {
           path: '/profile',
-          element: <ProfilePageWithSkeleton />,
+          element: (
+            <Suspense fallback={<LoadingSpinner />}>
+              <ProfilePage />
+            </Suspense>
+          ),
           handle: {
             profile: true,
           },
         },
         {
           path: '/news/:id',
-          element: <NewsPageWithSkeleton />,
+          element: (
+            <Suspense fallback={<LoadingSpinner />}>
+              <NewsPage />
+            </Suspense>
+          ),
           handle: {
             back: true,
             title: 'Tin tức',
@@ -206,7 +220,11 @@ const router = createBrowserRouter(
         },
         {
           path: '/invoices',
-          element: <InvoicesPageWithSkeleton />,
+          element: (
+            <Suspense fallback={<LoadingSpinner />}>
+              <InvoicesPage />
+            </Suspense>
+          ),
           handle: {
             back: true,
             title: 'Hóa đơn',
@@ -214,7 +232,11 @@ const router = createBrowserRouter(
         },
         {
           path: '/doctor',
-          element: <DoctorPageWithSkeleton />,
+          element: (
+            <Suspense fallback={<LoadingSpinner />}>
+              <DoctorPage />
+            </Suspense>
+          ),
           handle: {
             back: true,
             title: 'Bác sĩ',
@@ -222,7 +244,11 @@ const router = createBrowserRouter(
         },
         {
           path: '/doctor/:id',
-          element: <DoctorDetailPageWithSkeleton />,
+          element: (
+            <Suspense fallback={<LoadingSpinner />}>
+              <DoctorDetailPage />
+            </Suspense>
+          ),
           handle: {
             back: true,
             title: 'Bác sĩ',
@@ -230,7 +256,11 @@ const router = createBrowserRouter(
         },
         {
           path: '/service-prices',
-          element: <ServicePricesPageWithSkeleton />,
+          element: (
+            <Suspense fallback={<LoadingSpinner />}>
+              <ServicePricesPage />
+            </Suspense>
+          ),
           handle: {
             back: true,
             title: 'Giá dịch vụ',
@@ -238,7 +268,11 @@ const router = createBrowserRouter(
         },
         {
           path: '/demo/transitions',
-          element: <TransitionsDemoPageWithSkeleton />,
+          element: (
+            <Suspense fallback={<LoadingSpinner />}>
+              <TransitionsDemoPage />
+            </Suspense>
+          ),
           handle: {
             back: true,
             title: 'Demo Transitions',
@@ -246,10 +280,50 @@ const router = createBrowserRouter(
         },
         {
           path: '/demo/ui-showcase',
-          element: <UIShowcasePageWithSkeleton />,
+          element: (
+            <Suspense fallback={<LoadingSpinner />}>
+              <UIShowcasePage />
+            </Suspense>
+          ),
           handle: {
             back: true,
             title: 'UI Showcase',
+          },
+        },
+        {
+          path: '/demo/enhanced-forms',
+          element: (
+            <Suspense fallback={<LoadingSpinner />}>
+              <EnhancedFormsPage />
+            </Suspense>
+          ),
+          handle: {
+            back: true,
+            title: 'Enhanced Forms',
+          },
+        },
+        {
+          path: '/demo/scroll-restoration',
+          element: (
+            <Suspense fallback={<LoadingSpinner />}>
+              <ScrollRestorationDemoPage />
+            </Suspense>
+          ),
+          handle: {
+            back: true,
+            title: 'Scroll Restoration Demo',
+          },
+        },
+        {
+          path: '/ios-scroll-test',
+          element: (
+            <Suspense fallback={<LoadingSpinner />}>
+              <IOSScrollTestPage />
+            </Suspense>
+          ),
+          handle: {
+            back: true,
+            title: 'iOS Scroll Test',
           },
         },
         {

@@ -9,6 +9,7 @@ import {
   SPACING,
   BORDER_RADIUS,
   TYPOGRAPHY,
+  MEDICAL_WIDTHS,
   combineClasses,
 } from '@/styles/medical-design-system';
 import { getColorToken } from '@/styles/unified-color-system';
@@ -194,12 +195,28 @@ const HealthNews = () => {
   }, []);
 
   return (
-    <div className="relative">
+    <div
+      className={combineClasses(
+        'relative',
+        // Enhanced medical color palette background
+        'bg-white',
+        // Medical blue border with trust-building cyan accent
+        'border border-[#2563EB]/15',
+        BORDER_RADIUS.cardLarge,
+        'overflow-hidden',
+        // Using unified width system for consistent spacing - matches department and services sections
+        MEDICAL_WIDTHS.section.padding,
+        'my-4',
+        // Enhanced shadow with medical blue tint
+        'shadow-lg shadow-[#2563EB]/8'
+      )}
+    >
       <Section
-        className="mt-4"
+        className="relative z-10"
         title="Tin tức sức khỏe"
         viewMore="/news"
         accentColor="blue"
+        spacing="compact" // Use compact spacing to match FeaturedDepartents
         icon={
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -220,7 +237,15 @@ const HealthNews = () => {
           </svg>
         }
       >
-        <div className={combineClasses(SPACING.component.md, 'medical-news-container')}>
+        {/* News items container with consistent spacing */}
+        <div
+          id="news-container"
+          className="space-y-4 medical-news-container"
+          role="region"
+          aria-label="Danh sách tin tức sức khỏe"
+          aria-live="polite"
+          aria-busy={isLoading ? 'true' : 'false'}
+        >
           {isLoading
             ? // Enhanced loading skeleton with medical styling
               Array(3)

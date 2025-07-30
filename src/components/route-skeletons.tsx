@@ -1,6 +1,9 @@
-import { motion } from 'framer-motion';
-import { combineClasses } from '@/styles/medical-design-system';
+import { motion, useReducedMotion } from 'framer-motion';
+import { combineClasses, MEDICAL_PRESETS } from '@/styles/medical-design-system';
 import { memo } from 'react';
+import { MedicalSkeleton, MedicalSkeletonCard, MedicalSkeletonGroup } from './enhanced-medical-skeleton';
+import { SkeletonSafeWrapper } from './skeleton-error-boundary';
+import { RobustSkeleton } from './robust-skeleton-renderer';
 
 interface SkeletonProps {
   className?: string;
@@ -31,11 +34,19 @@ const fastSkeletonAnimation = {
   },
 };
 
-// Optimized skeleton classes for better performance
-const baseSkeletonClasses = 'skeleton-shimmer skeleton-optimized rounded';
+// Enhanced medical skeleton classes with healthcare colors
+const baseSkeletonClasses = 'skeleton-medical-primary skeleton-optimized rounded-lg';
 
-// Fast skeleton classes without heavy animations
-const fastSkeletonClasses = 'bg-gray-200 rounded skeleton-optimized animate-pulse';
+// Fast skeleton classes for immediate feedback with medical colors
+const fastSkeletonClasses = 'bg-blue-50 rounded-lg skeleton-optimized animate-pulse';
+
+// Medical skeleton variants
+const medicalSkeletonClasses = {
+  primary: MEDICAL_PRESETS.skeletonPrimary,
+  secondary: MEDICAL_PRESETS.skeletonSecondary,
+  neutral: MEDICAL_PRESETS.skeletonNeutral,
+  fast: MEDICAL_PRESETS.skeletonFast,
+};
 
 // Accessibility attributes for skeleton containers
 const getSkeletonContainerProps = (ariaLabel: string) => ({
@@ -49,90 +60,166 @@ const skeletonElementProps = {
   'aria-hidden': true as const,
 };
 
-// Home Page Skeleton
+// Home Page Skeleton - Enhanced with Medical Design System and Error Handling
 export const HomePageSkeleton = memo(function HomePageSkeleton({ className = '', animated = true }: SkeletonProps) {
-  return (
-    <div className={combineClasses('space-y-6 p-4', className)} {...getSkeletonContainerProps('Đang tải trang chủ')}>
-      {/* Search Bar Skeleton */}
-      <div
-        className={combineClasses(animated ? baseSkeletonClasses : fastSkeletonClasses, 'h-12 w-full rounded-lg')}
-        {...skeletonElementProps}
-      />
+  const prefersReducedMotion = useReducedMotion();
+  const shouldAnimate = animated && !prefersReducedMotion;
 
-      {/* Hero Section Skeleton */}
-      <div
-        className={combineClasses(animated ? baseSkeletonClasses : fastSkeletonClasses, 'h-48 w-full rounded-xl')}
-        {...skeletonElementProps}
-      />
+  // Defensive programming - ensure we always return a valid component
+  try {
+    return (
+      <SkeletonSafeWrapper
+        componentName="HomePageSkeleton"
+        fallbackHeight="h-screen"
+        fallbackWidth="w-full"
+        className={className}
+      >
+        <MedicalSkeletonGroup
+          ariaLabel="Đang tải trang chủ bệnh viện"
+          className={combineClasses('space-y-6 p-4', className)}
+        >
+          {/* Search Bar Skeleton */}
+          <MedicalSkeleton
+            variant="primary"
+            height="h-12"
+            width="w-full"
+            shape="rounded"
+            animated={shouldAnimate}
+            ariaLabel="Đang tải thanh tìm kiếm..."
+          />
 
-      {/* Featured Services Grid */}
-      <div className="space-y-4">
-        <motion.div
-          className={combineClasses(baseSkeletonClasses, 'h-6 w-40')}
-          {...(animated ? skeletonAnimation : {})}
-        />
+          {/* Hero Section Skeleton */}
+          <MedicalSkeleton
+            variant="primary"
+            height="h-48"
+            width="w-full"
+            shape="rounded"
+            animated={shouldAnimate}
+            delay={0.1}
+            ariaLabel="Đang tải banner chính..."
+          />
+
+          {/* Featured Services Grid */}
+          <div className="space-y-4">
+            <MedicalSkeleton
+              variant="primary"
+              height="h-6"
+              width="w-40"
+              animated={shouldAnimate}
+              delay={0.2}
+              ariaLabel="Đang tải tiêu đề dịch vụ..."
+            />
+            <div className="grid grid-cols-2 gap-4">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <MedicalSkeletonCard
+                  key={index}
+                  variant="primary"
+                  showImage={true}
+                  showTitle={true}
+                  showDescription={false}
+                  showActions={false}
+                  animated={shouldAnimate}
+                  className="h-32"
+                  ariaLabel={`Đang tải dịch vụ ${index + 1}...`}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Featured Departments */}
+          <div className="space-y-4">
+            <MedicalSkeleton
+              variant="secondary"
+              height="h-6"
+              width="w-36"
+              animated={shouldAnimate}
+              delay={0.3}
+              ariaLabel="Đang tải tiêu đề khoa..."
+            />
+            <div className="grid grid-cols-1 gap-3">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <MedicalSkeletonCard
+                  key={index}
+                  variant="secondary"
+                  showImage={false}
+                  showTitle={true}
+                  showDescription={true}
+                  showActions={false}
+                  animated={shouldAnimate}
+                  className="h-20"
+                  ariaLabel={`Đang tải khoa ${index + 1}...`}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Health News */}
+          <div className="space-y-4">
+            <MedicalSkeleton
+              variant="neutral"
+              height="h-6"
+              width="w-32"
+              animated={shouldAnimate}
+              delay={0.4}
+              ariaLabel="Đang tải tiêu đề tin tức..."
+            />
+            <div className="space-y-3">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <div key={index} className="flex space-x-3 p-3 border border-blue-100 rounded-lg bg-white">
+                  <MedicalSkeleton
+                    variant="neutral"
+                    width="w-16"
+                    height="h-16"
+                    shape="rounded"
+                    animated={shouldAnimate}
+                    delay={0.5 + index * 0.1}
+                    ariaLabel="Đang tải hình ảnh tin tức..."
+                  />
+                  <div className="flex-1 space-y-2">
+                    <MedicalSkeleton
+                      variant="neutral"
+                      height="h-4"
+                      width="w-full"
+                      animated={shouldAnimate}
+                      delay={0.6 + index * 0.1}
+                      ariaLabel="Đang tải tiêu đề tin tức..."
+                    />
+                    <MedicalSkeleton
+                      variant="neutral"
+                      height="h-3"
+                      width="w-3/4"
+                      animated={shouldAnimate}
+                      delay={0.7 + index * 0.1}
+                      ariaLabel="Đang tải mô tả tin tức..."
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </MedicalSkeletonGroup>
+      </SkeletonSafeWrapper>
+    );
+  } catch (error) {
+    console.error('🏥 HomePageSkeleton rendering failed:', error);
+    // Ultimate fallback
+    return (
+      <div
+        className={combineClasses('space-y-6 p-4 animate-pulse', className)}
+        role="status"
+        aria-label="Đang tải trang chủ..."
+        data-skeleton-fallback="true"
+      >
+        <div className="h-12 bg-blue-50 rounded-lg" />
+        <div className="h-48 bg-blue-50 rounded-xl" />
         <div className="grid grid-cols-2 gap-4">
-          {Array.from({ length: 4 }).map((_, index) => (
-            <motion.div
-              key={index}
-              className={combineClasses(baseSkeletonClasses, 'h-32 rounded-lg')}
-              {...(animated ? skeletonAnimation : {})}
-              style={{ animationDelay: `${index * 0.1}s` }}
-            />
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="h-32 bg-blue-50 rounded-lg" />
           ))}
         </div>
       </div>
-
-      {/* Featured Departments */}
-      <div className="space-y-4">
-        <motion.div
-          className={combineClasses(baseSkeletonClasses, 'h-6 w-36')}
-          {...(animated ? skeletonAnimation : {})}
-        />
-        <div className="grid grid-cols-1 gap-3">
-          {Array.from({ length: 3 }).map((_, index) => (
-            <motion.div
-              key={index}
-              className={combineClasses(baseSkeletonClasses, 'h-20 rounded-lg')}
-              {...(animated ? skeletonAnimation : {})}
-              style={{ animationDelay: `${index * 0.1}s` }}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Health News */}
-      <div className="space-y-4">
-        <motion.div
-          className={combineClasses(baseSkeletonClasses, 'h-6 w-32')}
-          {...(animated ? skeletonAnimation : {})}
-        />
-        <div className="space-y-3">
-          {Array.from({ length: 3 }).map((_, index) => (
-            <motion.div key={index} className="flex space-x-3">
-              <motion.div
-                className={combineClasses(baseSkeletonClasses, 'w-16 h-16 rounded-lg flex-shrink-0')}
-                {...(animated ? skeletonAnimation : {})}
-                style={{ animationDelay: `${index * 0.1}s` }}
-              />
-              <div className="flex-1 space-y-2">
-                <motion.div
-                  className={combineClasses(baseSkeletonClasses, 'h-4 w-full')}
-                  {...(animated ? skeletonAnimation : {})}
-                  style={{ animationDelay: `${index * 0.1 + 0.05}s` }}
-                />
-                <motion.div
-                  className={combineClasses(baseSkeletonClasses, 'h-3 w-3/4')}
-                  {...(animated ? skeletonAnimation : {})}
-                  style={{ animationDelay: `${index * 0.1 + 0.1}s` }}
-                />
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+    );
+  }
 });
 
 // Services List Page Skeleton

@@ -15,7 +15,7 @@ export function SwipeableCard({
   onSwipeLeft,
   onSwipeRight,
   className = '',
-  threshold = 100
+  threshold = 100,
 }: SwipeableCardProps) {
   const x = useMotionValue(0);
   const opacity = useTransform(x, [-threshold, 0, threshold], [0.5, 1, 0.5]);
@@ -23,13 +23,13 @@ export function SwipeableCard({
 
   const handleDragEnd = (event: any, info: PanInfo) => {
     const offset = info.offset.x;
-    
+
     if (offset > threshold && onSwipeRight) {
       onSwipeRight();
     } else if (offset < -threshold && onSwipeLeft) {
       onSwipeLeft();
     }
-    
+
     // Reset position
     x.set(0);
   };
@@ -57,12 +57,7 @@ interface PullToRefreshProps {
   className?: string;
 }
 
-export function PullToRefresh({
-  children,
-  onRefresh,
-  threshold = 80,
-  className = ''
-}: PullToRefreshProps) {
+export function PullToRefresh({ children, onRefresh, threshold = 80, className = '' }: PullToRefreshProps) {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const y = useMotionValue(0);
   const opacity = useTransform(y, [0, threshold], [0, 1]);
@@ -93,9 +88,7 @@ export function PullToRefresh({
             animate={isRefreshing ? { rotate: 360 } : {}}
             transition={{ duration: 1, repeat: isRefreshing ? Infinity : 0, ease: 'linear' }}
           />
-          <span className="text-sm font-medium">
-            {isRefreshing ? 'Đang làm mới...' : 'Kéo để làm mới'}
-          </span>
+          <span className="text-sm font-medium">{isRefreshing ? 'Đang làm mới...' : 'Kéo để làm mới'}</span>
         </div>
       </motion.div>
 
@@ -131,16 +124,16 @@ export function TouchButton({
   size = 'md',
   className = '',
   disabled = false,
-  hapticFeedback = true
+  hapticFeedback = true,
 }: TouchButtonProps) {
   const handleClick = () => {
     if (disabled) return;
-    
+
     // Haptic feedback for mobile devices
     if (hapticFeedback && 'vibrate' in navigator) {
       navigator.vibrate(10);
     }
-    
+
     onClick?.();
   };
 
@@ -148,13 +141,13 @@ export function TouchButton({
     primary: 'bg-blue-600 text-white active:bg-blue-700',
     secondary: 'bg-gray-600 text-white active:bg-gray-700',
     medical: 'bg-gradient-to-r from-blue-500 to-green-500 text-white',
-    emergency: 'bg-red-600 text-white active:bg-red-700'
+    emergency: 'bg-red-600 text-white active:bg-red-700',
   };
 
   const sizeStyles = {
     sm: 'px-4 py-2 text-sm min-h-[40px]',
     md: 'px-6 py-3 text-base min-h-[44px]',
-    lg: 'px-8 py-4 text-lg min-h-[48px]'
+    lg: 'px-8 py-4 text-lg min-h-[48px]',
   };
 
   return (
@@ -187,31 +180,26 @@ interface MobileDrawerProps {
   position?: 'left' | 'right' | 'bottom';
 }
 
-export function MobileDrawer({
-  isOpen,
-  onClose,
-  children,
-  position = 'left'
-}: MobileDrawerProps) {
+export function MobileDrawer({ isOpen, onClose, children, position = 'left' }: MobileDrawerProps) {
   const variants = {
     left: {
       closed: { x: '-100%' },
-      open: { x: 0 }
+      open: { x: 0 },
     },
     right: {
       closed: { x: '100%' },
-      open: { x: 0 }
+      open: { x: 0 },
     },
     bottom: {
       closed: { y: '100%' },
-      open: { y: 0 }
-    }
+      open: { y: 0 },
+    },
   };
 
   const positionStyles = {
     left: 'left-0 top-0 h-full w-80 max-w-[80vw]',
     right: 'right-0 top-0 h-full w-80 max-w-[80vw]',
-    bottom: 'bottom-0 left-0 right-0 h-auto max-h-[80vh]'
+    bottom: 'bottom-0 left-0 right-0 h-auto max-h-[80vh]',
   };
 
   useEffect(() => {
@@ -247,8 +235,8 @@ export function MobileDrawer({
         `}
         variants={variants[position]}
         initial="closed"
-        animate={isOpen ? "open" : "closed"}
-        transition={{ type: "tween", duration: 0.3 }}
+        animate={isOpen ? 'open' : 'closed'}
+        transition={{ type: 'tween', duration: 0.3 }}
       >
         {children}
       </motion.div>
@@ -274,7 +262,7 @@ export function MobileInput({
   onChange,
   className = '',
   autoFocus = false,
-  inputMode
+  inputMode,
 }: MobileInputProps) {
   return (
     <input
@@ -295,7 +283,7 @@ export function MobileInput({
       style={{
         fontSize: '16px', // Prevents zoom on iOS
         WebkitAppearance: 'none',
-        appearance: 'none'
+        appearance: 'none',
       }}
     />
   );
@@ -308,11 +296,7 @@ interface GestureImageViewerProps {
   className?: string;
 }
 
-export function GestureImageViewer({
-  src,
-  alt,
-  className = ''
-}: GestureImageViewerProps) {
+export function GestureImageViewer({ src, alt, className = '' }: GestureImageViewerProps) {
   const [scale, setScale] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
@@ -326,7 +310,7 @@ export function GestureImageViewer({
     if (scale > 1) {
       setPosition({
         x: position.x + info.delta.x,
-        y: position.y + info.delta.y
+        y: position.y + info.delta.y,
       });
     }
   };
@@ -345,7 +329,7 @@ export function GestureImageViewer({
         style={{
           scale,
           x: position.x,
-          y: position.y
+          y: position.y,
         }}
         drag={scale > 1}
         dragConstraints={{ left: -100, right: 100, top: -100, bottom: 100 }}
@@ -367,13 +351,7 @@ interface MobileModalProps {
   fullScreen?: boolean;
 }
 
-export function MobileModal({
-  isOpen,
-  onClose,
-  title,
-  children,
-  fullScreen = false
-}: MobileModalProps) {
+export function MobileModal({ isOpen, onClose, title, children, fullScreen = false }: MobileModalProps) {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -415,21 +393,20 @@ export function MobileModal({
         {title && (
           <div className="flex items-center justify-between p-4 border-b">
             <h2 className="text-lg font-semibold">{title}</h2>
-            <button
-              onClick={onClose}
-              className="p-2 hover:bg-gray-100 rounded-full"
-            >
+            <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full">
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                <path
+                  fillRule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                />
               </svg>
             </button>
           </div>
         )}
 
         {/* Content */}
-        <div className="p-4 overflow-y-auto">
-          {children}
-        </div>
+        <div className="p-4 overflow-y-auto">{children}</div>
       </motion.div>
     </div>
   );
@@ -443,7 +420,7 @@ export function useMobileCapabilities() {
     hasVibration: false,
     hasGeolocation: false,
     isStandalone: false,
-    orientation: 'portrait' as 'portrait' | 'landscape'
+    orientation: 'portrait' as 'portrait' | 'landscape',
   });
 
   useEffect(() => {
@@ -454,7 +431,7 @@ export function useMobileCapabilities() {
         hasVibration: 'vibrate' in navigator,
         hasGeolocation: 'geolocation' in navigator,
         isStandalone: window.matchMedia('(display-mode: standalone)').matches,
-        orientation: window.innerHeight > window.innerWidth ? 'portrait' : 'landscape'
+        orientation: window.innerHeight > window.innerWidth ? 'portrait' : 'landscape',
       });
     };
 

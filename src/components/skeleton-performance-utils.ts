@@ -1,19 +1,17 @@
 // Performance and accessibility utilities for skeleton components
+import * as SkeletonComponents from './route-skeletons';
 
 // Preload skeleton components for better performance
 export function preloadSkeletonComponents() {
   // This function can be called during app initialization
   // to preload skeleton components into memory
-  
+
   if (typeof window !== 'undefined') {
     // Use requestIdleCallback for non-blocking preloading
     const preload = () => {
-      // Import skeleton components to trigger their loading
-      import('./route-skeletons').then(() => {
-        console.log('Skeleton components preloaded');
-      }).catch((error) => {
-        console.warn('Failed to preload skeleton components:', error);
-      });
+      // Skeleton components are now statically imported for better optimization
+      // This ensures they're included in the main bundle for immediate availability
+      console.log('Skeleton components preloaded (static import)');
     };
 
     if ('requestIdleCallback' in window) {
@@ -39,10 +37,10 @@ export function trackSkeletonPerformance(skeletonName: string, startTime: number
   if (typeof window !== 'undefined' && 'performance' in window) {
     const endTime = performance.now();
     const duration = endTime - startTime;
-    
+
     // Log performance metrics (in production, you might send this to analytics)
     console.log(`Skeleton ${skeletonName} rendered in ${duration.toFixed(2)}ms`);
-    
+
     // Mark performance entry
     if ('mark' in performance) {
       performance.mark(`skeleton-${skeletonName}-complete`);
@@ -51,9 +49,7 @@ export function trackSkeletonPerformance(skeletonName: string, startTime: number
 }
 
 // Intersection Observer for lazy skeleton loading
-export function createSkeletonIntersectionObserver(
-  callback: (entries: IntersectionObserverEntry[]) => void
-) {
+export function createSkeletonIntersectionObserver(callback: (entries: IntersectionObserverEntry[]) => void) {
   if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
     return new IntersectionObserver(callback, {
       root: null,
@@ -79,7 +75,7 @@ export function announceSkeletonState(message: string) {
   if (typeof window !== 'undefined') {
     // Create a live region for screen reader announcements
     let liveRegion = document.getElementById('skeleton-live-region');
-    
+
     if (!liveRegion) {
       liveRegion = document.createElement('div');
       liveRegion.id = 'skeleton-live-region';
@@ -92,7 +88,7 @@ export function announceSkeletonState(message: string) {
       liveRegion.style.overflow = 'hidden';
       document.body.appendChild(liveRegion);
     }
-    
+
     // Clear previous message and set new one
     liveRegion.textContent = '';
     setTimeout(() => {
@@ -125,14 +121,14 @@ export function initializeSkeletonPerformance() {
           }
         });
       });
-      
+
       try {
         observer.observe({ entryTypes: ['mark', 'measure'] });
       } catch (error) {
         console.warn('Performance observer not supported:', error);
       }
     }
-    
+
     // Preload skeleton components
     preloadSkeletonComponents();
   }

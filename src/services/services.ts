@@ -21,9 +21,8 @@ import {
   formatMedicalDate,
   WP_ENDPOINTS,
 } from './common';
-import { fetchWPData } from './cache';
+import { fetchWPData, PERFORMANCE_THRESHOLDS } from './cache';
 import { batchRequest, optimizeApiUrl } from '../utils/api-performance-monitor';
-import { enhancedRequest } from './api';
 
 /**
  * Interface for service query parameters
@@ -155,15 +154,18 @@ export const getService = async (id: number, options?: FetchOptions): Promise<En
 };
 
 /**
- * Get service price list
+ * Get service price list with optimized pagination and field selection
+ * @performance Reduced per_page from 100 to 50 and optimized fields for better response time
  */
 export const getListServicePrices = async (options?: FetchOptions): Promise<ServicePrice[]> => {
   const pricePages = await fetchPages(
     {
       parent: SERVICE_PRICE_ID,
-      per_page: 100,
+      per_page: 50, // Reduced from 100 for better performance
       orderby: 'menu_order',
       order: 'asc',
+      // Optimized field selection - only get what we need for price extraction
+      _fields: 'id,title,content.rendered,modified',
     },
     options
   );
@@ -173,7 +175,38 @@ export const getListServicePrices = async (options?: FetchOptions): Promise<Serv
 };
 
 /**
- * Get specific service prices by IDs
+ * Get service price list with pagination for better performance
+ * @param page Page number (1-based)
+ * @param perPage Items per page (default: 25)
+ */
+export const getServicePricesPaginated = async (
+  page: number = 1,
+  perPage: number = 25,
+  options?: FetchOptions
+): Promise<{ prices: ServicePrice[]; totalPages: number; hasMore: boolean }> => {
+  const pricePages = await fetchPages(
+    {
+      parent: SERVICE_PRICE_ID,
+      per_page: perPage,
+      page,
+      orderby: 'menu_order',
+      order: 'asc',
+      // Minimal fields for pagination
+      _fields: 'id,title,content.rendered,modified',
+    },
+    options
+  );
+
+  const filteredPages = filterMedicalContent(pricePages);
+  const prices = filteredPages.map(transformServicePrice);
+  const hasMore = pricePages.length === perPage;
+  const totalPages = hasMore ? page + 1 : page; // Estimate, could be refined
+
+  return { prices, totalPages, hasMore };
+};
+
+/**
+ * Get specific service prices by IDs with optimized field selection
  */
 export const getServicePrices = async (ids: number[], options?: FetchOptions): Promise<ServicePrice[]> => {
   if (ids.length === 0) {
@@ -185,6 +218,8 @@ export const getServicePrices = async (ids: number[], options?: FetchOptions): P
       parent: SERVICE_PRICE_ID,
       include: ids.join(','),
       per_page: ids.length,
+      // Optimized fields for specific price lookup
+      _fields: 'id,title,content.rendered,modified',
     },
     options
   );
@@ -249,7 +284,7 @@ export const listServicePricesAtom = atom(async () => await getListServicePrices
  * Raw service price pages atom with enhanced caching and performance optimization
  * Returns raw WordPress page data for components that need HTML content parsing
  *
- * @performance Uses medical-priority caching with 30-minute TTL and optimized request parameters
+ * @performance Optimized with pagination, field selection, and aggressive caching
  * @returns Promise<WPPage[]> Filtered and sorted service price pages
  */
 export const listServicePricePagesAtom = atom(async () => {
@@ -257,18 +292,18 @@ export const listServicePricePagesAtom = atom(async () => {
     WP_ENDPOINTS.PAGES,
     {
       parent: SERVICE_PRICE_ID,
-      per_page: 100,
+      per_page: 50, // Reduced from 100 for better performance
       orderby: 'title',
       order: 'asc',
       type: 'page',
-      // Remove _embed to reduce response size - we only need content for parsing
-      _fields: 'id,title,content,modified',
+      // Optimized field selection - only essential fields for price parsing
+      _fields: 'id,title,content.rendered,modified',
     },
     {
-      // Enhanced caching for medical service prices
+      // Enhanced caching for medical service prices with longer TTL
       cache: true,
-      retries: 2,
-      retryDelay: 500,
+      retries: 3, // Increased retries for critical service data
+      retryDelay: 1000, // Longer delay for better stability
     }
   );
 
@@ -285,6 +320,87 @@ export const featuredServicesAtom = atom(async () => await getFeaturedServices()
 
 // Search services atom family
 export const searchServicesAtomFamily = atomFamily((query: string) => atom(async () => await searchServices(query)));
+
+// Paginated service prices atom family for better performance
+export const paginatedServicePricesAtomFamily = atomFamily(({ page, perPage }: { page: number; perPage: number }) =>
+  atom(async () => await getServicePricesPaginated(page, perPage))
+);
+
+// Optimized service prices atom with background prefetching
+export const optimizedServicePricesAtom = atom(async () => {
+  // Start with first page for immediate display
+  const firstPage = await getServicePricesPaginated(1, 25);
+
+  // Background prefetch second page if there are more items
+  if (firstPage.hasMore) {
+    // Use requestIdleCallback for non-blocking prefetch
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      window.requestIdleCallback(() => {
+        getServicePricesPaginated(2, 25).catch(() => {
+          // Silently handle prefetch errors
+        });
+      });
+    }
+  }
+
+  return firstPage;
+});
+
+/**
+ * Performance monitoring for service price requests
+ */
+export const monitorServicePricePerformance = () => {
+  const performanceData = {
+    slowRequests: 0,
+    averageResponseTime: 0,
+    lastSlowRequest: null as string | null,
+    recommendations: [] as string[],
+  };
+
+  // Monitor performance over time
+  const originalConsoleWarn = console.warn;
+  const originalConsoleError = console.error;
+
+  console.warn = (...args) => {
+    const message = args[0];
+    if (typeof message === 'string' && message.includes('parent=7220')) {
+      performanceData.slowRequests++;
+      performanceData.lastSlowRequest = new Date().toISOString();
+
+      // Add recommendations based on performance
+      if (performanceData.slowRequests > 3) {
+        performanceData.recommendations.push('Consider using paginated service prices API for better performance');
+      }
+    }
+    originalConsoleWarn.apply(console, args);
+  };
+
+  console.error = (...args) => {
+    const message = args[0];
+    if (typeof message === 'string' && message.includes('parent=7220')) {
+      performanceData.recommendations.push(
+        'Service price requests are critically slow - implement immediate optimization'
+      );
+    }
+    originalConsoleError.apply(console, args);
+  };
+
+  return performanceData;
+};
+
+/**
+ * Get performance recommendations for service price optimization
+ */
+export const getServicePriceOptimizationRecommendations = () => {
+  return [
+    'Use paginatedServicePricesAtomFamily for large datasets',
+    'Implement background prefetching with optimizedServicePricesAtom',
+    'Consider reducing per_page from 100 to 50 or 25',
+    'Use _fields parameter to limit response size',
+    'Enable aggressive caching for service price data',
+    'Monitor response times and implement retry logic',
+  ];
+};
 
 // Legacy exports for backward compatibility
 export const servicesAtom = servicesAtomFamily;

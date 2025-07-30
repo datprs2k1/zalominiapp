@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import TransitionLink from '@/components/transition-link';
+import { announceToScreenReader } from '@/utils/accessibility';
 
 interface HeroSectionProps {
   className?: string;
@@ -8,77 +9,105 @@ interface HeroSectionProps {
 const HeroSection = ({ className }: HeroSectionProps) => {
   const [activeTab, setActiveTab] = useState('appointments');
   const [scrolled, setScrolled] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const searchInputRef = useRef<HTMLInputElement>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+  const heroSectionRef = useRef<HTMLElement>(null);
 
-  // Effect for scroll detection
+  // Effect for scroll detection and accessibility setup
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
+
+    // Check for reduced motion preference
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReducedMotion(mediaQuery.matches);
+
+    const handleMotionChange = (e: MediaQueryListEvent) => {
+      setReducedMotion(e.matches);
+    };
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    mediaQuery.addEventListener('change', handleMotionChange);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      mediaQuery.removeEventListener('change', handleMotionChange);
+    };
   }, []);
 
-  // Popular search suggestions
-  const popularSearches = ['Khám tổng quát', 'Bác sĩ da liễu', 'Xét nghiệm máu', 'Nhi khoa'];
+  // Accessibility: Announce tab changes to screen readers
+  const handleTabChange = useCallback((tabId: string, tabLabel: string) => {
+    setActiveTab(tabId);
+    announceToScreenReader(`Đã chọn tab ${tabLabel}`, 'polite');
+  }, []);
 
-  // Banner images - use multiple for carousel effect
+  // Enhanced Banner images with optimization attributes
   const bannerImages = [
-    'https://benhvienhoabinh.vn/wp-content/uploads/2024/11/HB6.jpg',
-    'https://benhvienhoabinh.vn/wp-content/uploads/2024/11/HB3.jpg',
+    {
+      url: 'https://benhvienhoabinh.vn/wp-content/uploads/2024/11/HB6.jpg',
+      alt: 'Bệnh Viện Hòa Bình - Cơ sở vật chất hiện đại',
+      priority: true, // First image loads with priority
+    },
   ];
 
-  // Quick access features with medical-themed icons - Updated with preferred medical colors
+  // Quick access features with medical-themed icons - Enhanced for accessibility
   const quickFeatures = [
     {
       id: 'appointments',
-      icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z M9 11h6 M9 15h6', // Medical appointment calendar with cross
+      icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z M9 11h6 M9 15h6',
       label: 'Đặt lịch',
-      bgColor: 'from-[#2563EB] to-[#1E40AF]', // Medical blues
+      bgColor: 'from-[#2563EB] to-[#1E40AF]',
       textColor: 'text-[#2563EB]',
       hoverColor: 'hover:text-[#1E40AF]',
       shadowColor: 'hover:shadow-[#2563EB]/25',
-      ariaLabel: 'Đặt lịch khám bệnh',
+      ariaLabel: 'Đặt lịch khám bệnh - Nhấn để mở form đặt lịch',
+      description: 'Đặt lịch khám bệnh trực tuyến nhanh chóng và tiện lợi',
+      keyboardShortcut: '1',
     },
     {
       id: 'doctors',
-      icon: 'M11 2a2 2 0 0 0-2 2v6.5a0.5 0.5 0 0 1-1 0V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v6.5a6.5 6.5 0 0 0 13 0V4a2 2 0 0 0-2-2h-2z M16 18a2 2 0 1 1-4 0 2 2 0 0 1 4 0z', // Stethoscope icon
+      icon: 'M11 2a2 2 0 0 0-2 2v6.5a0.5 0.5 0 0 1-1 0V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v6.5a6.5 6.5 0 0 0 13 0V4a2 2 0 0 0-2-2h-2z M16 18a2 2 0 1 1-4 0 2 2 0 0 1 4 0z',
       label: 'Bác sĩ',
-      bgColor: 'from-[#10B981] to-[#059669]', // Healing greens
+      bgColor: 'from-[#10B981] to-[#059669]',
       textColor: 'text-[#10B981]',
       hoverColor: 'hover:text-[#059669]',
       shadowColor: 'hover:shadow-[#10B981]/25',
-      ariaLabel: 'Tìm bác sĩ chuyên khoa',
+      ariaLabel: 'Tìm bác sĩ chuyên khoa - Nhấn để xem danh sách bác sĩ',
+      description: 'Tìm kiếm bác sĩ chuyên khoa giàu kinh nghiệm',
+      keyboardShortcut: '2',
     },
     {
       id: 'services',
-      icon: 'M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z', // Medical cross in circle
+      icon: 'M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z',
       label: 'Dịch vụ',
-      bgColor: 'from-[#0891B2] to-[#0E7490]', // Trust-building cyan
+      bgColor: 'from-[#0891B2] to-[#0E7490]',
       textColor: 'text-[#0891B2]',
       hoverColor: 'hover:text-[#0E7490]',
       shadowColor: 'hover:shadow-[#0891B2]/25',
-      ariaLabel: 'Dịch vụ y tế và khám chữa bệnh',
+      ariaLabel: 'Dịch vụ y tế - Nhấn để xem các dịch vụ khám chữa bệnh',
+      description: 'Khám phá đa dạng dịch vụ y tế chất lượng cao',
+      keyboardShortcut: '3',
     },
     {
       id: 'results',
-      icon: 'M22 12h-4l-3 9L9 3l-3 9H2 M12 6v6l4 2', // Heartbeat/vital signs with clock
+      icon: 'M22 12h-4l-3 9L9 3l-3 9H2 M12 6v6l4 2',
       label: 'Kết quả',
-      bgColor: 'from-[#2563EB] to-[#0891B2]', // Medical blue to cyan gradient
+      bgColor: 'from-[#2563EB] to-[#0891B2]',
       textColor: 'text-[#2563EB]',
       hoverColor: 'hover:text-[#0891B2]',
       shadowColor: 'hover:shadow-[#2563EB]/25',
-      ariaLabel: 'Xem kết quả xét nghiệm và chẩn đoán',
+      ariaLabel: 'Kết quả xét nghiệm - Nhấn để tra cứu kết quả',
+      description: 'Tra cứu kết quả xét nghiệm và chẩn đoán trực tuyến',
+      keyboardShortcut: '4',
     },
   ];
 
-  // Service benefits with medical-themed icons - Updated with preferred medical colors
+  // Ultra-compact service benefits with streamlined medical messaging
   const serviceBenefits = [
     {
-      title: 'Đội ngũ y bác sĩ',
-      description: 'Chuyên môn cao, tận tâm với người bệnh',
+      title: 'Y bác sĩ',
+      description: 'Chuyên môn cao',
       icon: 'M11 2a2 2 0 0 0-2 2v6.5a0.5 0.5 0 0 1-1 0V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v6.5a6.5 6.5 0 0 0 13 0V4a2 2 0 0 0-2-2h-2z M16 18a2 2 0 1 1-4 0 2 2 0 0 1 4 0z', // Stethoscope
       bgColor: 'bg-[#EFF6FF]', // Medical blue background
       iconColor: 'text-[#2563EB]', // Medical blue
@@ -88,8 +117,8 @@ const HeroSection = ({ className }: HeroSectionProps) => {
       ariaLabel: 'Đội ngũ y bác sĩ chuyên nghiệp',
     },
     {
-      title: 'Chất lượng điều trị',
-      description: 'Tiêu chuẩn quốc tế, hiệu quả cao',
+      title: 'Chất lượng',
+      description: 'Tiêu chuẩn quốc tế',
       icon: 'M22 12h-4l-3 9L9 3l-3 9H2 M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z', // Heartbeat with quality star
       bgColor: 'bg-[#ECFDF5]', // Healing green background
       iconColor: 'text-[#10B981]', // Healing green
@@ -99,8 +128,8 @@ const HeroSection = ({ className }: HeroSectionProps) => {
       ariaLabel: 'Chất lượng điều trị cao cấp',
     },
     {
-      title: 'Công nghệ hiện đại',
-      description: 'Trang thiết bị y tế tiên tiến',
+      title: 'Công nghệ',
+      description: 'Thiết bị tiên tiến',
       icon: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z M12 6c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6 2.69-6 6-6z M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z', // Medical scanner/imaging device
       bgColor: 'bg-[#ECFEFF]', // Trust cyan background
       iconColor: 'text-[#0891B2]', // Trust cyan
@@ -110,8 +139,8 @@ const HeroSection = ({ className }: HeroSectionProps) => {
       ariaLabel: 'Công nghệ y tế hiện đại',
     },
     {
-      title: 'Dịch vụ toàn diện',
-      description: 'Chăm sóc chu đáo, theo dõi liên tục',
+      title: 'Dịch vụ',
+      description: 'Chăm sóc toàn diện',
       icon: 'M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z M3 3h18v18H3V3z M7 7h10v10H7V7z', // Medical cross with comprehensive care grid
       bgColor: 'bg-[#F0FDFA]', // Soft medical white with green tint
       iconColor: 'text-[#059669]', // Deep healing green
@@ -122,249 +151,215 @@ const HeroSection = ({ className }: HeroSectionProps) => {
     },
   ];
 
-  // Animated slogans
-  const slogans = [
-    {
-      line1: 'Trị bệnh bằng khối óc',
-      line2: 'Chăm sóc bằng trái tim',
-    },
-    {
-      line1: 'Sức khỏe là vàng',
-      line2: 'Chăm sóc là trách nhiệm',
-    },
-  ];
-
-  const [activeSloganIndex, setActiveSloganIndex] = useState(0);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [animating, setAnimating] = useState(false);
 
-  // Handle search focus
-  const handleSearchFocus = () => {
-    setIsSearchFocused(true);
-  };
-
-  // Handle search blur
-  const handleSearchBlur = () => {
-    // Small delay to allow clicking on suggestions
-    setTimeout(() => {
-      if (document.activeElement !== searchInputRef.current) {
-        setIsSearchFocused(false);
-      }
-    }, 150);
-  };
-
-  // Handle search query change
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
-  };
-
-  // Handle suggestion click
-  const handleSuggestionClick = (suggestion: string) => {
-    setSearchQuery(suggestion);
-    // Focus the input after selecting a suggestion
-    if (searchInputRef.current) {
-      searchInputRef.current.focus();
-    }
-  };
-
-  // Cycle through slogans
+  // Auto-cycle through images
   useEffect(() => {
     const interval = setInterval(() => {
-      setAnimating(true);
-      setTimeout(() => {
-        setActiveSloganIndex((prev) => (prev + 1) % slogans.length);
-        setActiveImageIndex((prev) => (prev + 1) % bannerImages.length);
-        setAnimating(false);
-      }, 500);
+      setActiveImageIndex((prev) => (prev + 1) % bannerImages.length);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [bannerImages.length]);
 
   return (
-    <section className={`relative pt-0 pb-0 ${className ?? ''}`}>
-      <div className="relative w-full overflow-hidden bg-[#FAFBFC] rounded-3xl border border-[#E5E9ED]/30 shadow-[0_8px_24px_rgba(37,99,235,0.06)]">
-        {/* Premium Medical Content Area - Enhanced Spacing */}
-        <div className="pb-8 mx-auto w-full max-w-7xl px-4 lg:px-6">
-          <div className="lg:flex lg:flex-row lg:items-start lg:gap-8 lg:mt-8">
-            {/* Premium Medical Banner with Enhanced Visual Hierarchy */}
-            <div className="rounded-3xl overflow-hidden mt-4 mb-8 relative shadow-xl border border-[#E5E9ED]/20 lg:w-3/5 lg:mb-0">
-              {/* Enhanced Image Carousel with Medical Proportions */}
-              <div className="relative h-[250px] lg:h-[420px]">
+    <section
+      ref={heroSectionRef}
+      className={`relative pt-0 pb-0 ${className ?? ''}`}
+      role="banner"
+      aria-label="Bệnh viện Hòa Bình - Dịch vụ y tế chuyên nghiệp"
+    >
+      {/* Skip to content link for screen readers */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-50 bg-[#2563EB] text-white px-4 py-2 rounded-lg font-medium focus:outline-none focus:ring-2 focus:ring-[#1E40AF] focus:ring-offset-2"
+      >
+        Chuyển đến nội dung chính
+      </a>
+
+      <div className="relative w-full overflow-hidden bg-[#FAFBFC] rounded-2xl border border-[#E5E9ED]/30 shadow-[0_6px_20px_rgba(37,99,235,0.05)]">
+        {/* Compact Medical Content Area - Optimized Spacing */}
+        <div className="pb-4 mx-auto w-full max-w-7xl px-3 lg:px-4">
+          <div className="lg:flex lg:flex-row lg:items-start lg:gap-4 lg:mt-4">
+            {/* Compact Medical Banner - Enhanced Accessibility */}
+            <div className="rounded-xl overflow-hidden mt-2 mb-4 relative shadow-md lg:w-3/5 lg:mb-0">
+              {/* Compact Image Display with Loading State */}
+              <div className="relative h-[220px] lg:h-[320px] overflow-hidden bg-[#F8FAFC]">
+                {isLoading && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-[#F8FAFC]">
+                    <div className="animate-pulse flex space-x-2">
+                      <div className="w-2 h-2 bg-[#2563EB] rounded-full animate-bounce"></div>
+                      <div
+                        className="w-2 h-2 bg-[#10B981] rounded-full animate-bounce"
+                        style={{ animationDelay: '0.1s' }}
+                      ></div>
+                      <div
+                        className="w-2 h-2 bg-[#0891B2] rounded-full animate-bounce"
+                        style={{ animationDelay: '0.2s' }}
+                      ></div>
+                    </div>
+                  </div>
+                )}
+
                 {bannerImages.map((img, index) => (
                   <div
                     key={index}
-                    className={`absolute inset-0 transition-opacity duration-1000 ${activeImageIndex === index ? 'opacity-100' : 'opacity-0'}`}
+                    className={`absolute inset-0 transition-opacity ${
+                      reducedMotion ? 'duration-0' : 'duration-1000'
+                    } ${activeImageIndex === index ? 'opacity-100' : 'opacity-0'}`}
                   >
+                    {/* Enhanced Image Display with Better Accessibility */}
                     <img
-                      src={img}
-                      alt={`Bệnh Viện Hòa Bình - Slide ${index + 1}`}
+                      src={img.url}
+                      alt={img.alt}
                       className="w-full h-full object-cover"
+                      loading={img.priority ? 'eager' : 'lazy'}
+                      decoding="async"
+                      onLoad={() => setIsLoading(false)}
+                      onError={() => setIsLoading(false)}
+                      style={{
+                        filter: 'brightness(1.05) contrast(1.02)',
+                        imageRendering: 'auto',
+                      }}
                     />
-                    {/* Medical overlay gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-[#1E40AF]/90 via-[#2563EB]/75 to-[#0891B2]/20"></div>
+
+                    {/* Enhanced overlays for better text readability */}
+                    <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-black/40 to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black/40 to-transparent"></div>
+
+                    {/* Semi-transparent background panels for text */}
+                    <div className="absolute top-3 left-3 right-3 bottom-3 pointer-events-none">
+                      <div className="absolute top-0 left-0 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md max-w-fit"></div>
+                      <div className="absolute bottom-0 right-0 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md max-w-fit"></div>
+                    </div>
                   </div>
                 ))}
 
-                {/* Enhanced Medical Visual Elements */}
-                <div className="absolute inset-0 pointer-events-none">
-                  {/* Enhanced ECG Line with Medical Styling */}
-                  <div className="absolute bottom-8 left-0 w-full overflow-hidden h-8 opacity-25">
-                    <div className="ecg-line-medical"></div>
-                  </div>
-
-                  {/* Medical Cross Pattern Overlay */}
-                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-5">
-                    <svg width="120" height="120" viewBox="0 0 120 120" className="text-[#0891B2]">
-                      <path d="M60 20v80M20 60h80" stroke="currentColor" strokeWidth="8" strokeLinecap="round" />
-                      <circle cx="60" cy="60" r="50" stroke="currentColor" strokeWidth="3" fill="none" />
-                    </svg>
-                  </div>
-
-                  {/* Enhanced Medical Icons with Medical Colors */}
-                  <div className="absolute top-4 right-4">
-                    <svg
-                      className="h-6 w-6 text-[#0891B2]/40 heartbeat lg:h-8 lg:w-8 drop-shadow-sm"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      aria-label="Nhịp tim - Sức khỏe tim mạch"
-                      role="img"
-                    >
-                      <path d="M22 12h-4l-3 9L9 3l-3 9H2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </div>
-
-                  <div className="absolute top-4 left-4">
-                    <svg
-                      className="h-6 w-6 text-[#10B981]/30 pulse-fade lg:h-8 lg:w-8 drop-shadow-sm"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      aria-label="Ống nghe - Chăm sóc y tế"
-                      role="img"
-                    >
-                      <path
-                        d="M11 2a2 2 0 0 0-2 2v6.5a0.5 0.5 0 0 1-1 0V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v6.5a6.5 6.5 0 0 0 13 0V4a2 2 0 0 0-2-2h-2z"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <circle cx="16" cy="18" r="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </div>
-                </div>
-
-                {/* Premium Medical Slogan with Enhanced Typography */}
-                <div className="absolute inset-0 flex flex-col justify-center items-start p-6 z-10 lg:p-12">
-                  <div
-                    className={`max-w-[280px] lg:max-w-lg transition-all duration-500 ${animating ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}
-                  >
-                    {/* Premium Hospital Badge */}
-                    <div className="inline-flex items-center bg-[#FAFBFC]/20 backdrop-blur-md px-3 py-1.5 rounded-full mb-4 border border-[#0891B2]/30 shadow-lg lg:px-4 lg:py-2">
+                {/* Hospital Name - Enhanced Accessibility */}
+                <div className="absolute top-0 left-0 p-3 z-20 lg:p-4">
+                  <div className="bg-white/95 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md border border-white/20">
+                    <div className="flex items-center">
                       <svg
-                        className="h-4 w-4 text-[#0891B2] mr-1.5 lg:h-5 lg:w-5 drop-shadow-sm"
+                        className="h-4 w-4 text-[#2563EB] mr-2 lg:h-5 lg:w-5"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
-                        strokeWidth="2.5"
-                        aria-label="Chất lượng y tế cao cấp"
+                        strokeWidth="2"
+                        aria-hidden="true"
                         role="img"
                       >
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
                         <circle cx="12" cy="12" r="10" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
-                      <span className="text-xs font-semibold text-white drop-shadow-sm lg:text-sm">
-                        Chất lượng cao cấp
+                      <span className="text-sm font-bold text-[#1E40AF] lg:text-base" role="heading" aria-level={1}>
+                        Bệnh Viện Hòa Bình
                       </span>
                     </div>
-
-                    {/* Premium Medical Slogan Layout */}
-                    <h2 className="font-bold text-white leading-tight mb-5 lg:mb-8 drop-shadow-lg">
-                      <div className="flex flex-col items-start">
-                        <div className="flex items-center mb-1">
-                          <div className="w-1 h-6 bg-[#0891B2] mr-2 rounded-full lg:h-10 lg:w-1.5 shadow-lg"></div>
-                          <span className="text-[#0891B2] font-extrabold text-xl lg:text-3xl drop-shadow-md">
-                            {slogans[activeSloganIndex].line1}
-                          </span>
-                        </div>
-                        <span className="text-white text-lg ml-3 lg:text-2xl lg:ml-4 drop-shadow-md">
-                          {slogans[activeSloganIndex].line2}
-                        </span>
-                      </div>
-                    </h2>
-
-                    {/* Premium Medical CTA Button */}
-                    <TransitionLink to="/booking">
-                      <button className="bg-gradient-to-r from-[#0891B2] to-[#2563EB] text-white font-semibold py-3 px-5 rounded-xl shadow-xl hover:shadow-[#0891B2]/30 active:scale-95 transition-all duration-200 flex items-center justify-center w-full lg:text-lg lg:py-4 border border-white/20 backdrop-blur-sm">
-                        <svg
-                          className="h-5 w-5 mr-2 lg:h-6 lg:w-6"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          aria-label="Đặt lịch khám bệnh"
-                          role="img"
-                        >
-                          <path
-                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                          <path d="M9 11h6M9 15h6" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                        <span className="tracking-wide">ĐẶT LỊCH NGAY</span>
-                      </button>
-                    </TransitionLink>
                   </div>
                 </div>
 
-                {/* Image carousel indicators */}
-                <div className="absolute bottom-3 right-3 flex gap-1.5 lg:bottom-6 lg:right-6">
-                  {bannerImages.map((_, index) => (
-                    <div
-                      key={index}
-                      className={`w-1.5 h-1.5 rounded-full transition-all lg:w-2 lg:h-2 ${activeImageIndex === index ? 'bg-white w-4 lg:w-6' : 'bg-white/50'}`}
-                    />
-                  ))}
+                {/* Enhanced CTA Button - Better Touch Target */}
+                <div className="absolute bottom-0 right-0 p-3 z-20 lg:p-4">
+                  <TransitionLink to="/booking">
+                    <button
+                      className="bg-[#2563EB] hover:bg-[#1E40AF] text-white font-bold py-2.5 px-4 rounded-lg shadow-md hover:shadow-lg active:scale-95 transition-all duration-200 flex items-center text-sm lg:py-3 lg:px-5 lg:text-base min-h-[44px] min-w-[44px] focus:outline-none focus:ring-2 focus:ring-[#FAFBFC] focus:ring-offset-2 focus:ring-offset-[#2563EB]"
+                      aria-label="Đặt lịch khám bệnh - Nhấn để mở form đặt lịch"
+                      type="button"
+                    >
+                      <svg
+                        className="h-4 w-4 mr-2 lg:h-5 lg:w-5"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      <span>ĐẶT LỊCH</span>
+                      <span className="sr-only">- Mở form đặt lịch khám bệnh</span>
+                    </button>
+                  </TransitionLink>
                 </div>
               </div>
             </div>
 
-            {/* Premium Medical Right Column - Enhanced Visual Hierarchy */}
-            <div className="lg:w-2/5 lg:pt-4">
-              {/* Premium Medical Quick Access with Enhanced Spacing */}
-              <div className="mb-8">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-bold text-[#1E40AF] text-base lg:text-xl">Truy cập nhanh</h3>
+            {/* Compact Medical Right Column - Enhanced Accessibility */}
+            <div className="lg:w-2/5 lg:pt-2">
+              {/* Compact Medical Quick Access - WCAG Compliant */}
+              <div className="mb-4">
+                <div className="flex items-center justify-between mb-2">
+                  <h2 className="font-bold text-[#1E40AF] text-sm lg:text-base" id="quick-access-heading">
+                    Truy cập nhanh
+                  </h2>
                   <div className="flex items-center">
-                    <div className="w-1.5 h-1.5 bg-[#0891B2] rounded-full mr-1.5 animate-pulse lg:w-2 lg:h-2 shadow-sm"></div>
-                    <span className="text-xs text-[#059669] font-semibold lg:text-sm">Dễ dàng tiếp cận</span>
+                    <div
+                      className={`w-1.5 h-1.5 bg-[#0891B2] rounded-full mr-1.5 shadow-sm ${reducedMotion ? '' : 'animate-pulse'}`}
+                    ></div>
+                    <span className="text-xs text-[#059669] font-semibold">Dễ dàng tiếp cận</span>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-4 gap-4 lg:gap-5">
-                  {quickFeatures.map((feature) => (
+                <div
+                  className="grid grid-cols-4 gap-2 lg:gap-3"
+                  role="tablist"
+                  aria-labelledby="quick-access-heading"
+                  aria-describedby="quick-access-description"
+                >
+                  <div id="quick-access-description" className="sr-only">
+                    Sử dụng phím mũi tên để điều hướng giữa các tab, phím Enter hoặc Space để chọn
+                  </div>
+
+                  {quickFeatures.map((feature, index) => (
                     <button
                       key={feature.id}
-                      onClick={() => setActiveTab(feature.id)}
-                      className="flex flex-col items-center group relative focus:outline-none"
+                      onClick={() => handleTabChange(feature.id, feature.label)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'ArrowRight') {
+                          e.preventDefault();
+                          const nextIndex = (index + 1) % quickFeatures.length;
+                          const nextButton = e.currentTarget.parentElement?.children[nextIndex] as HTMLButtonElement;
+                          nextButton?.focus();
+                        } else if (e.key === 'ArrowLeft') {
+                          e.preventDefault();
+                          const prevIndex = index === 0 ? quickFeatures.length - 1 : index - 1;
+                          const prevButton = e.currentTarget.parentElement?.children[prevIndex] as HTMLButtonElement;
+                          prevButton?.focus();
+                        } else if (e.key === feature.keyboardShortcut) {
+                          e.preventDefault();
+                          handleTabChange(feature.id, feature.label);
+                        }
+                      }}
+                      className="flex flex-col items-center group relative focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:ring-offset-2 rounded-lg p-1"
+                      role="tab"
+                      aria-selected={activeTab === feature.id}
+                      aria-controls={`panel-${feature.id}`}
+                      aria-label={feature.ariaLabel}
+                      tabIndex={activeTab === feature.id ? 0 : -1}
+                      type="button"
                     >
                       <div
-                        className={`w-[65px] h-[65px] lg:w-[80px] lg:h-[80px] bg-gradient-to-br ${feature.bgColor} rounded-2xl flex items-center justify-center mb-3 shadow-lg transform transition-all duration-300 group-hover:scale-105 group-active:scale-95 relative overflow-hidden focus:outline-none ${feature.shadowColor} border border-white/20`}
+                        className={`w-[56px] h-[56px] lg:w-[68px] lg:h-[68px] bg-gradient-to-br ${feature.bgColor} rounded-xl flex items-center justify-center mb-1.5 shadow-md transform transition-all ${reducedMotion ? 'duration-0' : 'duration-300'} group-hover:scale-105 group-active:scale-95 relative overflow-hidden ${feature.shadowColor} border border-white/20`}
                       >
-                        {/* Enhanced animated background effect */}
-                        <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-15 transition-opacity duration-300 rounded-2xl"></div>
-                        <div className="absolute -inset-full h-[500%] w-[200%] opacity-0 group-hover:opacity-40 group-active:opacity-60 bg-gradient-to-tr from-white via-white to-transparent -z-10 transform -rotate-45 group-hover:animate-shine"></div>
+                        {/* Enhanced animated background effect - respects reduced motion */}
+                        <div
+                          className={`absolute inset-0 bg-white opacity-0 group-hover:opacity-15 transition-opacity ${reducedMotion ? 'duration-0' : 'duration-300'} rounded-xl`}
+                        ></div>
+                        {!reducedMotion && (
+                          <div className="absolute -inset-full h-[500%] w-[200%] opacity-0 group-hover:opacity-40 group-active:opacity-60 bg-gradient-to-tr from-white via-white to-transparent -z-10 transform -rotate-45 group-hover:animate-shine"></div>
+                        )}
 
                         <svg
-                          className="h-7 w-7 text-white relative z-10 lg:h-9 lg:w-9 drop-shadow-sm"
+                          className="h-6 w-6 text-white relative z-10 lg:h-7 lg:w-7 drop-shadow-sm"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
                           strokeWidth={2}
-                          aria-label={feature.ariaLabel}
+                          aria-hidden="true"
                           role="img"
                         >
                           <path strokeLinecap="round" strokeLinejoin="round" d={feature.icon} />
@@ -372,30 +367,52 @@ const HeroSection = ({ className }: HeroSectionProps) => {
 
                         {/* Enhanced ring indicator for active tab */}
                         {activeTab === feature.id && (
-                          <span className="absolute inset-0 border-2 border-[#FAFBFC] rounded-2xl animate-pulse shadow-lg"></span>
+                          <span
+                            className={`absolute inset-0 border-2 border-[#FAFBFC] rounded-2xl shadow-lg ${reducedMotion ? '' : 'animate-pulse'}`}
+                          ></span>
                         )}
                       </div>
                       <span
-                        className={`text-xs font-semibold transition-colors duration-300 lg:text-sm ${activeTab === feature.id ? feature.textColor : 'text-[#4A5568]'} ${feature.hoverColor}`}
+                        className={`text-xs font-semibold transition-colors ${reducedMotion ? 'duration-0' : 'duration-300'} lg:text-sm ${activeTab === feature.id ? feature.textColor : 'text-[#4A5568]'} ${feature.hoverColor}`}
                       >
                         {feature.label}
+                      </span>
+                      {/* Keyboard shortcut indicator */}
+                      <span className="sr-only">
+                        Phím tắt: {feature.keyboardShortcut}. {feature.description}
                       </span>
                     </button>
                   ))}
                 </div>
 
-                {/* Premium Medical Tab Content */}
-                <div className="mt-6 overflow-hidden rounded-2xl bg-[#FAFBFC] p-5 border border-[#E5E9ED]/50 shadow-[inset_0_2px_4px_rgba(37,99,235,0.05)] animate-fadeIn lg:p-7">
+                {/* Enhanced Medical Tab Content - WCAG Compliant */}
+                <div
+                  className={`mt-5 overflow-hidden rounded-2xl bg-[#FAFBFC] p-4 border border-[#E5E9ED]/50 shadow-[inset_0_2px_4px_rgba(37,99,235,0.05)] lg:p-6 ${reducedMotion ? '' : 'animate-fadeIn'}`}
+                  role="tabpanel"
+                  id={`panel-${activeTab}`}
+                  aria-labelledby={`tab-${activeTab}`}
+                >
                   {activeTab === 'appointments' && (
                     <div className="flex items-center justify-between">
-                      <div>
-                        <h4 className="text-sm font-bold text-[#1E40AF] lg:text-base">Đặt lịch khám</h4>
-                        <p className="text-xs text-[#6B7785] mt-1 lg:text-sm">Đặt lịch trực tuyến nhanh chóng</p>
+                      <div className="flex-1 mr-4">
+                        <h3 className="text-sm font-bold text-[#1E40AF] lg:text-base mb-1">Đặt lịch khám</h3>
+                        <p className="text-xs text-[#6B7785] lg:text-sm leading-relaxed">
+                          Đặt lịch trực tuyến nhanh chóng với bác sĩ chuyên khoa
+                        </p>
                       </div>
                       <TransitionLink to="/booking">
-                        <button className="bg-gradient-to-r from-[#2563EB] to-[#1E40AF] text-white text-xs font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-[#2563EB]/25 transition-all duration-200 flex items-center lg:text-sm lg:py-2.5 lg:px-5 border border-white/20">
+                        <button
+                          className="bg-gradient-to-r from-[#2563EB] to-[#1E40AF] text-white text-xs font-semibold py-2.5 px-4 rounded-lg shadow-md hover:shadow-[#2563EB]/25 transition-all duration-200 flex items-center lg:text-sm lg:py-3 lg:px-5 border border-white/20 min-h-[44px] focus:outline-none focus:ring-2 focus:ring-[#FAFBFC] focus:ring-offset-2 focus:ring-offset-[#2563EB]"
+                          aria-label="Đặt lịch khám bệnh ngay - Chuyển đến trang đặt lịch"
+                          type="button"
+                        >
                           <span>Đặt ngay</span>
-                          <svg className="w-4 h-4 ml-1.5 lg:w-5 lg:h-5" viewBox="0 0 20 20" fill="currentColor">
+                          <svg
+                            className="w-4 h-4 ml-2 lg:w-5 lg:h-5"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            aria-hidden="true"
+                          >
                             <path
                               fillRule="evenodd"
                               d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
@@ -408,16 +425,25 @@ const HeroSection = ({ className }: HeroSectionProps) => {
                   )}
                   {activeTab === 'doctors' && (
                     <div className="flex items-center justify-between">
-                      <div>
-                        <h4 className="text-sm font-bold text-[#1E40AF] lg:text-base">Đội ngũ bác sĩ</h4>
-                        <p className="text-xs text-[#6B7785] mt-1 lg:text-sm">
-                          Bác sĩ chuyên môn cao, giàu kinh nghiệm
+                      <div className="flex-1 mr-4">
+                        <h3 className="text-sm font-bold text-[#1E40AF] lg:text-base mb-1">Đội ngũ bác sĩ</h3>
+                        <p className="text-xs text-[#6B7785] lg:text-sm leading-relaxed">
+                          Bác sĩ chuyên môn cao, giàu kinh nghiệm và tận tâm
                         </p>
                       </div>
                       <TransitionLink to="/doctor">
-                        <button className="bg-gradient-to-r from-[#10B981] to-[#059669] text-white text-xs font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-[#10B981]/25 transition-all duration-200 flex items-center lg:text-sm lg:py-2.5 lg:px-5 border border-white/20">
+                        <button
+                          className="bg-gradient-to-r from-[#10B981] to-[#059669] text-white text-xs font-semibold py-2.5 px-4 rounded-lg shadow-md hover:shadow-[#10B981]/25 transition-all duration-200 flex items-center lg:text-sm lg:py-3 lg:px-5 border border-white/20 min-h-[44px] focus:outline-none focus:ring-2 focus:ring-[#FAFBFC] focus:ring-offset-2 focus:ring-offset-[#10B981]"
+                          aria-label="Xem danh sách bác sĩ chuyên khoa - Chuyển đến trang bác sĩ"
+                          type="button"
+                        >
                           <span>Xem bác sĩ</span>
-                          <svg className="w-4 h-4 ml-1.5 lg:w-5 lg:h-5" viewBox="0 0 20 20" fill="currentColor">
+                          <svg
+                            className="w-4 h-4 ml-2 lg:w-5 lg:h-5"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            aria-hidden="true"
+                          >
                             <path
                               fillRule="evenodd"
                               d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
@@ -430,14 +456,25 @@ const HeroSection = ({ className }: HeroSectionProps) => {
                   )}
                   {activeTab === 'services' && (
                     <div className="flex items-center justify-between">
-                      <div>
-                        <h4 className="text-sm font-bold text-[#1E40AF] lg:text-base">Dịch vụ y tế</h4>
-                        <p className="text-xs text-[#6B7785] mt-1 lg:text-sm">Đa dạng dịch vụ y tế chất lượng cao</p>
+                      <div className="flex-1 mr-4">
+                        <h3 className="text-sm font-bold text-[#1E40AF] lg:text-base mb-1">Dịch vụ y tế</h3>
+                        <p className="text-xs text-[#6B7785] lg:text-sm leading-relaxed">
+                          Đa dạng dịch vụ y tế chất lượng cao và hiện đại
+                        </p>
                       </div>
                       <TransitionLink to="/services">
-                        <button className="bg-gradient-to-r from-[#0891B2] to-[#0E7490] text-white text-xs font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-[#0891B2]/25 transition-all duration-200 flex items-center lg:text-sm lg:py-2.5 lg:px-5 border border-white/20">
+                        <button
+                          className="bg-gradient-to-r from-[#0891B2] to-[#0E7490] text-white text-xs font-semibold py-2.5 px-4 rounded-lg shadow-md hover:shadow-[#0891B2]/25 transition-all duration-200 flex items-center lg:text-sm lg:py-3 lg:px-5 border border-white/20 min-h-[44px] focus:outline-none focus:ring-2 focus:ring-[#FAFBFC] focus:ring-offset-2 focus:ring-offset-[#0891B2]"
+                          aria-label="Xem danh sách dịch vụ y tế - Chuyển đến trang dịch vụ"
+                          type="button"
+                        >
                           <span>Xem dịch vụ</span>
-                          <svg className="w-4 h-4 ml-1.5 lg:w-5 lg:h-5" viewBox="0 0 20 20" fill="currentColor">
+                          <svg
+                            className="w-4 h-4 ml-2 lg:w-5 lg:h-5"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            aria-hidden="true"
+                          >
                             <path
                               fillRule="evenodd"
                               d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
@@ -450,14 +487,25 @@ const HeroSection = ({ className }: HeroSectionProps) => {
                   )}
                   {activeTab === 'results' && (
                     <div className="flex items-center justify-between">
-                      <div>
-                        <h4 className="text-sm font-bold text-[#1E40AF] lg:text-base">Kết quả xét nghiệm</h4>
-                        <p className="text-xs text-[#6B7785] mt-1 lg:text-sm">Tra cứu kết quả xét nghiệm trực tuyến</p>
+                      <div className="flex-1 mr-4">
+                        <h3 className="text-sm font-bold text-[#1E40AF] lg:text-base mb-1">Kết quả xét nghiệm</h3>
+                        <p className="text-xs text-[#6B7785] lg:text-sm leading-relaxed">
+                          Tra cứu kết quả xét nghiệm và chẩn đoán trực tuyến
+                        </p>
                       </div>
                       <TransitionLink to="/schedule/test-result">
-                        <button className="bg-gradient-to-r from-[#2563EB] to-[#0891B2] text-white text-xs font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-[#2563EB]/25 transition-all duration-200 flex items-center lg:text-sm lg:py-2.5 lg:px-5 border border-white/20">
+                        <button
+                          className="bg-gradient-to-r from-[#2563EB] to-[#0891B2] text-white text-xs font-semibold py-2.5 px-4 rounded-lg shadow-md hover:shadow-[#2563EB]/25 transition-all duration-200 flex items-center lg:text-sm lg:py-3 lg:px-5 border border-white/20 min-h-[44px] focus:outline-none focus:ring-2 focus:ring-[#FAFBFC] focus:ring-offset-2 focus:ring-offset-[#2563EB]"
+                          aria-label="Xem kết quả xét nghiệm - Chuyển đến trang tra cứu kết quả"
+                          type="button"
+                        >
                           <span>Xem kết quả</span>
-                          <svg className="w-4 h-4 ml-1.5 lg:w-5 lg:h-5" viewBox="0 0 20 20" fill="currentColor">
+                          <svg
+                            className="w-4 h-4 ml-2 lg:w-5 lg:h-5"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            aria-hidden="true"
+                          >
                             <path
                               fillRule="evenodd"
                               d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
@@ -471,77 +519,142 @@ const HeroSection = ({ className }: HeroSectionProps) => {
                 </div>
               </div>
 
-              {/* Premium Medical Benefits Section */}
+              {/* Enhanced Medical Benefits Section - WCAG Compliant */}
               <div>
-                <div className="flex items-center justify-between mb-6">
+                {/* Compact Header with Integrated Trust Badge */}
+                <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center">
-                    <div className="w-2 h-8 bg-gradient-to-b from-[#2563EB] to-[#0891B2] rounded-full mr-3 shadow-sm"></div>
-                    <h3 className="font-bold text-[#1E40AF] text-lg lg:text-xl">Tại sao chọn chúng tôi</h3>
+                    <div className="w-1 h-3 bg-gradient-to-b from-[#2563EB] to-[#0891B2] rounded-full mr-1.5 shadow-sm lg:h-4"></div>
+                    <h2 className="font-bold text-[#1E40AF] text-xs lg:text-sm" id="benefits-heading">
+                      Tại sao chọn chúng tôi
+                    </h2>
+                  </div>
+                  {/* Compact Trust Badge with Accessibility */}
+                  <div
+                    className="flex items-center bg-gradient-to-r from-[#10B981]/10 to-[#059669]/10 px-1.5 py-0.5 rounded-full border border-[#10B981]/20"
+                    role="img"
+                    aria-label="Chứng nhận chất lượng cao cấp"
+                  >
+                    <svg
+                      className="w-2 h-2 text-[#10B981] mr-1"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
+                    <span className="text-[9px] font-semibold text-[#059669] lg:text-[10px]">Cao cấp</span>
                   </div>
                 </div>
 
-                {/* Premium Medical Benefits Cards */}
-                <div className="bg-[#FAFBFC] rounded-3xl shadow-lg border border-[#E5E9ED]/30 p-5 lg:p-6 relative overflow-hidden">
-                  {/* Background Pattern */}
-                  <div className="absolute top-0 right-0 w-32 h-32 opacity-5 rotate-45">
-                    <svg width="100%" height="100%" viewBox="0 0 100 100" fill="none">
-                      <path d="M0 0H100V100H0V0Z" fill="url(#pattern0)" />
-                      <defs>
-                        <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="0.2" height="0.2">
-                          <use href="#image0_101_345" transform="scale(0.01)" />
-                        </pattern>
-                        <image
-                          id="image0_101_345"
-                          width="20"
-                          height="20"
-                          href="data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='2' cy='2' r='2' fill='%230066FF'/%3E%3C/svg%3E"
-                        />
-                      </defs>
-                    </svg>
+                {/* Compact Medical Benefits Container - Accessible */}
+                <div className="bg-gradient-to-br from-[#FAFBFC] via-[#FAFBFC] to-[#F8FAFC] rounded-lg shadow-md border border-[#E5E9ED]/40 p-2.5 lg:p-3 relative overflow-hidden">
+                  {/* Subtle Medical Background Pattern */}
+                  <div className="absolute inset-0 opacity-[0.02]" aria-hidden="true">
+                    {/* Medical Cross Watermark */}
+                    <div className="absolute bottom-0 right-0 w-10 h-10 lg:w-14 lg:h-14 opacity-30">
+                      <svg width="100%" height="100%" viewBox="0 0 24 24" className="text-[#0891B2]">
+                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="currentColor" />
+                      </svg>
+                    </div>
                   </div>
 
-                  {/* Premium Medical Benefits Grid with Enhanced Spacing */}
-                  <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:gap-6">
+                  {/* Compact Benefits Grid with Accessibility */}
+                  <div className="grid grid-cols-2 gap-2 relative z-10" role="list" aria-labelledby="benefits-heading">
                     {serviceBenefits.map((benefit, index) => (
                       <div
                         key={index}
-                        className="benefit-card flex gap-4 items-start p-4 rounded-2xl transition-all duration-300 hover:bg-white/60 hover:shadow-md lg:p-5 border border-transparent hover:border-[#E5E9ED]/50"
-                        style={{ animationDelay: benefit.animationDelay }}
+                        className={`benefit-card-ultra group flex flex-col items-center text-center p-2 rounded-lg transition-all ${reducedMotion ? 'duration-0' : 'duration-300'} hover:bg-white/80 hover:shadow-md hover:scale-[1.02] border border-transparent hover:border-[#E5E9ED]/60 cursor-pointer min-h-[72px] lg:min-h-[80px]`}
+                        style={{ animationDelay: reducedMotion ? '0ms' : benefit.animationDelay }}
+                        role="listitem"
+                        tabIndex={0}
+                        aria-label={benefit.ariaLabel}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            // Could trigger benefit detail modal or action
+                          }
+                        }}
                       >
-                        {/* Premium Medical Icon with Enhanced Animation */}
-                        <div className="icon-container relative">
+                        {/* Compact Medical Icon with Better Touch Target */}
+                        <div className="icon-container-ultra relative mb-1.5">
                           <div
-                            className={`w-12 h-12 ${benefit.bgColor} rounded-full flex items-center justify-center shrink-0 relative z-10 transition-transform duration-500 hover:scale-110 lg:w-14 lg:h-14 shadow-sm border border-white/50`}
+                            className={`w-7 h-7 ${benefit.bgColor} rounded-lg flex items-center justify-center shrink-0 relative z-10 transition-all ${reducedMotion ? 'duration-0' : 'duration-500'} group-hover:scale-110 group-hover:rotate-3 lg:w-8 lg:h-8 shadow-md border border-white/60 group-hover:shadow-lg`}
                           >
                             <svg
-                              className={`w-6 h-6 ${benefit.iconColor} lg:w-7 lg:h-7 drop-shadow-sm`}
+                              className={`w-4 h-4 ${benefit.iconColor} lg:w-5 lg:h-5 drop-shadow-sm transition-transform ${reducedMotion ? 'duration-0' : 'duration-300'} group-hover:scale-110`}
                               viewBox="0 0 24 24"
                               fill="none"
                               stroke="currentColor"
                               strokeWidth="2.5"
-                              aria-label={benefit.ariaLabel}
-                              role="img"
+                              aria-hidden="true"
                             >
                               <path strokeLinecap="round" strokeLinejoin="round" d={benefit.icon} />
                             </svg>
                           </div>
-                          {/* Enhanced Animated Pulse Effect */}
-                          <div
-                            className={`absolute inset-0 bg-gradient-to-r ${benefit.gradientFrom} ${benefit.gradientTo} rounded-full opacity-15 icon-pulse`}
-                          ></div>
+                          {/* Pulse Effect - Respects Reduced Motion */}
+                          {!reducedMotion && (
+                            <div
+                              className={`absolute inset-0 bg-gradient-to-r ${benefit.gradientFrom} ${benefit.gradientTo} rounded-lg opacity-15 icon-pulse-ultra scale-110`}
+                            ></div>
+                          )}
                         </div>
 
-                        {/* Content with Premium Medical Typography */}
-                        <div className="flex-1">
-                          <h3 className="font-bold text-base text-[#1E40AF] lg:text-lg leading-tight">
+                        {/* Enhanced Content with Better Typography */}
+                        <div className="flex-1 min-h-0">
+                          <h3
+                            className={`font-bold text-xs text-[#1E40AF] lg:text-sm leading-tight mb-1 group-hover:text-[#2563EB] transition-colors ${reducedMotion ? 'duration-0' : 'duration-300'}`}
+                          >
                             {benefit.title}
                           </h3>
-                          <p className="text-sm text-[#6B7785] mt-1 line-clamp-2 lg:text-base leading-relaxed">
+                          <p
+                            className={`text-[10px] text-[#6B7785] leading-relaxed lg:text-xs group-hover:text-[#4A5568] transition-colors ${reducedMotion ? 'duration-0' : 'duration-300'}`}
+                          >
                             {benefit.description}
                           </p>
                         </div>
+
+                        {/* Enhanced Interaction Indicator */}
+                        <div
+                          className={`w-0 h-px bg-gradient-to-r from-[#2563EB] to-[#0891B2] rounded-full mt-2 group-hover:w-8 transition-all ${reducedMotion ? 'duration-0' : 'duration-300'} lg:group-hover:w-10`}
+                        ></div>
                       </div>
                     ))}
+                  </div>
+
+                  {/* Enhanced Medical Credibility Footer */}
+                  <div className="flex items-center justify-center mt-3 pt-2.5 border-t border-[#E5E9ED]/30 lg:mt-3.5 lg:pt-3">
+                    <div
+                      className="flex items-center space-x-4 text-[10px] text-[#6B7785] lg:text-xs"
+                      role="list"
+                      aria-label="Chứng nhận và tiêu chuẩn chất lượng"
+                    >
+                      <div className="flex items-center" role="listitem">
+                        <div
+                          className={`w-1.5 h-1.5 bg-[#10B981] rounded-full mr-1.5 ${reducedMotion ? '' : 'animate-pulse'}`}
+                        ></div>
+                        <span className="font-medium">JCI</span>
+                        <span className="sr-only">- Chứng nhận chất lượng quốc tế</span>
+                      </div>
+                      <div className="w-px h-3 bg-[#E5E9ED]" aria-hidden="true"></div>
+                      <div className="flex items-center" role="listitem">
+                        <div
+                          className={`w-1.5 h-1.5 bg-[#2563EB] rounded-full mr-1.5 ${reducedMotion ? '' : 'animate-pulse'}`}
+                          style={{ animationDelay: reducedMotion ? '0s' : '0.5s' }}
+                        ></div>
+                        <span className="font-medium">ISO</span>
+                        <span className="sr-only">- Tiêu chuẩn ISO quốc tế</span>
+                      </div>
+                      <div className="w-px h-3 bg-[#E5E9ED]" aria-hidden="true"></div>
+                      <div className="flex items-center" role="listitem">
+                        <div
+                          className={`w-1.5 h-1.5 bg-[#0891B2] rounded-full mr-1.5 ${reducedMotion ? '' : 'animate-pulse'}`}
+                          style={{ animationDelay: reducedMotion ? '0s' : '1s' }}
+                        ></div>
+                        <span className="font-medium">24/7</span>
+                        <span className="sr-only">- Dịch vụ 24 giờ mỗi ngày</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -549,6 +662,9 @@ const HeroSection = ({ className }: HeroSectionProps) => {
           </div>
         </div>
       </div>
+
+      {/* Live Region for Screen Reader Announcements */}
+      <div aria-live="polite" aria-atomic="true" className="sr-only" role="status" id="hero-announcements"></div>
 
       <style>{`
         @keyframes pulse {
@@ -589,10 +705,11 @@ const HeroSection = ({ className }: HeroSectionProps) => {
           top: 0;
           left: 0;
           height: 100%;
-          width: 200%;
-          background-image: url("data:image/svg+xml,%3Csvg width='200' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 L 5 10 L 7 2 L 10 18 L 13 0 L 16 10 L 20 10 L 23 6 L 26 10 L 100 10 L 102 6 L 106 14 L 108 10 L 112 10 L 115 2 L 118 18 L 123 3 L 126 10 L 130 10 L 140 10 L 142 4 L 145 10 L 200 10' stroke='white' fill='none' /%3E%3C/svg%3E");
+          width: 300%;
+          background-image: url("data:image/svg+xml,%3Csvg width='300' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20 L 8 20 L 12 5 L 16 35 L 20 2 L 24 20 L 30 20 L 35 12 L 40 20 L 80 20 L 85 12 L 92 28 L 96 20 L 105 20 L 110 5 L 115 35 L 122 8 L 128 20 L 135 20 L 150 20 L 155 10 L 162 20 L 200 20 L 205 15 L 210 25 L 215 20 L 250 20 L 255 8 L 260 32 L 265 20 L 300 20' stroke='%23ffffff' stroke-width='2' fill='none' stroke-linecap='round' /%3E%3C/svg%3E");
           background-repeat: repeat-x;
-          animation: slide 10s linear infinite;
+          animation: slide 15s linear infinite;
+          filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.3));
         }
         
         .hide-scrollbar::-webkit-scrollbar {
@@ -630,6 +747,33 @@ const HeroSection = ({ className }: HeroSectionProps) => {
           }
         }
 
+        @keyframes imageZoom {
+          0% { transform: scale(1); }
+          50% { transform: scale(1.02); }
+          100% { transform: scale(1); }
+        }
+
+        @keyframes floatSlow {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-10px) rotate(2deg); }
+        }
+
+        @keyframes shimmerButton {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
+        }
+
+        @keyframes medicalPulse {
+          0%, 100% {
+            opacity: 0.6;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.05);
+          }
+        }
+
         .animate-shine {
           animation: shine 1.5s infinite;
         }
@@ -637,26 +781,98 @@ const HeroSection = ({ className }: HeroSectionProps) => {
         .animate-fadeIn {
           animation: fadeIn 0.3s ease-out;
         }
+
+        .animate-imageZoom {
+          animation: imageZoom 20s ease-in-out infinite;
+        }
+
+        .animate-floatSlow {
+          animation: floatSlow 6s ease-in-out infinite;
+        }
+
+        .animate-medicalPulse {
+          animation: medicalPulse 3s ease-in-out infinite;
+        }
         
-        /* New animations for benefits section */
+        /* Enhanced animations for optimized benefits section */
         @keyframes iconPulse {
           0% { transform: scale(1); opacity: 0.2; }
           50% { transform: scale(1.7); opacity: 0.1; }
           100% { transform: scale(1); opacity: 0.2; }
         }
-        
+
+        @keyframes iconPulseCompact {
+          0% { transform: scale(1.1); opacity: 0.15; }
+          50% { transform: scale(1.4); opacity: 0.08; }
+          100% { transform: scale(1.1); opacity: 0.15; }
+        }
+
+        @keyframes iconPulseUltra {
+          0% { transform: scale(1.05); opacity: 0.12; }
+          50% { transform: scale(1.25); opacity: 0.06; }
+          100% { transform: scale(1.05); opacity: 0.12; }
+        }
+
         @keyframes floatUp {
           0% { opacity: 0; transform: translateY(15px); }
           100% { opacity: 1; transform: translateY(0); }
         }
-        
+
+        @keyframes compactSlideIn {
+          0% { opacity: 0; transform: translateY(10px) scale(0.95); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes ultraSlideIn {
+          0% { opacity: 0; transform: translateY(6px) scale(0.97); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes subtleGlow {
+          0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+          50% { box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
+          100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+        }
+
+        @keyframes microGlow {
+          0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+          50% { box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.08); }
+          100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+        }
+
         .icon-pulse {
           animation: iconPulse 3s infinite ease-in-out;
         }
-        
+
+        .icon-pulse-compact {
+          animation: iconPulseCompact 4s infinite ease-in-out;
+        }
+
+        .icon-pulse-ultra {
+          animation: iconPulseUltra 5s infinite ease-in-out;
+        }
+
         .benefit-card {
           animation: floatUp 0.5s ease-out forwards;
           opacity: 0;
+        }
+
+        .benefit-card-compact {
+          animation: compactSlideIn 0.6s ease-out forwards;
+          opacity: 0;
+        }
+
+        .benefit-card-ultra {
+          animation: ultraSlideIn 0.4s ease-out forwards;
+          opacity: 0;
+        }
+
+        .benefit-card-compact:hover .icon-container-compact > div:first-child {
+          animation: subtleGlow 2s infinite ease-in-out;
+        }
+
+        .benefit-card-ultra:hover .icon-container-ultra > div:first-child {
+          animation: microGlow 2s infinite ease-in-out;
         }
         
         /* Zalo Mini App specific transitions */
@@ -676,6 +892,73 @@ const HeroSection = ({ className }: HeroSectionProps) => {
           .benefit-card:nth-child(2) { animation-delay: 200ms; }
           .benefit-card:nth-child(3) { animation-delay: 300ms; }
           .benefit-card:nth-child(4) { animation-delay: 400ms; }
+
+          .benefit-card-compact:nth-child(1) { animation-delay: 0ms; }
+          .benefit-card-compact:nth-child(2) { animation-delay: 150ms; }
+          .benefit-card-compact:nth-child(3) { animation-delay: 300ms; }
+          .benefit-card-compact:nth-child(4) { animation-delay: 450ms; }
+
+          .benefit-card-ultra:nth-child(1) { animation-delay: 0ms; }
+          .benefit-card-ultra:nth-child(2) { animation-delay: 100ms; }
+          .benefit-card-ultra:nth-child(3) { animation-delay: 200ms; }
+          .benefit-card-ultra:nth-child(4) { animation-delay: 300ms; }
+        }
+
+        /* Enhanced accessibility and reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+          .benefit-card-ultra,
+          .benefit-card-compact,
+          .benefit-card,
+          .icon-pulse,
+          .icon-pulse-compact,
+          .icon-pulse-ultra,
+          .animate-imageZoom,
+          .animate-floatSlow,
+          .animate-medicalPulse,
+          .heartbeat,
+          .pulse-fade,
+          .ecg-line {
+            animation: none;
+            opacity: 1;
+            transform: none;
+          }
+
+          .benefit-card-compact:hover .icon-container-compact > div:first-child,
+          .benefit-card-ultra:hover .icon-container-ultra > div:first-child {
+            animation: none;
+          }
+        }
+
+        /* Enhanced responsive image optimizations */
+        @media (max-width: 640px) {
+          .ecg-line {
+            background-size: 150px 20px;
+            animation-duration: 8s;
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .ecg-line {
+            background-size: 400px 40px;
+            animation-duration: 20s;
+          }
+        }
+
+        /* Image quality optimizations */
+        img[loading="lazy"] {
+          transition: opacity 0.3s ease-in-out;
+        }
+
+        img[loading="lazy"]:not([src]) {
+          opacity: 0;
+        }
+
+        /* Enhanced medical visual effects */
+        .medical-glow {
+          box-shadow:
+            0 0 20px rgba(37, 99, 235, 0.3),
+            0 0 40px rgba(37, 99, 235, 0.2),
+            0 0 60px rgba(37, 99, 235, 0.1);
         }
       `}</style>
     </section>

@@ -31,14 +31,6 @@ export const MEDICAL_COLORS = {
     greenAccent: '#047857', // Accent Green - Medical success
   },
 
-  // Trust-Building Cyan - Professional Medical Services
-  accent: {
-    cyan: '#0891B2', // Trust Cyan - Links, medical info
-    cyanDark: '#0E7490', // Dark Cyan - Active states
-    cyanLight: '#06B6D4', // Light Cyan - Highlights
-    cyanAccent: '#0369A1', // Accent Cyan - Professional emphasis
-  },
-
   // Medical Blues - Professional, trustworthy, calming
   blue: {
     50: '#F0F8FF', // Alice blue - very light, clean
@@ -95,17 +87,24 @@ export const MEDICAL_COLORS = {
     900: '#1E3A8A', // Deep navy trust
   },
 
-  // Accent Colors - Medical cyan and teal for modern hospital feel
+  // Trust-Building Cyan & Teal - Professional Medical Services
   accent: {
-    cyan: {
+    // Backward-compatible simple color aliases (for existing components)
+    cyan: '#0891B2', // Trust Cyan - Links, medical info (maps to cyanScale[600])
+    cyanDark: '#0E7490', // Dark Cyan - Active states (maps to cyanScale[700])
+    cyanLight: '#06B6D4', // Light Cyan - Highlights (maps to cyanScale[500])
+    cyanAccent: '#0369A1', // Accent Cyan - Professional emphasis (custom)
+
+    // Detailed color scales for advanced usage
+    cyanScale: {
       50: '#ECFEFF',
       100: '#CFFAFE',
       200: '#A5F3FC',
       300: '#67E8F9',
       400: '#22D3EE',
-      500: '#06B6D4', // Primary cyan
-      600: '#0891B2',
-      700: '#0E7490',
+      500: '#06B6D4', // Primary cyan (cyanLight)
+      600: '#0891B2', // Trust cyan (cyan)
+      700: '#0E7490', // Dark cyan (cyanDark)
       800: '#155E75',
       900: '#164E63',
     },
@@ -146,7 +145,7 @@ export const MEDICAL_COLORS = {
   },
 } as const;
 
-// Standardized Card Dimensions
+// Standardized Card Dimensions - Aligned with Medical Width System
 export const CARD_DIMENSIONS = {
   // Standard card sizes for consistent layout
   small: {
@@ -165,23 +164,23 @@ export const CARD_DIMENSIONS = {
     minHeight: 'min-h-[224px]',
   },
 
-  // Horizontal scroll cards (FeaturedServices)
+  // Horizontal scroll cards (FeaturedServices) - Using unified width system
   horizontal: {
-    width: 'w-[280px]', // Fixed width for horizontal scroll
+    width: 'w-[260px] sm:w-[280px] lg:w-[300px]', // Responsive width from MEDICAL_WIDTHS
     height: 'h-64', // 256px
     minHeight: 'min-h-[256px]',
   },
 
-  // Grid cards (FeaturedDepartments)
+  // Grid cards (FeaturedDepartments) - Using unified width system
   grid: {
-    width: 'w-full',
-    height: 'h-44', // 176px - optimized for 2-column grid
+    width: 'w-full', // Full width in grid layout
+    height: 'h-44', // 176px - optimized for grid
     minHeight: 'min-h-[176px]',
   },
 
-  // Vertical list cards (HealthNews)
+  // Vertical list cards (HealthNews) - Using unified width system
   vertical: {
-    width: 'w-full',
+    width: 'w-full', // Full width in vertical layout
     height: 'auto', // Dynamic height based on content
     minHeight: 'min-h-[200px]', // Minimum height for consistency
   },
@@ -396,7 +395,46 @@ export const ANIMATIONS = {
   },
 } as const;
 
-// Responsive Breakpoints
+// Unified Width System for Medical Components
+export const MEDICAL_WIDTHS = {
+  // Main container widths for different contexts
+  container: {
+    narrow: 'max-w-md', // 448px - Current mobile-first approach
+    standard: 'max-w-2xl', // 672px - Balanced for medical content
+    wide: 'max-w-4xl', // 896px - Desktop medical dashboard
+    full: 'max-w-6xl', // 1152px - Full medical interface
+  },
+
+  // Medical service card widths (horizontal scroll)
+  serviceCard: {
+    mobile: 'w-[260px]', // Optimized for mobile viewing
+    tablet: 'w-[280px]', // Balanced for tablet
+    desktop: 'w-[300px]', // Premium desktop experience
+  },
+
+  // Department card widths (grid layout)
+  departmentCard: {
+    mobile: 'w-full', // Full width on mobile
+    tablet: 'w-full', // Full width in grid
+    desktop: 'w-full', // Full width in grid
+  },
+
+  // News card widths (vertical layout)
+  newsCard: {
+    mobile: 'w-full', // Full width on mobile
+    tablet: 'w-full', // Full width in vertical layout
+    desktop: 'w-full', // Full width in vertical layout
+  },
+
+  // Section container widths
+  section: {
+    padding: 'px-3 md:px-4 lg:px-6', // Responsive section padding
+    margin: 'mx-2 md:mx-3 lg:mx-4', // Responsive section margins
+    maxWidth: 'max-w-none', // Allow sections to use container width
+  },
+} as const;
+
+// Responsive Breakpoints - Enhanced for Medical UI
 export const BREAKPOINTS = {
   mobile: 'max-w-sm', // < 640px
   tablet: 'md:max-w-2xl', // 640px - 768px
@@ -407,6 +445,13 @@ export const BREAKPOINTS = {
     mobile: 'grid-cols-1',
     tablet: 'md:grid-cols-2',
     desktop: 'lg:grid-cols-3',
+  },
+
+  // Medical-specific responsive classes
+  medical: {
+    container: 'w-full max-w-2xl mx-auto', // Standard medical container
+    section: 'w-full', // Full width sections
+    card: 'w-full', // Full width cards in grid
   },
 } as const;
 
@@ -433,6 +478,38 @@ export const MEDICAL_VARIANTS = {
 export const combineClasses = (...classes: (string | undefined | false)[]): string => {
   return classes.filter(Boolean).join(' ');
 };
+
+// Medical Skeleton Color System - Premium Hospital Grade
+export const MEDICAL_SKELETON_COLORS = {
+  // Primary skeleton colors using medical palette
+  primary: {
+    base: '#F0F4FF', // Ultra light medical blue background
+    shimmer: '#E6EFFF', // Light medical blue for shimmer effect
+    accent: '#DDE7FF', // Accent medical blue for highlights
+  },
+
+  // Secondary skeleton colors using healing greens
+  secondary: {
+    base: '#F0FDF9', // Ultra light healing green background
+    shimmer: '#E6FFFA', // Light healing green for shimmer effect
+    accent: '#DCFCE7', // Accent healing green for highlights
+  },
+
+  // Neutral skeleton colors using medical whites
+  neutral: {
+    base: '#FAFBFC', // Medical white soft background
+    shimmer: '#F8F9FB', // Pearl white for shimmer effect
+    accent: '#F3F4F6', // Light gray for subtle contrast
+  },
+
+  // Gradient combinations for advanced skeletons
+  gradients: {
+    medicalBlue: `linear-gradient(90deg, #F0F4FF 25%, #E6EFFF 50%, #F0F4FF 75%)`,
+    healingGreen: `linear-gradient(90deg, #F0FDF9 25%, #E6FFFA 50%, #F0FDF9 75%)`,
+    trustCyan: `linear-gradient(90deg, #F0FDFA 25%, #CCFBF1 50%, #F0FDFA 75%)`,
+    medicalNeutral: `linear-gradient(90deg, #FAFBFC 25%, #F8F9FB 50%, #FAFBFC 75%)`,
+  },
+} as const;
 
 // Medical design system presets for common component patterns
 export const MEDICAL_PRESETS = {
@@ -490,6 +567,33 @@ export const MEDICAL_PRESETS = {
     'bg-white hover:' + SHADOWS.cardHover,
     ANIMATIONS.classes.normal
   ),
+
+  // Medical Skeleton Presets
+  skeletonPrimary: combineClasses(
+    BORDER_RADIUS.button,
+    'skeleton-optimized',
+    'bg-gradient-to-r from-blue-50 via-blue-100 to-blue-50',
+    'bg-[length:200%_100%]',
+    'animate-shimmer-medical'
+  ),
+
+  skeletonSecondary: combineClasses(
+    BORDER_RADIUS.button,
+    'skeleton-optimized',
+    'bg-gradient-to-r from-green-50 via-green-100 to-green-50',
+    'bg-[length:200%_100%]',
+    'animate-shimmer-medical'
+  ),
+
+  skeletonNeutral: combineClasses(
+    BORDER_RADIUS.button,
+    'skeleton-optimized',
+    'bg-gradient-to-r from-gray-50 via-gray-100 to-gray-50',
+    'bg-[length:200%_100%]',
+    'animate-shimmer-medical'
+  ),
+
+  skeletonFast: combineClasses(BORDER_RADIUS.button, 'skeleton-optimized', 'bg-blue-50', 'animate-pulse'),
 
   // Section container preset
   sectionContainer: combineClasses('bg-white', BORDER_RADIUS.section, SPACING.padding.section, SPACING.margin.section),

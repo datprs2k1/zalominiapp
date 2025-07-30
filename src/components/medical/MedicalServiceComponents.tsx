@@ -369,8 +369,8 @@ export const MedicalCategoryFilter = memo<MedicalCategoryFilterProps>(
                 onClick={() => onCategoryChange(null)}
                 className={`flex-shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 min-h-[44px] flex items-center gap-2 medical-focus ${
                   selectedCategory === null
-                    ? 'bg-gradient-to-r from-secondary to-secondary-dark text-white shadow-medical'
-                    : 'bg-white text-gray-700 hover:bg-primary-50 hover:text-primary border border-gray-200 hover:border-primary-300'
+                    ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg'
+                    : 'bg-white text-gray-700 hover:bg-blue-50 hover:text-blue-600 border border-gray-200 hover:border-blue-300'
                 }`}
                 aria-pressed={selectedCategory === null}
                 whileHover={{ scale: 1.05, y: -1 }}

@@ -233,7 +233,7 @@ const DoctorItem = memo<DoctorItemProps>(
               onError={handleImageError}
               onLoad={handleImageLoad}
               decoding="async"
-              fetchPriority="low"
+              {...({ fetchpriority: 'low' } as any)}
               sizes="(max-width: 640px) 64px, (max-width: 768px) 80px, 96px"
               style={{
                 imageRendering: 'crisp-edges',

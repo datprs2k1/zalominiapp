@@ -12,7 +12,7 @@ import { atomFamily } from 'jotai/utils';
 import { WPPost } from './wp-types';
 import { enhancedRequest } from './api';
 import { batchRequest, optimizeApiUrl } from '../utils/api-performance-monitor';
-import { WP_ENDPOINTS } from './common';
+import { WP_ENDPOINTS, truncateText, formatMedicalDate } from './common';
 
 /**
  * Interface for posts query parameters
@@ -66,6 +66,7 @@ export const fetchPost = async (id: number, params: PostsQueryParams = {}): Prom
   const optimizedParams = {
     ...params,
     _fields: defaultFields,
+    _embed: 'wp:featuredmedia',
   };
 
   return enhancedRequest('get', `${WP_ENDPOINTS.POSTS}/${id}`, {
@@ -141,7 +142,7 @@ export const searchPosts = async (
       featuredImageUrl: null, // Simplified for now
       plainTextExcerpt,
       truncatedExcerpt: truncateText(plainTextExcerpt, 150),
-      formattedDate: formatDate(post.date),
+      formattedDate: formatMedicalDate(post.date),
       readingTime: estimateReadingTime(post.content?.rendered || ''),
     };
   });
@@ -167,7 +168,7 @@ export const getPosts = async (params: PostsQueryParams = {}): Promise<EnhancedP
       featuredImageUrl: null, // Simplified for now
       plainTextExcerpt,
       truncatedExcerpt: truncateText(plainTextExcerpt, 150),
-      formattedDate: formatDate(post.date),
+      formattedDate: formatMedicalDate(post.date),
       readingTime: estimateReadingTime(post.content?.rendered || ''),
     };
   });
@@ -185,7 +186,7 @@ export const getPost = async (id: number, params: PostsQueryParams = {}): Promis
     featuredImageUrl: null, // Simplified for now
     plainTextExcerpt,
     truncatedExcerpt: truncateText(plainTextExcerpt, 150),
-    formattedDate: formatDate(post.date),
+    formattedDate: formatMedicalDate(post.date),
     readingTime: estimateReadingTime(post.content?.rendered || ''),
   };
 };
@@ -205,7 +206,7 @@ export const getFeaturedPosts = async (limit: number = 5, params: PostsQueryPara
       featuredImageUrl: null, // Simplified for now
       plainTextExcerpt,
       truncatedExcerpt: truncateText(plainTextExcerpt, 150),
-      formattedDate: formatDate(post.date),
+      formattedDate: formatMedicalDate(post.date),
       readingTime: estimateReadingTime(post.content?.rendered || ''),
     };
   });
@@ -231,7 +232,7 @@ export const transformPost = (post: WPPost): EnhancedPost => {
     featuredImageUrl: null, // Simplified for now
     plainTextExcerpt,
     truncatedExcerpt: truncateText(plainTextExcerpt, 150),
-    formattedDate: formatDate(post.date),
+    formattedDate: formatMedicalDate(post.date),
     readingTime: estimateReadingTime(post.content?.rendered || ''),
   };
 };
@@ -241,26 +242,6 @@ export const transformPost = (post: WPPost): EnhancedPost => {
  */
 function stripHtml(html: string): string {
   return html.replace(/<\/?[^>]+(>|$)/g, '');
-}
-
-/**
- * Helper function to truncate text
- */
-function truncateText(text: string, maxLength: number): string {
-  if (text.length <= maxLength) return text;
-  return text.substring(0, maxLength) + '...';
-}
-
-/**
- * Helper function to format date
- */
-function formatDate(dateString: string): string {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('vi-VN', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
 }
 
 /**

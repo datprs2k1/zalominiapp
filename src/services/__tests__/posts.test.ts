@@ -4,15 +4,8 @@
 
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import type { MockedFunction } from 'vitest';
-import {
-  getPosts,
-  getPost,
-  getFeaturedPosts,
-  searchPosts,
-  transformPost,
-  EnhancedPost,
-} from '../posts';
-import { fetchPosts, fetchPost } from '../common';
+import { getPosts, getPost, getFeaturedPosts, searchPosts, transformPost, EnhancedPost } from '../posts';
+import { fetchPostsGeneric as fetchPosts, fetchPostGeneric as fetchPost } from '../common';
 import { WPPost } from '../wp-types';
 
 // Mock the common module
@@ -24,7 +17,7 @@ vi.mock('../common', () => ({
   extractFeaturedImageUrl: vi.fn(() => 'https://example.com/image.jpg'),
   extractCategories: vi.fn(() => [{ id: 1, name: 'Cardiology', slug: 'cardiology' }]),
   extractPlainText: vi.fn((html) => html.replace(/<[^>]*>/g, '')),
-  truncateText: vi.fn((text, length) => text.length > length ? text.substring(0, length) + '...' : text),
+  truncateText: vi.fn((text, length) => (text.length > length ? text.substring(0, length) + '...' : text)),
   formatMedicalDate: vi.fn(() => '15 tháng 7, 2024'),
   createListAtomFamily: vi.fn(),
   createItemAtomFamily: vi.fn(),
@@ -62,17 +55,23 @@ describe('Enhanced Posts Service', () => {
     categories: [1],
     tags: [],
     _embedded: {
-      'wp:featuredmedia': [{
-        id: 123,
-        source_url: 'https://example.com/heart-image.jpg',
-        alt_text: 'Heart health illustration',
-      }],
-      'wp:term': [[{
-        id: 1,
-        name: 'Cardiology',
-        slug: 'cardiology',
-        taxonomy: 'category',
-      }]],
+      'wp:featuredmedia': [
+        {
+          id: 123,
+          source_url: 'https://example.com/heart-image.jpg',
+          alt_text: 'Heart health illustration',
+        },
+      ],
+      'wp:term': [
+        [
+          {
+            id: 1,
+            name: 'Cardiology',
+            slug: 'cardiology',
+            taxonomy: 'category',
+          },
+        ],
+      ],
     },
   };
 

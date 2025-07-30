@@ -11,10 +11,15 @@ import router from '@/router';
 // Skeleton performance utilities
 import { initializeSkeletonPerformance } from './components/skeleton-performance-utils';
 
+// iOS-specific fixes
+import { initializeIOSFixes } from './utils/ios-fixes';
+
 // ZaUI stylesheet
 import 'zmp-ui/zaui.min.css';
 // Tailwind stylesheet
 import '@/css/tailwind.scss';
+// iOS-specific scroll fixes (must be loaded before app.scss)
+import '@/styles/ios-scroll-fixes.css';
 // Your stylesheet
 import '@/css/app.scss';
 
@@ -27,6 +32,9 @@ if (!window.APP_CONFIG) {
 
 // Initialize skeleton performance utilities
 initializeSkeletonPerformance();
+
+// Initialize iOS-specific fixes
+initializeIOSFixes();
 
 // Mount the app with ThemeProvider and AnimationProvider contexts
 const root = createRoot(document.getElementById('app')!);

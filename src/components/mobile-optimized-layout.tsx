@@ -344,7 +344,7 @@ export const MobileViewportUtils = {
     };
   },
 
-  // Optimize touch interactions
+  // Optimize touch interactions with iOS-specific fixes
   optimizeTouchInteractions: () => {
     // Disable double-tap zoom on buttons and interactive elements
     document.addEventListener('touchstart', (e) => {
@@ -356,8 +356,78 @@ export const MobileViewportUtils = {
       }
     });
 
-    // Improve scroll performance
+    // iOS-specific scroll optimizations
     document.body.style.overscrollBehavior = 'contain';
+    document.body.style.webkitOverflowScrolling = 'touch';
+    document.body.style.touchAction = 'pan-y';
+
+    // Prevent iOS scroll blocking by fixed elements
+    MobileViewportUtils.fixiOSScrollBlocking();
+  },
+
+  // iOS-specific scroll blocking fixes
+  fixiOSScrollBlocking: () => {
+    // Detect iOS
+    const isIOS =
+      /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+    if (!isIOS) return;
+
+    // Fix toast containers that might block scrolling
+    const fixToastContainers = () => {
+      const toastContainers = document.querySelectorAll('.toast-container');
+      toastContainers.forEach((container) => {
+        const element = container as HTMLElement;
+        element.style.pointerEvents = 'none';
+        element.style.transform = 'none';
+        element.style.webkitTransform = 'none';
+
+        // Ensure individual toasts can be interacted with
+        const toasts = container.querySelectorAll('.medical-toast, [data-testid*="toast"]');
+        toasts.forEach((toast) => {
+          const toastElement = toast as HTMLElement;
+          toastElement.style.pointerEvents = 'auto';
+          toastElement.style.touchAction = 'manipulation';
+        });
+      });
+    };
+
+    // Fix high z-index elements that might block scrolling
+    const fixHighZIndexElements = () => {
+      const highZElements = document.querySelectorAll('[style*="z-index"]');
+      highZElements.forEach((element) => {
+        const htmlElement = element as HTMLElement;
+        const zIndex = parseInt(htmlElement.style.zIndex || '0');
+
+        if (zIndex > 1000) {
+          // Remove problematic transforms
+          htmlElement.style.transform = 'none';
+          htmlElement.style.webkitTransform = 'none';
+          htmlElement.style.backfaceVisibility = 'visible';
+        }
+      });
+    };
+
+    // Apply fixes immediately and on DOM changes
+    fixToastContainers();
+    fixHighZIndexElements();
+
+    // Monitor for dynamically added elements
+    const observer = new MutationObserver(() => {
+      fixToastContainers();
+      fixHighZIndexElements();
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['style', 'class'],
+    });
+
+    // Cleanup function
+    return () => observer.disconnect();
   },
 
   // Optimize for medical accessibility

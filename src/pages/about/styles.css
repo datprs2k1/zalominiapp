@@ -63,20 +63,7 @@
 }
 
 /* Medical pulse animation with medical blue */
-@keyframes medicalPulse {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(0, 102, 204, 0.4);
-  }
-  50% {
-    transform: scale(1.02);
-    box-shadow: 0 0 0 10px rgba(0, 102, 204, 0);
-  }
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(0, 102, 204, 0);
-  }
-}
+/* Note: medicalPulse keyframes moved to main app.scss to avoid conflicts */
 
 /* Medical spinner for loading states */
 @keyframes medicalSpinner {
@@ -299,4 +286,142 @@
   40% { content: '..'; }
   60% { content: '...'; }
   80%, 100% { content: ''; }
-} 
+}
+
+/* Enhanced Medical UI Components */
+.bg-gradient-radial {
+  background: radial-gradient(circle, var(--tw-gradient-stops));
+}
+
+.shadow-3xl {
+  box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25), 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-gpu {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Medical Status Indicators */
+.medical-status-active {
+  position: relative;
+}
+
+.medical-status-active::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  border-radius: inherit;
+  transform: translate(-50%, -50%);
+  animation: medicalPulse 2s ease-in-out infinite;
+}
+
+/* Enhanced Medical Card Hover Effects */
+.medical-card-premium {
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform-style: preserve-3d;
+}
+
+.medical-card-premium:hover {
+  transform: translateY(-8px) rotateY(2deg);
+  box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.15),
+              0 15px 25px -8px rgba(37, 99, 235, 0.1);
+}
+
+/* Medical Grid Pattern */
+.medical-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M20 20h4v4h-4v-4zm-8-8h4v4h-4v-4zm8 0h4v4h-4v-4zm8 0h4v4h-4v-4zm-8 8h4v4h-4v-4zm8 0h4v4h-4v-4zm-8 8h4v4h-4v-4zm8 0h4v4h-4v-4z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Medical Certification Badge Animation */
+@keyframes certificationPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+.medical-certification {
+  animation: certificationPulse 3s ease-in-out infinite;
+}
+
+/* Enhanced Medical Typography */
+.medical-title {
+  background: linear-gradient(135deg, #2563EB, #10B981, #0891B2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Medical Quality Indicators */
+.quality-indicator {
+  position: relative;
+  overflow: hidden;
+}
+
+.quality-indicator::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: shimmerEffect 3s infinite;
+}
+
+@keyframes shimmerEffect {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* Accessibility Enhancements */
+@media (prefers-reduced-motion: reduce) {
+  .medical-heartbeat,
+  .medical-pulse,
+  .medical-certification,
+  .quality-indicator::after,
+  .medical-title {
+    animation: none;
+  }
+
+  .medical-card-premium:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .medical-card-premium {
+    border-width: 3px;
+    border-color: currentColor;
+  }
+
+  .medical-status-active {
+    border: 2px solid currentColor;
+  }
+}

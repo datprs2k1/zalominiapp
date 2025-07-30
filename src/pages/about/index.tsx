@@ -6,11 +6,11 @@ import about1 from '@/static/about1.jpg';
 import CallIcon from '@/components/icons/call';
 import './styles.css'; // CSS animations still needed for some effects
 import { motion, useAnimation, AnimatePresence, useInView, Variant, Variants, useReducedMotion } from 'framer-motion'; // Import proper types
-import { BORDER_RADIUS, SHADOWS, combineClasses } from '@/styles/medical-design-system';
+// Removed unused imports
 import { AnimatedMedicalIcon } from '@/components/medical-animations';
 import { getColorToken } from '@/styles/unified-color-system';
 
-// Utility function for reduced motion support
+// Enhanced utility function for reduced motion support with performance optimizations
 const useAccessibleAnimation = () => {
   const shouldReduceMotion = useReducedMotion();
 
@@ -24,26 +24,36 @@ const useAccessibleAnimation = () => {
         }
       );
     }
-    return normalProps;
+    return {
+      ...normalProps,
+      // Add performance optimizations
+      style: { willChange: 'transform, opacity' },
+    };
   };
 
   const getTransition = (duration: number, delay: number = 0) => {
     if (shouldReduceMotion) {
       return { duration: 0.01, delay: 0 };
     }
-    return { duration, delay, ease: [0.25, 0.46, 0.45, 0.94] };
+    return {
+      duration,
+      delay,
+      ease: [0.25, 0.46, 0.45, 0.94],
+      // Performance optimization
+      type: 'tween',
+    };
   };
 
   return { getAnimationProps, getTransition, shouldReduceMotion };
 };
 
-// Floating element component for subtle background animations
+// Simplified floating element component for subtle background animations
 const FloatingElement: React.FC<{
   children?: React.ReactNode;
   className?: string;
   duration?: number;
   delay?: number;
-}> = ({ children, className = '', duration = 8, delay = 0 }) => {
+}> = ({ children, className = '', duration = 12, delay = 0 }) => {
   const { shouldReduceMotion } = useAccessibleAnimation();
 
   if (shouldReduceMotion) {
@@ -54,9 +64,7 @@ const FloatingElement: React.FC<{
     <motion.div
       className={className}
       animate={{
-        scale: [1, 1.05, 1],
-        opacity: [0.3, 0.5, 0.3],
-        y: [0, -10, 0],
+        opacity: [0.2, 0.3, 0.2],
       }}
       transition={{
         duration,
@@ -94,15 +102,12 @@ const ProfessionalButton: React.FC<{
   const hoverProps = getAnimationProps(
     {
       whileHover: {
-        scale: 1.02,
-        y: -2,
+        scale: 1.01,
         boxShadow:
-          variant === 'primary'
-            ? '0 12px 28px -8px rgba(37, 99, 235, 0.3)'
-            : '0 12px 28px -8px rgba(16, 185, 129, 0.3)',
+          variant === 'primary' ? '0 8px 20px -8px rgba(37, 99, 235, 0.2)' : '0 8px 20px -8px rgba(16, 185, 129, 0.2)',
       },
-      whileTap: { scale: 0.98 },
-      transition: { duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] },
+      whileTap: { scale: 0.99 },
+      transition: { duration: 0.2, ease: 'easeOut' },
     },
     {
       whileHover: {},
@@ -125,39 +130,51 @@ const ProfessionalButton: React.FC<{
   );
 };
 
-// Content variables moved to a dedicated object for better organization
+// Enhanced content with improved medical terminology and accessibility
 const CONTENT = {
   about: {
     banner: 'Về chúng tôi',
     title: 'BỆNH VIỆN ĐA KHOA',
     brandName: 'HÒA BÌNH - HẢI PHÒNG',
     slogan: 'Trị bệnh bằng khối óc – Chăm sóc bằng trái tim',
+    subtitle: 'Đơn vị y tế hàng đầu tại Hải Phòng với hơn 15 năm kinh nghiệm',
     paragraphs: [
       'Bệnh viện Đa khoa Hòa Bình – Hải Phòng chính thức đi vào hoạt động từ ngày 23 tháng 5 năm 2008 theo Quyết định số 1805/QĐ-BYT và Giấy chứng nhận số 20/GCNĐĐKHN-Y của Bộ Y tế.',
-      'Ngoài việc cung cấp dịch vụ khám chữa bệnh cho bệnh nhân, bệnh viện còn hợp tác với nhiều công ty lớn như Sumidenso Việt Nam, Uniden Việt Nam, Ford Việt Nam, Toyodenso Việt Nam, Namyang Delta và Kefico Việt Nam để cung cấp dịch vụ khám sức khỏe tuyển dụng và định kỳ. Bệnh viện cũng hợp tác với hệ thống các ngân hàng trên địa bàn tỉnh Hải Phòng, đảm bảo sức khỏe và an toàn cho đội ngũ nhân viên và cộng đồng.',
+      'Với đội ngũ y bác sĩ giàu kinh nghiệm và trang thiết bị y tế hiện đại, chúng tôi cam kết mang đến dịch vụ chăm sóc sức khỏe chất lượng cao. Bệnh viện hợp tác với nhiều doanh nghiệp lớn như Sumidenso Việt Nam, Ford Việt Nam, và các ngân hàng tại Hải Phòng để cung cấp dịch vụ khám sức khỏe toàn diện.',
+      'Chúng tôi không ngừng nâng cao chất lượng dịch vụ, đầu tư công nghệ y tế tiên tiến và đào tạo đội ngũ nhân viên chuyên nghiệp để đáp ứng nhu cầu chăm sóc sức khỏe ngày càng cao của cộng đồng.',
     ],
-    buttonText: 'Tìm hiểu thêm',
+    buttonText: 'Khám phá dịch vụ',
     buttonLink: '/',
     imageSrc: 'https://benhvienhoabinh.vn/wp-content/uploads/2025/01/57.png',
-    imageAlt: 'Bệnh viện Đa khoa Hòa Bình - Hải Phòng',
+    imageAlt: 'Bệnh viện Đa khoa Hòa Bình - Hải Phòng - Cơ sở vật chất hiện đại',
     phoneNumber: '0868.115666',
+    emergencyNumber: '0976.091.115',
+    features: [
+      { icon: 'cross' as const, title: 'Chăm sóc 24/7', description: 'Dịch vụ y tế không ngừng nghỉ' },
+      { icon: 'stethoscope' as const, title: 'Đội ngũ chuyên gia', description: 'Bác sĩ giàu kinh nghiệm' },
+      { icon: 'heartbeat' as const, title: 'Công nghệ hiện đại', description: 'Trang thiết bị y tế tiên tiến' },
+      { icon: 'pill' as const, title: 'Điều trị toàn diện', description: 'Đa dạng chuyên khoa' },
+    ],
   },
   stats: [
-    { value: '+10', label: 'Năm hình thành & phát triển' },
-    { value: '+50', label: 'Tiến sĩ, bác sĩ hàng đầu' },
-    { value: '+300', label: 'Đội ngũ cán bộ nhân viên' },
-    { value: '+1000', label: 'Bệnh nhân khám & điều trị/ngày' },
+    { value: '15+', label: 'Năm hình thành & phát triển', icon: 'cross' as const, color: 'primary' as const },
+    { value: '50+', label: 'Tiến sĩ, bác sĩ chuyên khoa', icon: 'stethoscope' as const, color: 'secondary' as const },
+    { value: '300+', label: 'Đội ngũ cán bộ y tế', icon: 'heartbeat' as const, color: 'warning' as const },
+    { value: '1000+', label: 'Bệnh nhân tin tưởng mỗi ngày', icon: 'pill' as const, color: 'success' as const },
   ],
   cta: {
-    title: 'Cần Tư Vấn Y Tế?',
-    description: 'Liên hệ ngay với chúng tôi để được tư vấn và đặt lịch khám',
+    title: 'Cần Tư Vấn Y Tế Ngay?',
+    description: 'Đội ngũ chuyên gia y tế của chúng tôi sẵn sàng tư vấn và hỗ trợ bạn 24/7',
     phoneNumber: '0976.091.115',
-    phoneText: 'Gọi Ngay: 0976.091.115',
-    contactText: 'Liên Hệ',
+    phoneText: 'Hotline: 0976.091.115',
+    contactText: 'Đặt lịch khám',
     contactLink: '/contact',
+    emergencyText: 'Cấp cứu 24/7',
+    features: ['Tư vấn miễn phí', 'Đặt lịch nhanh chóng', 'Hỗ trợ 24/7'],
   },
   sections: {
-    general: 'Bệnh viện đa khoa Hòa Bình – Hải Phòng',
+    general: 'Dịch vụ y tế chuyên nghiệp',
+    subtitle: 'Khám phá các chuyên khoa và dịch vụ y tế hàng đầu tại bệnh viện',
   },
 };
 
@@ -204,11 +221,7 @@ interface AnimatedElementProps {
   animation?: 'fadeUp' | 'fadeScale' | 'fadeSlide';
 }
 
-interface StatItemProps {
-  value: string;
-  label: string;
-  index: number;
-}
+// Removed unused StatItemProps interface
 
 // Reusable components with Framer Motion
 const AnimatedElement: React.FC<AnimatedElementProps> = ({
@@ -240,11 +253,20 @@ const AnimatedElement: React.FC<AnimatedElementProps> = ({
   );
 };
 
-const StatItem: React.FC<StatItemProps> = ({ value, label, index }) => {
+// Enhanced StatItem with improved medical design and accessibility
+interface EnhancedStatItemProps {
+  value: string;
+  label: string;
+  icon: 'cross' | 'stethoscope' | 'heartbeat' | 'pill';
+  color: 'primary' | 'secondary' | 'success' | 'warning';
+  index: number;
+}
+
+const StatItem: React.FC<EnhancedStatItemProps> = ({ value, label, icon, color, index }) => {
   const controls = useAnimation();
   const ref = React.useRef(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
-  const { shouldReduceMotion } = useAccessibleAnimation();
+  const { shouldReduceMotion, getAnimationProps } = useAccessibleAnimation();
 
   useEffect(() => {
     if (inView) {
@@ -252,38 +274,46 @@ const StatItem: React.FC<StatItemProps> = ({ value, label, index }) => {
         controls.start({
           opacity: 1,
           y: 0,
+          scale: 1,
           transition: { duration: 0.01 },
         });
       } else {
         controls.start({
           opacity: 1,
           y: 0,
+          scale: 1,
           transition: {
-            delay: index * 0.1,
-            duration: 0.7,
-            ease: 'backOut',
+            delay: index * 0.2,
+            duration: 1,
+            ease: [0.25, 0.46, 0.45, 0.94],
           },
         });
       }
     }
   }, [controls, inView, index, shouldReduceMotion]);
 
-  // Medical icons for different stats
-  const getStatIcon = (index: number) => {
-    const icons = ['cross', 'stethoscope', 'heartbeat', 'pill'] as const;
-    return icons[index % icons.length];
+  // Enhanced medical color mapping with premium hospital aesthetics
+  const colorClasses = {
+    primary: 'from-white/25 via-white/15 to-white/10 border-white/40',
+    secondary: 'from-white/30 via-white/20 to-white/10 border-white/50',
+    success: 'from-white/25 via-white/15 to-white/10 border-white/40',
+    warning: 'from-white/25 via-white/15 to-white/10 border-white/40',
   };
 
-  const { getAnimationProps } = useAccessibleAnimation();
+  const iconBackgroundClasses = {
+    primary: 'bg-white/20',
+    secondary: 'bg-white/25',
+    success: 'bg-white/20',
+    warning: 'bg-white/20',
+  };
 
   const hoverProps = getAnimationProps(
     {
       whileHover: {
-        scale: 1.03,
-        boxShadow: '0 10px 25px -5px rgba(59, 130, 246, 0.1), 0 10px 10px -5px rgba(59, 130, 246, 0.04)',
-        y: -2,
+        scale: 1.02,
+        boxShadow: '0 12px 25px -8px rgba(255, 255, 255, 0.15)',
       },
-      transition: { duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] },
+      transition: { duration: 0.3, ease: 'easeOut' },
     },
     {
       whileHover: {},
@@ -294,264 +324,520 @@ const StatItem: React.FC<StatItemProps> = ({ value, label, index }) => {
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 40, scale: 0.85 }}
       animate={controls}
       {...hoverProps}
-      className={combineClasses(
-        'bg-white/15 backdrop-blur-sm',
-        'p-3 sm:p-4',
-        BORDER_RADIUS.cardLarge,
-        'border border-white/20 transition-all duration-300',
-        'relative overflow-hidden min-h-[100px] sm:min-h-[120px]'
-      )}
+      className={`
+        bg-gradient-to-br ${colorClasses[color]} backdrop-blur-md
+        p-6 sm:p-8 rounded-3xl border-2 transition-all duration-500
+        relative overflow-hidden min-h-[160px] sm:min-h-[180px]
+        shadow-2xl hover:shadow-3xl group cursor-pointer
+        transform-gpu perspective-1000
+      `}
+      style={{
+        background: `linear-gradient(135deg,
+          rgba(255, 255, 255, 0.25) 0%,
+          rgba(255, 255, 255, 0.15) 50%,
+          rgba(255, 255, 255, 0.1) 100%
+        )`,
+        backdropFilter: 'blur(20px)',
+        borderColor: 'rgba(255, 255, 255, 0.4)',
+      }}
     >
-      {/* Medical Icon Background */}
-      <div className="absolute top-2 right-2 opacity-20" aria-hidden="true">
-        <AnimatedMedicalIcon type={getStatIcon(index)} size="lg" color="primary" animate={false} />
+      {/* Premium Medical Icon Container */}
+      <div
+        className="absolute top-4 right-4 opacity-20 group-hover:opacity-30 transition-opacity duration-300"
+        aria-hidden="true"
+      >
+        <div
+          className={`w-16 h-16 rounded-2xl ${iconBackgroundClasses[color]} flex items-center justify-center backdrop-blur-sm`}
+        >
+          <AnimatedMedicalIcon type={icon} size="lg" color="secondary" animate={false} />
+        </div>
       </div>
 
+      {/* Medical Status Indicator */}
+      <div className="absolute top-4 left-4 w-3 h-3 rounded-full bg-secondary shadow-lg" aria-hidden="true" />
+
+      {/* Enhanced Medical Counter */}
       <motion.div
-        className="text-2xl sm:text-3xl font-bold mb-1 text-healing-green-light relative z-10"
+        className="text-5xl sm:text-6xl font-black mb-4 text-white relative z-10 drop-shadow-lg"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: index * 0.1 + 0.3, duration: 0.5 }}
-        aria-label={`Số liệu: ${value}`}
+        transition={{
+          delay: index * 0.1 + 0.3,
+          duration: 0.6,
+        }}
+        aria-label={`Thống kê y khoa: ${value}`}
       >
         {value}
       </motion.div>
+
+      {/* Premium Medical Label */}
       <motion.div
-        className="text-xs sm:text-sm font-medium text-medical-white relative z-10"
+        className="text-base sm:text-lg font-bold text-white/95 relative z-10 leading-tight tracking-wide"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: index * 0.1 + 0.5, duration: 0.5 }}
+        transition={{ delay: index * 0.1 + 0.5, duration: 0.6 }}
         role="text"
       >
         {label}
       </motion.div>
+
+      {/* Medical Achievement Badge */}
+      <motion.div
+        className="absolute bottom-4 left-4 flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: index * 0.1 + 0.7, duration: 0.5 }}
+      >
+        <div className="w-2 h-2 rounded-full bg-secondary"></div>
+        <span className="text-xs font-semibold text-white/90">Chứng nhận</span>
+      </motion.div>
+
+      {/* Enhanced Hover Glow Effect */}
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-br from-white/10 via-white/5 to-transparent opacity-0 rounded-3xl"
+        whileHover={{ opacity: 1 }}
+        transition={{ duration: 0.4 }}
+        aria-hidden="true"
+      />
+
+      {/* Medical Grid Pattern Overlay */}
+      <div
+        className="absolute inset-0 opacity-5 rounded-3xl"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M20 20h4v4h-4v-4zm-8-8h4v4h-4v-4zm8 0h4v4h-4v-4zm8 0h4v4h-4v-4zm-8 8h4v4h-4v-4zm8 0h4v4h-4v-4zm-8 8h4v4h-4v-4zm8 0h4v4h-4v-4z'/%3E%3C/g%3E%3C/svg%3E")`,
+        }}
+        aria-hidden="true"
+      />
     </motion.div>
   );
 };
 
-// Section components with Framer Motion
-const HeroSection: React.FC = () => (
-  <section
-    className="relative pt-8 pb-16 overflow-hidden bg-gradient-to-br from-medical-white via-medical-blue/5 to-medical-white"
-    aria-labelledby="hero-title"
-    role="banner"
-  >
-    <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-medical-blue via-healing-green to-trust-cyan"></div>
+// Enhanced Section components with improved medical design
+const HeroSection: React.FC = () => {
+  const { shouldReduceMotion } = useAccessibleAnimation();
 
-    {/* Medical Cross Pattern Background */}
-    <div className="absolute inset-0 opacity-5">
-      <div className="absolute top-10 left-10">
-        <AnimatedMedicalIcon type="cross" size="lg" color="primary" animate={false} />
-      </div>
-      <div className="absolute top-20 right-20">
-        <AnimatedMedicalIcon type="stethoscope" size="lg" color="primary" animate={false} />
-      </div>
-      <div className="absolute bottom-20 left-20">
-        <AnimatedMedicalIcon type="heartbeat" size="lg" color="primary" animate={false} />
-      </div>
-      <div className="absolute bottom-10 right-10">
-        <AnimatedMedicalIcon type="pill" size="lg" color="primary" animate={false} />
-      </div>
-    </div>
-    <FloatingElement
-      className="absolute -top-24 -right-24 w-64 h-64 rounded-full bg-medical-blue/20 blur-3xl"
-      duration={8}
-      delay={0}
-    />
-    <FloatingElement
-      className="absolute -bottom-24 -left-24 w-64 h-64 rounded-full bg-healing-green/20 blur-3xl"
-      duration={8}
-      delay={1}
-    />
+  return (
+    <section
+      className="relative pt-12 pb-20 overflow-hidden bg-gradient-to-br from-surface via-primary/3 to-surface"
+      aria-labelledby="hero-title"
+      role="banner"
+    >
+      {/* Enhanced Medical Status Bar */}
+      <div className="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-primary via-secondary to-accent shadow-sm"></div>
 
-    <div className="container mx-auto px-6 lg:px-8 relative z-10 max-w-6xl">
-      <AnimatedElement delay={100} className="flex justify-center mb-8">
-        <div
-          className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-medical-blue to-medical-blue-dark text-white rounded-full text-sm font-medium shadow-lg border border-white/20"
-          role="banner"
-          aria-label="Trang giới thiệu bệnh viện"
-        >
-          <motion.div className="mr-2" aria-hidden="true">
-            <AnimatedMedicalIcon type="cross" size="sm" color="secondary" animate={true} />
-          </motion.div>
-          <span className="font-semibold">{CONTENT.about.banner}</span>
+      {/* Professional Medical Pattern Background */}
+      <div className="absolute inset-0 opacity-[0.03]">
+        <div className="absolute top-16 left-16 transform rotate-12">
+          <AnimatedMedicalIcon type="cross" size="lg" color="primary" animate={false} />
         </div>
-      </AnimatedElement>
+        <div className="absolute top-32 right-24 transform -rotate-6">
+          <AnimatedMedicalIcon type="stethoscope" size="lg" color="secondary" animate={false} />
+        </div>
+        <div className="absolute bottom-32 left-24 transform rotate-6">
+          <AnimatedMedicalIcon type="heartbeat" size="lg" color="success" animate={false} />
+        </div>
+        <div className="absolute bottom-16 right-16 transform -rotate-12">
+          <AnimatedMedicalIcon type="pill" size="lg" color="success" animate={false} />
+        </div>
+        {/* Additional subtle medical elements */}
+        <div className="absolute top-1/2 left-1/3 transform -translate-y-1/2 rotate-45 opacity-50">
+          <AnimatedMedicalIcon type="cross" size="md" color="primary" animate={false} />
+        </div>
+        <div className="absolute top-1/3 right-1/3 transform rotate-12 opacity-50">
+          <AnimatedMedicalIcon type="heartbeat" size="md" color="secondary" animate={false} />
+        </div>
+      </div>
+      {/* Simplified floating elements with medical theme */}
+      <FloatingElement
+        className="absolute -top-32 -right-32 w-80 h-80 rounded-full bg-primary/4 blur-3xl"
+        duration={20}
+        delay={0}
+      />
+      <FloatingElement
+        className="absolute -bottom-32 -left-32 w-80 h-80 rounded-full bg-secondary/4 blur-3xl"
+        duration={25}
+        delay={5}
+      />
 
-      <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8 md:gap-12 lg:gap-16">
-        <AnimatedElement
-          delay={200}
-          className="relative w-full lg:w-1/2 mb-6 md:mb-8 lg:mb-0 max-w-sm md:max-w-md lg:max-w-none"
-          animation="fadeScale"
-        >
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
+        <AnimatedElement delay={100} className="flex justify-center mb-10">
           <motion.div
-            className="absolute -z-10 w-full h-full bg-gradient-to-r from-medical-blue/10 to-healing-green/10 rounded-2xl"
-            animate={{ rotate: [2, 4, 2] }}
-            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-          ></motion.div>
-          <motion.div
-            className="relative bg-medical-white rounded-xl p-2 shadow-lg border border-medical-blue/10"
-            whileHover={{
-              y: -5,
-              boxShadow: '0 20px 25px -5px rgba(37, 99, 235, 0.15), 0 10px 10px -5px rgba(37, 99, 235, 0.08)',
-            }}
-            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-primary to-primary-hover text-white rounded-full text-sm font-semibold shadow-lg border border-white/30 backdrop-blur-sm"
+            role="banner"
+            aria-label="Trang giới thiệu bệnh viện"
+            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.2 }}
           >
-            <div className="aspect-[4/3] rounded-lg overflow-hidden">
-              <img
-                src={CONTENT.about.imageSrc}
-                alt={CONTENT.about.imageAlt}
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
+            <div className="mr-3" aria-hidden="true">
+              <AnimatedMedicalIcon type="cross" size="sm" color="secondary" animate={false} />
             </div>
-
-            <motion.div
-              className="absolute -bottom-3 right-4 bg-medical-white px-3 py-1.5 rounded-lg shadow-md border-l-3 border-medical-blue text-xs"
-              animate={{
-                boxShadow: [
-                  '0 4px 6px -1px rgba(37, 99, 235, 0.1)',
-                  '0 10px 15px -3px rgba(37, 99, 235, 0.15)',
-                  '0 4px 6px -1px rgba(37, 99, 235, 0.1)',
-                ],
-              }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              <p className="text-medical-blue font-bold">Đội ngũ chuyên nghiệp</p>
-            </motion.div>
+            <span className="font-bold tracking-wide">{CONTENT.about.banner}</span>
+            <div className="ml-3 w-2 h-2 bg-white/80 rounded-full" aria-hidden="true" />
           </motion.div>
         </AnimatedElement>
 
-        <div className="text-center lg:text-left space-y-6 w-full lg:w-1/2">
-          <AnimatedElement delay={300}>
-            <div className="flex items-center justify-center lg:justify-start gap-3 mb-4">
-              <div aria-hidden="true">
-                <AnimatedMedicalIcon type="cross" size="md" color="primary" animate={true} />
-              </div>
-              <h1 id="hero-title" className="text-2xl lg:text-3xl font-bold text-medical-blue tracking-wide">
-                {CONTENT.about.title}
-              </h1>
-            </div>
-            <motion.h2
-              className="text-4xl lg:text-5xl font-black tracking-tight leading-tight"
-              style={{
-                backgroundImage: `linear-gradient(to right, ${getColorToken('primary')}, ${getColorToken('primary-hover')})`,
-                WebkitBackgroundClip: 'text',
-                backgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}
-              animate={{
-                backgroundImage: [
-                  `linear-gradient(to right, ${getColorToken('primary')}, ${getColorToken('primary-hover')})`,
-                  `linear-gradient(to right, ${getColorToken('primary-hover')}, ${getColorToken('accent')})`,
-                  `linear-gradient(to right, ${getColorToken('primary')}, ${getColorToken('primary-hover')})`,
-                ],
-              }}
-              transition={{ duration: 3, repeat: Infinity, repeatType: 'reverse' }}
-              aria-label={`Tên bệnh viện: ${CONTENT.about.brandName}`}
-            >
-              {CONTENT.about.brandName}
-            </motion.h2>
-            <motion.div
-              className="h-1.5 bg-gradient-to-r from-healing-green to-trust-cyan rounded-full mx-auto lg:mx-0 my-4"
-              initial={{ width: 0 }}
-              whileInView={{ width: 120 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              viewport={{ once: true }}
-              aria-hidden="true"
-            ></motion.div>
-          </AnimatedElement>
-
-          <AnimatedElement delay={400} className="block" animation="fadeSlide">
-            <div className="flex items-center justify-center lg:justify-start gap-3 mb-6">
-              <div aria-hidden="true">
-                <AnimatedMedicalIcon type="heartbeat" size="md" color="success" animate={true} />
-              </div>
-              <p
-                className="text-healing-green font-bold text-lg lg:text-xl tracking-wide border-l-4 border-healing-green pl-4 py-2"
-                role="text"
-                aria-label={`Phương châm của bệnh viện: ${CONTENT.about.slogan}`}
-              >
-                {CONTENT.about.slogan}
-              </p>
-            </div>
-          </AnimatedElement>
-
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerChildren}
-            className="space-y-4 text-gray-700 leading-relaxed text-base lg:text-lg"
+        <div className="flex flex-col xl:flex-row items-center xl:items-start gap-8 md:gap-12 lg:gap-16 xl:gap-20">
+          <AnimatedElement
+            delay={200}
+            className="relative w-full lg:w-1/2 mb-8 md:mb-10 lg:mb-0 max-w-md md:max-w-lg lg:max-w-none"
+            animation="fadeScale"
           >
-            {CONTENT.about.paragraphs.map((paragraph, index) => (
-              <motion.p
-                key={index}
-                variants={fadeInSlide}
-                className="relative pl-6 before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1.5 before:bg-gradient-to-b before:from-medical-blue/60 before:to-medical-blue before:rounded-full text-left"
-              >
-                {paragraph}
-              </motion.p>
-            ))}
-          </motion.div>
+            {/* Enhanced background with medical gradient */}
+            <div className="absolute -z-10 w-full h-full bg-gradient-to-br from-primary/8 via-secondary/6 to-accent/8 rounded-3xl" />
 
-          <AnimatedElement delay={700} className="pt-6 flex flex-col sm:flex-row gap-3 sm:gap-4">
-            <ProfessionalButton
-              href={CONTENT.about.buttonLink}
-              variant="primary"
-              className="flex-1 w-full sm:w-auto"
-              ariaLabel={`${CONTENT.about.buttonText} - Tìm hiểu thêm về bệnh viện`}
+            {/* Medical certification badge */}
+            <motion.div
+              className="absolute -top-4 -left-4 z-20 bg-gradient-to-r from-success to-success-hover text-white px-4 py-2 rounded-full text-xs font-bold shadow-lg"
+              initial={{ scale: 0, rotate: -12 }}
+              animate={{ scale: 1, rotate: -12 }}
+              transition={{ delay: 0.5, type: 'spring', stiffness: 200 }}
             >
-              <span className="text-base sm:text-lg">{CONTENT.about.buttonText}</span>
-              <motion.svg
-                className="w-4 h-4 sm:w-5 sm:h-5 ml-2 sm:ml-3"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-                initial={{ x: 0 }}
-                animate={{ x: [0, 5, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity, repeatType: 'loop', ease: 'easeInOut' }}
-                aria-hidden="true"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </motion.svg>
-            </ProfessionalButton>
+              <div className="flex items-center gap-2">
+                <AnimatedMedicalIcon type="cross" size="sm" color="secondary" animate={false} />
+                <span>Chứng nhận BYT</span>
+              </div>
+            </motion.div>
 
-            <ProfessionalButton
-              href={`tel:${CONTENT.about.phoneNumber}`}
-              variant="secondary"
-              className="flex-1 w-full sm:w-auto"
-              ariaLabel={`Gọi điện thoại đến bệnh viện số ${CONTENT.about.phoneNumber}`}
+            <motion.div
+              className="relative bg-surface rounded-2xl p-3 shadow-card-elevated border border-border"
+              whileHover={{
+                boxShadow: '0 15px 30px -8px rgba(37, 99, 235, 0.1)',
+              }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
             >
-              <motion.div className="mr-2 sm:mr-3" whileHover={{ rotate: 15 }} aria-hidden="true">
-                <CallIcon className="w-4 h-4 sm:w-5 sm:h-5" />
-              </motion.div>
-              <span className="text-base sm:text-lg">Gọi: {CONTENT.about.phoneNumber}</span>
-            </ProfessionalButton>
+              <div className="aspect-[4/3] rounded-xl overflow-hidden relative">
+                <img
+                  src={CONTENT.about.imageSrc}
+                  alt={CONTENT.about.imageAlt}
+                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
+                  {...({ fetchpriority: 'high' } as any)}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  onLoad={(e) => {
+                    // Remove will-change after animation completes for performance
+                    const img = e.target as HTMLImageElement;
+                    img.style.willChange = 'auto';
+                  }}
+                  style={{ willChange: 'transform' }}
+                />
+                {/* Image overlay with medical theme */}
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/20 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
+              </div>
+
+              {/* Enhanced professional badge */}
+              <div className="absolute -bottom-4 right-6 bg-surface px-4 py-2 rounded-xl shadow-lg border-l-4 border-primary text-sm backdrop-blur-sm">
+                <div className="flex items-center gap-2">
+                  <AnimatedMedicalIcon type="stethoscope" size="sm" color="primary" animate={false} />
+                  <p className="text-primary font-bold">Đội ngũ chuyên nghiệp</p>
+                </div>
+              </div>
+            </motion.div>
           </AnimatedElement>
+
+          <div className="text-center lg:text-left space-y-8 w-full lg:w-1/2">
+            <AnimatedElement delay={300}>
+              {/* Enhanced title section with better medical iconography */}
+              <div className="flex items-center justify-center lg:justify-start gap-4 mb-6">
+                <div aria-hidden="true">
+                  <AnimatedMedicalIcon type="cross" size="md" color="primary" animate={false} />
+                </div>
+                <h1 id="hero-title" className="text-2xl lg:text-3xl font-bold text-primary tracking-wide">
+                  {CONTENT.about.title}
+                </h1>
+              </div>
+
+              {/* Enhanced brand name with improved gradient */}
+              <h2
+                className="text-4xl lg:text-6xl font-black tracking-tight leading-tight mb-4"
+                style={{
+                  backgroundImage: `linear-gradient(135deg, ${getColorToken('primary')}, ${getColorToken('secondary')}, ${getColorToken('accent')})`,
+                  WebkitBackgroundClip: 'text',
+                  backgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}
+                aria-label={`Tên bệnh viện: ${CONTENT.about.brandName}`}
+              >
+                {CONTENT.about.brandName}
+              </h2>
+
+              {/* Enhanced subtitle */}
+              <motion.p
+                className="text-lg lg:text-xl text-text-secondary font-medium mb-6 leading-relaxed"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                viewport={{ once: true }}
+              >
+                {CONTENT.about.subtitle}
+              </motion.p>
+
+              {/* Enhanced decorative line */}
+              <motion.div
+                className="h-2 bg-gradient-to-r from-secondary via-accent to-primary rounded-full mx-auto lg:mx-0 my-6"
+                initial={{ width: 0, opacity: 0 }}
+                whileInView={{ width: 160, opacity: 1 }}
+                transition={{ duration: 1, delay: 0.5 }}
+                viewport={{ once: true }}
+                aria-hidden="true"
+              />
+            </AnimatedElement>
+
+            <AnimatedElement delay={400} className="block" animation="fadeSlide">
+              {/* Enhanced slogan section with better visual design */}
+              <motion.div
+                className="bg-gradient-to-r from-secondary/10 via-accent/5 to-secondary/10 rounded-2xl p-6 mb-8 border border-secondary/20"
+                whileHover={{ boxShadow: '0 6px 20px rgba(16, 185, 129, 0.1)' }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="flex items-center justify-center lg:justify-start gap-4 mb-4">
+                  <div aria-hidden="true">
+                    <AnimatedMedicalIcon type="heartbeat" size="md" color="success" animate={false} />
+                  </div>
+                  <h3 className="text-secondary font-bold text-sm uppercase tracking-wider">Phương châm</h3>
+                </div>
+                <p
+                  className="text-secondary font-bold text-xl lg:text-2xl tracking-wide text-center lg:text-left leading-relaxed"
+                  role="text"
+                  aria-label={`Phương châm của bệnh viện: ${CONTENT.about.slogan}`}
+                >
+                  "{CONTENT.about.slogan}"
+                </p>
+              </motion.div>
+            </AnimatedElement>
+
+            {/* Enhanced content paragraphs with better typography */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={staggerChildren}
+              className="space-y-6"
+            >
+              {CONTENT.about.paragraphs.map((paragraph, index) => (
+                <motion.div key={index} variants={fadeInSlide} className="relative">
+                  <motion.div
+                    className="absolute left-0 top-0 w-1 h-full bg-gradient-to-b from-primary via-secondary to-accent rounded-full"
+                    initial={{ height: 0 }}
+                    whileInView={{ height: '100%' }}
+                    transition={{ duration: 0.8, delay: index * 0.2 }}
+                    viewport={{ once: true }}
+                  />
+                  <p className="pl-8 text-text-primary leading-relaxed text-base lg:text-lg text-left">{paragraph}</p>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* Premium Medical Features Showcase */}
+            <AnimatedElement delay={600} className="pt-12">
+              {/* Features Section Header */}
+              <motion.div
+                className="text-center mb-10"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                viewport={{ once: true }}
+              >
+                <div className="flex items-center justify-center gap-3 mb-4">
+                  <div>
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-secondary/20 to-secondary/10 flex items-center justify-center">
+                      <AnimatedMedicalIcon type="stethoscope" size="sm" color="secondary" animate={false} />
+                    </div>
+                  </div>
+                  <h3 className="text-xl lg:text-2xl font-bold text-primary">Dịch Vụ Y Tế Chuyên Nghiệp</h3>
+                  <div>
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center">
+                      <AnimatedMedicalIcon type="heartbeat" size="sm" color="success" animate={false} />
+                    </div>
+                  </div>
+                </div>
+                <motion.div
+                  className="h-1 w-24 bg-gradient-to-r from-secondary via-accent to-primary rounded-full mx-auto"
+                  initial={{ width: 0, opacity: 0 }}
+                  whileInView={{ width: 96, opacity: 1 }}
+                  transition={{ duration: 1, delay: 0.5 }}
+                  viewport={{ once: true }}
+                />
+              </motion.div>
+
+              {/* Enhanced Features Grid */}
+              <motion.div
+                className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-50px' }}
+                variants={staggerChildren}
+              >
+                {CONTENT.about.features.map((feature, index) => (
+                  <motion.div
+                    key={index}
+                    variants={fadeInUp}
+                    className="group relative"
+                    whileHover={{
+                      scale: 1.02,
+                      boxShadow: '0 12px 25px -8px rgba(37, 99, 235, 0.1)',
+                    }}
+                    transition={{ duration: 0.3, ease: 'easeOut' }}
+                  >
+                    {/* Premium Medical Feature Card */}
+                    <div className="bg-gradient-to-br from-surface via-surface/95 to-surface/90 backdrop-blur-lg rounded-2xl p-6 border-2 border-primary/10 hover:border-primary/25 transition-all duration-500 shadow-lg hover:shadow-2xl relative overflow-hidden min-h-[120px]">
+                      {/* Medical Status Indicator */}
+                      <div className="absolute top-4 right-4 w-2 h-2 rounded-full bg-secondary shadow-sm" />
+
+                      {/* Enhanced Medical Icon Container */}
+                      <div className="flex items-start gap-4">
+                        <div className="relative flex-shrink-0">
+                          <div className="w-14 h-14 bg-gradient-to-br from-primary/15 via-secondary/10 to-accent/15 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300 backdrop-blur-sm border border-primary/20">
+                            <AnimatedMedicalIcon type={feature.icon} size="md" color="primary" animate={false} />
+                          </div>
+
+                          {/* Medical Certification Badge */}
+                          <motion.div
+                            className="absolute -top-1 -right-1 w-4 h-4 bg-secondary rounded-full flex items-center justify-center shadow-sm"
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ delay: index * 0.2 + 0.5, type: 'spring', stiffness: 200 }}
+                          >
+                            <div className="w-2 h-2 bg-white rounded-full"></div>
+                          </motion.div>
+                        </div>
+
+                        {/* Enhanced Content */}
+                        <div className="flex-1 min-w-0">
+                          <motion.h4
+                            className="font-bold text-primary text-base lg:text-lg mb-2 leading-tight"
+                            initial={{ opacity: 0, x: -10 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ delay: index * 0.1 + 0.3, duration: 0.6 }}
+                            viewport={{ once: true }}
+                          >
+                            {feature.title}
+                          </motion.h4>
+
+                          <motion.p
+                            className="text-text-secondary text-sm lg:text-base leading-relaxed"
+                            initial={{ opacity: 0, x: -10 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ delay: index * 0.1 + 0.5, duration: 0.6 }}
+                            viewport={{ once: true }}
+                          >
+                            {feature.description}
+                          </motion.p>
+
+                          {/* Medical Quality Indicator */}
+                          <motion.div
+                            className="flex items-center gap-2 mt-3"
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ delay: index * 0.1 + 0.7, duration: 0.5 }}
+                            viewport={{ once: true }}
+                          >
+                            <div className="flex gap-1">
+                              {[...Array(3)].map((_, i) => (
+                                <motion.div
+                                  key={i}
+                                  className="w-1.5 h-1.5 rounded-full bg-secondary"
+                                  initial={{ scale: 0 }}
+                                  animate={{ scale: 1 }}
+                                  transition={{ delay: index * 0.1 + 0.8 + i * 0.1, type: 'spring', stiffness: 200 }}
+                                />
+                              ))}
+                            </div>
+                            <span className="text-xs font-medium text-secondary">Chất lượng cao</span>
+                          </motion.div>
+                        </div>
+                      </div>
+
+                      {/* Subtle Medical Pattern Overlay */}
+                      <div
+                        className="absolute inset-0 opacity-[0.02] rounded-2xl pointer-events-none"
+                        style={{
+                          backgroundImage: `url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23${getColorToken('primary').slice(1)}' fill-opacity='0.1'%3E%3Cpath d='M15 15h3v3h-3v-3zm-6-6h3v3h-3v-3zm6 0h3v3h-3v-3zm6 0h3v3h-3v-3zm-6 6h3v3h-3v-3zm6 0h3v3h-3v-3zm-6 6h3v3h-3v-3zm6 0h3v3h-3v-3z'/%3E%3C/g%3E%3C/svg%3E")`,
+                        }}
+                      />
+
+                      {/* Enhanced Hover Glow */}
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-br from-primary/5 via-secondary/3 to-accent/5 opacity-0 rounded-2xl"
+                        whileHover={{ opacity: 1 }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </AnimatedElement>
+
+            <AnimatedElement delay={700} className="pt-6 flex flex-col sm:flex-row gap-4 sm:gap-6">
+              <ProfessionalButton
+                href={CONTENT.about.buttonLink}
+                variant="primary"
+                className="flex-1 w-full sm:w-auto group"
+                ariaLabel={`${CONTENT.about.buttonText} - Tìm hiểu thêm về bệnh viện`}
+              >
+                <span className="text-base sm:text-lg">{CONTENT.about.buttonText}</span>
+                <svg
+                  className="w-4 h-4 sm:w-5 sm:h-5 ml-2 sm:ml-3 group-hover:translate-x-1 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </ProfessionalButton>
+
+              <ProfessionalButton
+                href={`tel:${CONTENT.about.phoneNumber}`}
+                variant="secondary"
+                className="flex-1 w-full sm:w-auto group"
+                ariaLabel={`Gọi điện thoại đến bệnh viện số ${CONTENT.about.phoneNumber}`}
+              >
+                <div className="mr-2 sm:mr-3 group-hover:scale-110 transition-transform" aria-hidden="true">
+                  <CallIcon className="w-4 h-4 sm:w-5 sm:h-5" />
+                </div>
+                <span className="text-base sm:text-lg">Gọi: {CONTENT.about.phoneNumber}</span>
+              </ProfessionalButton>
+
+              {/* Emergency contact button */}
+              <ProfessionalButton
+                href={`tel:${CONTENT.about.emergencyNumber}`}
+                variant="primary"
+                className="flex-1 w-full sm:w-auto bg-gradient-to-r from-error to-error-hover hover:from-error-hover hover:to-error group"
+                ariaLabel={`Cấp cứu 24/7 - Gọi ngay ${CONTENT.about.emergencyNumber}`}
+              >
+                <div className="mr-2 sm:mr-3" aria-hidden="true">
+                  <AnimatedMedicalIcon type="cross" size="sm" color="secondary" animate={false} />
+                </div>
+                <span className="text-base sm:text-lg font-bold">Cấp cứu 24/7</span>
+              </ProfessionalButton>
+            </AnimatedElement>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div className="absolute bottom-0 left-0 w-full overflow-hidden">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 80" className="w-full h-auto">
-        <path
-          fill={getColorToken('secondary-hover')}
-          d="M0,32L60,42.7C120,53,240,75,360,74.7C480,75,600,53,720,42.7C840,32,960,32,1080,37.3C1200,43,1320,53,1380,58.7L1440,64L1440,80L1380,80C1320,80,1200,80,1080,80C960,80,840,80,720,80C600,80,480,80,360,80C240,80,120,80,60,80L0,80Z"
-        ></path>
-      </svg>
-    </div>
-  </section>
-);
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 80" className="w-full h-auto">
+          <path
+            fill={getColorToken('secondary-hover')}
+            d="M0,32L60,42.7C120,53,240,75,360,74.7C480,75,600,53,720,42.7C840,32,960,32,1080,37.3C1200,43,1320,53,1380,58.7L1440,64L1440,80L1380,80C1320,80,1200,80,1080,80C960,80,840,80,720,80C600,80,480,80,360,80C240,80,120,80,60,80L0,80Z"
+          ></path>
+        </svg>
+      </div>
+    </section>
+  );
+};
 
+// Enhanced Medical Indicator Section (Bottom Stats) with Premium Hospital Design
 const StatsSection: React.FC = () => {
   const controls = useAnimation();
   const ref = React.useRef(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
+  const { shouldReduceMotion } = useAccessibleAnimation();
 
   useEffect(() => {
     if (inView) {
@@ -562,160 +848,350 @@ const StatsSection: React.FC = () => {
   return (
     <motion.section
       ref={ref}
-      className="bg-gradient-to-r from-medical-blue-dark via-medical-blue to-trust-cyan text-white py-16 lg:py-20 relative overflow-hidden"
+      className="relative py-24 lg:py-32 overflow-hidden"
+      style={{
+        background: `linear-gradient(135deg,
+          ${getColorToken('primary')} 0%,
+          ${getColorToken('primary-600')} 25%,
+          ${getColorToken('secondary')} 50%,
+          ${getColorToken('accent')} 75%,
+          ${getColorToken('primary-700')} 100%
+        )`,
+      }}
       initial="hidden"
       animate={controls}
       variants={{
-        hidden: {},
-        visible: {},
+        hidden: { opacity: 0 },
+        visible: { opacity: 1, transition: { duration: 0.8 } },
       }}
-      aria-labelledby="stats-title"
+      aria-labelledby="medical-stats-title"
       role="region"
+      aria-describedby="medical-stats-description"
     >
-      <motion.div
-        className="absolute top-0 right-0 w-48 h-48 rounded-full bg-white/10 blur-3xl"
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.1, 0.2, 0.1],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          repeatType: 'reverse',
-        }}
-      ></motion.div>
-      <motion.div
-        className="absolute bottom-0 left-0 w-48 h-48 rounded-full bg-white/10 blur-3xl"
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.1, 0.2, 0.1],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          repeatType: 'reverse',
-          delay: 2,
-        }}
-      ></motion.div>
-      <div className="absolute top-0 left-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0aDR2MWgtNHYtMXptMC0yaDF2NWgtMXYtNXptNiAwaDF2NWgtMXYtNXptLTIgMGgxdjJoLTF2LTJ6bS00IDBoMXYyaC0xdi0yek0xMiAxMmg0djFoLTR2LTF6bTAtMmgxdjVoLTF2LTV6bTYgMGgxdjVoLTF2LTV6bS0yIDBoMXYyaC0xdi0yek0xMiAzNmg0djFoLTR2LTF6bTAtMmgxdjVoLTF2LTV6bTYgMGgxdjVoLTF2LTV6bS0yIDBoMXYyaC0xdi0yek0zNiAxMmg0djFoLTR2LTF6bTAtMmgxdjVoLTF2LTV6bTYgMGgxdjVoLTF2LTV6bS0yIDBoMXYyaC0xdi0yeiI+PC9wYXRoPjwvZz48L2c+PC9zdmc+')] opacity-30"></div>
+      {/* Enhanced Medical Status Indicators */}
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-surface via-secondary to-accent shadow-lg"></div>
+      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-accent via-secondary to-surface shadow-lg"></div>
 
-      <div className="container mx-auto px-6 lg:px-8 relative z-10 max-w-6xl">
-        <motion.div className="text-center mb-12" variants={fadeInUp} transition={{ duration: 0.7, ease: 'easeOut' }}>
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div aria-hidden="true">
-              <AnimatedMedicalIcon type="stethoscope" size="lg" color="secondary" animate={true} />
-            </div>
-            <h3 id="stats-title" className="text-2xl lg:text-3xl font-bold text-white drop-shadow">
-              Thành tựu của chúng tôi
-            </h3>
-            <div aria-hidden="true">
-              <AnimatedMedicalIcon type="heartbeat" size="lg" color="secondary" animate={true} />
-            </div>
+      {/* Premium Medical Background Elements */}
+      <div className="absolute inset-0 opacity-[0.08]">
+        {/* Medical Cross Pattern */}
+        <div className="absolute top-16 left-16 transform rotate-12">
+          <AnimatedMedicalIcon type="cross" size="lg" color="secondary" animate={!shouldReduceMotion} />
+        </div>
+        <div className="absolute top-32 right-24 transform -rotate-6">
+          <AnimatedMedicalIcon type="stethoscope" size="lg" color="secondary" animate={!shouldReduceMotion} />
+        </div>
+        <div className="absolute bottom-32 left-24 transform rotate-6">
+          <AnimatedMedicalIcon type="heartbeat" size="lg" color="secondary" animate={!shouldReduceMotion} />
+        </div>
+        <div className="absolute bottom-16 right-16 transform -rotate-12">
+          <AnimatedMedicalIcon type="pill" size="lg" color="secondary" animate={!shouldReduceMotion} />
+        </div>
+        {/* Additional subtle medical grid */}
+        <div className="absolute top-1/2 left-1/3 transform -translate-y-1/2 rotate-45 opacity-60">
+          <AnimatedMedicalIcon type="cross" size="md" color="secondary" animate={false} />
+        </div>
+        <div className="absolute top-1/3 right-1/3 transform rotate-12 opacity-60">
+          <AnimatedMedicalIcon type="heartbeat" size="md" color="secondary" animate={false} />
+        </div>
+      </div>
+
+      {/* Enhanced floating medical elements */}
+      {!shouldReduceMotion && (
+        <>
+          <FloatingElement
+            className="absolute -top-32 -right-32 w-96 h-96 rounded-full opacity-20 bg-gradient-radial from-white/40 to-transparent blur-3xl"
+            duration={12}
+            delay={0}
+          />
+          <FloatingElement
+            className="absolute -bottom-32 -left-32 w-80 h-80 rounded-full opacity-15 bg-gradient-radial from-secondary/30 to-transparent blur-3xl"
+            duration={15}
+            delay={3}
+          />
+          <FloatingElement
+            className="absolute top-1/3 right-1/4 w-64 h-64 rounded-full opacity-10 bg-gradient-radial from-accent/25 to-transparent blur-2xl"
+            duration={18}
+            delay={6}
+          />
+        </>
+      )}
+
+      <div className="container mx-auto px-6 lg:px-8 relative z-10 max-w-7xl">
+        {/* Premium Medical Header */}
+        <motion.header
+          className="text-center mb-20"
+          variants={fadeInUp}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+        >
+          {/* Medical Certification Badge */}
+          <motion.div
+            className="inline-flex items-center gap-3 px-6 py-3 mb-8 rounded-full border-2 border-white/30 backdrop-blur-sm bg-white/20"
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.3, type: 'spring', stiffness: 200 }}
+          >
+            <AnimatedMedicalIcon type="cross" size="sm" color="secondary" animate={!shouldReduceMotion} />
+            <span className="text-white font-semibold text-sm tracking-wide">CHỨNG NHẬN BỘ Y TẾ</span>
+            <motion.div
+              className="w-2 h-2 rounded-full bg-secondary"
+              animate={!shouldReduceMotion ? { scale: [1, 1.3, 1], opacity: [1, 0.7, 1] } : {}}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+          </motion.div>
+
+          {/* Enhanced Title with Medical Icons */}
+          <div className="flex items-center justify-center gap-6 mb-8">
+            <motion.div
+              aria-hidden="true"
+              animate={!shouldReduceMotion ? { rotate: [0, 360] } : {}}
+              transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
+            >
+              <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm">
+                <AnimatedMedicalIcon type="stethoscope" size="md" color="secondary" animate={!shouldReduceMotion} />
+              </div>
+            </motion.div>
+
+            <h2
+              id="medical-stats-title"
+              className="text-4xl lg:text-5xl font-black text-white drop-shadow-2xl tracking-tight"
+            >
+              Thành Tựu Y Khoa
+            </h2>
+
+            <motion.div
+              aria-hidden="true"
+              animate={!shouldReduceMotion ? { scale: [1, 1.15, 1] } : {}}
+              transition={{ duration: 2.5, repeat: Infinity }}
+            >
+              <div className="w-12 h-12 rounded-full bg-secondary/20 flex items-center justify-center backdrop-blur-sm">
+                <AnimatedMedicalIcon type="heartbeat" size="md" color="secondary" animate={!shouldReduceMotion} />
+              </div>
+            </motion.div>
           </div>
-          <p className="text-white/80 text-lg max-w-2xl mx-auto">
-            Những con số ấn tượng thể hiện cam kết chất lượng dịch vụ y tế hàng đầu
-          </p>
-        </motion.div>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+          {/* Enhanced Description with Medical Context */}
+          <motion.p
+            id="medical-stats-description"
+            className="text-white/95 text-xl lg:text-2xl max-w-4xl mx-auto leading-relaxed font-medium"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+          >
+            Những con số ấn tượng phản ánh cam kết chất lượng dịch vụ y tế hàng đầu và niềm tin tuyệt đối từ cộng đồng
+          </motion.p>
+
+          {/* Medical Divider */}
+          <motion.div
+            className="flex items-center justify-center gap-4 mt-8"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.7, duration: 0.6 }}
+          >
+            <div className="h-px w-20 bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
+            <div className="w-3 h-3 rounded-full bg-secondary"></div>
+            <div className="h-px w-20 bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
+          </motion.div>
+        </motion.header>
+
+        {/* Enhanced Medical Statistics Grid */}
+        <div
+          className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10"
+          role="list"
+          aria-label="Thống kê thành tựu y khoa của bệnh viện"
+        >
           {CONTENT.stats.map((stat, index) => (
-            <StatItem key={index} {...stat} index={index} />
+            <div key={index} role="listitem">
+              <StatItem {...stat} index={index} />
+            </div>
           ))}
         </div>
+
+        {/* Medical Trust Indicators */}
+        <motion.div
+          className="mt-20 text-center"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.2, duration: 0.8 }}
+        >
+          <div className="flex flex-wrap justify-center items-center gap-8 text-white/80">
+            <div className="flex items-center gap-2">
+              <AnimatedMedicalIcon type="cross" size="sm" color="secondary" animate={false} />
+              <span className="text-sm font-medium">Chứng nhận ISO 9001:2015</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <AnimatedMedicalIcon type="stethoscope" size="sm" color="secondary" animate={false} />
+              <span className="text-sm font-medium">Đạt chuẩn JCI</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <AnimatedMedicalIcon type="heartbeat" size="sm" color="secondary" animate={false} />
+              <span className="text-sm font-medium">Công nghệ 4.0</span>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </motion.section>
   );
 };
 
+// Enhanced CTA Section with improved medical design and better UX
 const CTASection: React.FC = () => (
-  <section className="py-12 lg:py-16 bg-gradient-to-br from-medical-white via-medical-blue/5 to-medical-white relative overflow-hidden">
+  <section className="py-16 lg:py-24 bg-gradient-to-br from-surface via-primary/3 to-surface relative overflow-hidden">
+    {/* Enhanced floating elements */}
     <motion.div
-      className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-medical-blue/20 blur-2xl"
+      className="absolute -top-20 -right-20 w-48 h-48 rounded-full bg-primary/15 blur-3xl"
       animate={{
-        scale: [1, 1.1, 1],
-        opacity: [0.3, 0.5, 0.3],
+        scale: [1, 1.2, 1],
+        opacity: [0.4, 0.6, 0.4],
       }}
       transition={{
-        duration: 10,
+        duration: 12,
         repeat: Infinity,
         repeatType: 'reverse',
       }}
-    ></motion.div>
+    />
     <motion.div
-      className="absolute -bottom-16 -left-16 w-40 h-40 rounded-full bg-healing-green/20 blur-2xl"
+      className="absolute -bottom-20 -left-20 w-48 h-48 rounded-full bg-secondary/15 blur-3xl"
       animate={{
-        scale: [1, 1.1, 1],
-        opacity: [0.3, 0.5, 0.3],
+        scale: [1, 1.2, 1],
+        opacity: [0.4, 0.6, 0.4],
       }}
       transition={{
-        duration: 10,
+        duration: 12,
         repeat: Infinity,
         repeatType: 'reverse',
-        delay: 2,
+        delay: 3,
       }}
-    ></motion.div>
+    />
 
-    <div className="container mx-auto px-6 lg:px-8 relative z-10 max-w-4xl">
+    <div className="container mx-auto px-6 lg:px-8 relative z-10 max-w-5xl">
       <AnimatedElement className="transform" animation="fadeScale">
         <motion.div
-          className="bg-gradient-to-r from-medical-blue/10 to-trust-cyan/10 rounded-3xl p-8 lg:p-12 shadow-xl border border-medical-blue/20"
+          className="bg-gradient-to-br from-primary/8 via-secondary/5 to-accent/8 rounded-3xl p-10 lg:p-16 shadow-2xl border border-primary/20 backdrop-blur-sm"
           whileHover={{
-            boxShadow: '0 25px 50px -12px rgba(37, 99, 235, 0.15)',
-            y: -5,
+            boxShadow: '0 30px 60px -12px rgba(37, 99, 235, 0.2)',
+            y: -8,
           }}
-          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 25 }}
         >
-          <div className="text-center space-y-6">
+          <div className="text-center space-y-8">
+            {/* Enhanced header with medical iconography */}
             <motion.div
-              className="flex items-center justify-center gap-3 mb-4"
-              initial={{ opacity: 0, y: 10 }}
+              className="flex items-center justify-center gap-4 mb-6"
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
               viewport={{ once: true }}
             >
-              <AnimatedMedicalIcon type="stethoscope" size="lg" color="primary" animate={true} />
-              <h3 className="text-2xl lg:text-3xl font-bold text-medical-blue">{CONTENT.cta.title}</h3>
+              <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 2, repeat: Infinity }}>
+                <AnimatedMedicalIcon type="stethoscope" size="lg" color="primary" animate={true} />
+              </motion.div>
+              <h3 className="text-3xl lg:text-4xl font-bold text-primary">{CONTENT.cta.title}</h3>
+              <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 2, repeat: Infinity, delay: 1 }}>
+                <AnimatedMedicalIcon type="heartbeat" size="lg" color="secondary" animate={true} />
+              </motion.div>
             </motion.div>
 
+            {/* Enhanced description */}
             <motion.p
-              className="text-lg text-gray-600 max-w-2xl mx-auto"
-              initial={{ opacity: 0, y: 10 }}
+              className="text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed"
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
             >
               {CONTENT.cta.description}
             </motion.p>
 
-            <motion.a
-              href={`tel:${CONTENT.cta.phoneNumber}`}
-              className="inline-flex items-center justify-center bg-healing-green text-white px-8 py-4 rounded-xl font-semibold hover:bg-healing-green-dark transition-all shadow-lg text-lg w-full max-w-sm mx-auto min-h-[56px]"
-              whileHover={{ scale: 1.03, y: -2 }}
-              whileTap={{ scale: 0.97 }}
-              initial={{ opacity: 0, y: 10 }}
+            {/* Enhanced features list */}
+            <motion.div
+              className="flex flex-wrap justify-center gap-4 mb-8"
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.5,
-                delay: 0.3,
-                type: 'spring',
-                stiffness: 400,
-                damping: 15,
-              }}
+              transition={{ duration: 0.6, delay: 0.3 }}
               viewport={{ once: true }}
             >
-              <motion.div
-                className="mr-2"
-                animate={{ rotate: [0, 15, 0, -15, 0] }}
+              {CONTENT.cta.features.map((feature, index) => (
+                <motion.div
+                  key={index}
+                  className="bg-surface/80 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium text-primary border border-primary/20"
+                  whileHover={{ scale: 1.05, backgroundColor: 'rgba(37, 99, 235, 0.1)' }}
+                  transition={{ duration: 0.2 }}
+                >
+                  ✓ {feature}
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* Enhanced CTA buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-2xl mx-auto">
+              <motion.a
+                href={`tel:${CONTENT.cta.phoneNumber}`}
+                className="inline-flex items-center justify-center bg-gradient-to-r from-secondary to-secondary-hover text-white px-8 py-4 rounded-xl font-bold hover:shadow-lg transition-all text-lg flex-1 min-h-[56px] shadow-button"
+                whileHover={{ scale: 1.03, y: -2, boxShadow: '0 8px 25px rgba(16, 185, 129, 0.3)' }}
+                whileTap={{ scale: 0.97 }}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 transition={{
-                  duration: 1,
-                  repeat: Infinity,
-                  repeatDelay: 2,
+                  duration: 0.6,
+                  delay: 0.4,
+                  type: 'spring',
+                  stiffness: 400,
+                  damping: 15,
                 }}
+                viewport={{ once: true }}
               >
-                <CallIcon className="w-4 h-4" />
-              </motion.div>
-              <span>{CONTENT.cta.phoneText}</span>
-            </motion.a>
+                <motion.div
+                  className="mr-3"
+                  animate={{ rotate: [0, 15, 0, -15, 0] }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    repeatDelay: 3,
+                  }}
+                >
+                  <CallIcon className="w-5 h-5" />
+                </motion.div>
+                <span>{CONTENT.cta.phoneText}</span>
+              </motion.a>
+
+              <motion.a
+                href={CONTENT.cta.contactLink}
+                className="inline-flex items-center justify-center bg-gradient-to-r from-primary to-primary-hover text-white px-8 py-4 rounded-xl font-bold hover:shadow-lg transition-all text-lg flex-1 min-h-[56px] shadow-button"
+                whileHover={{ scale: 1.03, y: -2, boxShadow: '0 8px 25px rgba(37, 99, 235, 0.3)' }}
+                whileTap={{ scale: 0.97 }}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.6,
+                  delay: 0.5,
+                  type: 'spring',
+                  stiffness: 400,
+                  damping: 15,
+                }}
+                viewport={{ once: true }}
+              >
+                <motion.div
+                  className="mr-3"
+                  animate={{ scale: [1, 1.1, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  <AnimatedMedicalIcon type="cross" size="sm" color="secondary" animate={false} />
+                </motion.div>
+                <span>{CONTENT.cta.contactText}</span>
+              </motion.a>
+            </div>
+
+            {/* Emergency contact note */}
+            <motion.p
+              className="text-sm text-text-muted mt-6"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              viewport={{ once: true }}
+            >
+              🚨 {CONTENT.cta.emergencyText} - Luôn sẵn sàng phục vụ bạn
+            </motion.p>
           </div>
         </motion.div>
       </AnimatedElement>
@@ -723,35 +1199,56 @@ const CTASection: React.FC = () => (
   </section>
 );
 
+// Enhanced ClinicsSection with improved medical design and animations
 const ClinicsSection: React.FC<{ clinics: Clinic[] }> = ({ clinics }) => (
-  <div className="py-16 lg:py-20 bg-gradient-to-br from-medical-white via-healing-green/5 to-medical-white relative overflow-hidden">
-    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-healing-green/60 to-trust-cyan/60"></div>
+  <section className="py-20 lg:py-28 bg-gradient-to-br from-surface via-secondary/3 to-surface relative overflow-hidden">
+    {/* Enhanced medical status indicators */}
+    <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-secondary via-accent to-primary shadow-sm"></div>
+
+    {/* Enhanced floating elements with medical theme */}
     <motion.div
-      className="absolute -top-16 right-16 w-48 h-48 rounded-full bg-healing-green/20 blur-3xl"
+      className="absolute -top-20 right-20 w-56 h-56 rounded-full bg-secondary/12 blur-3xl"
+      animate={{
+        scale: [1, 1.15, 1],
+        opacity: [0.3, 0.5, 0.3],
+        rotate: [0, 180, 360],
+      }}
+      transition={{
+        duration: 15,
+        repeat: Infinity,
+        repeatType: 'reverse',
+      }}
+    />
+    <motion.div
+      className="absolute bottom-1/4 -left-20 w-48 h-48 rounded-full bg-primary/12 blur-3xl"
+      animate={{
+        scale: [1, 1.2, 1],
+        opacity: [0.3, 0.5, 0.3],
+        rotate: [360, 180, 0],
+      }}
+      transition={{
+        duration: 18,
+        repeat: Infinity,
+        repeatType: 'reverse',
+        delay: 4,
+      }}
+    />
+    <motion.div
+      className="absolute top-1/3 right-1/4 w-32 h-32 rounded-full bg-accent/10 blur-2xl"
       animate={{
         scale: [1, 1.1, 1],
         opacity: [0.2, 0.4, 0.2],
       }}
       transition={{
-        duration: 8,
+        duration: 10,
         repeat: Infinity,
         repeatType: 'reverse',
+        delay: 2,
       }}
-    ></motion.div>
-    <motion.div
-      className="absolute bottom-1/3 -left-16 w-40 h-40 rounded-full bg-medical-blue/20 blur-2xl"
-      animate={{
-        scale: [1, 1.1, 1],
-        opacity: [0.2, 0.4, 0.2],
-      }}
-      transition={{
-        duration: 8,
-        repeat: Infinity,
-        repeatType: 'reverse',
-        delay: 3,
-      }}
-    ></motion.div>
-    <div className="absolute bottom-0 right-0 w-full h-1 bg-gradient-to-r from-trust-cyan/60 to-healing-green/60"></div>
+    />
+
+    {/* Bottom medical indicator */}
+    <div className="absolute bottom-0 right-0 w-full h-2 bg-gradient-to-r from-primary via-accent to-secondary shadow-sm"></div>
 
     <div className="container mx-auto px-6 lg:px-8 relative z-10 max-w-6xl">
       <div>
@@ -847,26 +1344,74 @@ const ClinicsSection: React.FC<{ clinics: Clinic[] }> = ({ clinics }) => (
         </motion.div>
       </div>
     </div>
-  </div>
+  </section>
 );
 
+// Enhanced AboutPage with improved accessibility and semantic structure
 export default function AboutPage() {
   const generalClinics = getClinicsByType('general');
 
   return (
     <AnimatePresence mode="wait">
-      <motion.div
-        className="flex-1 flex flex-col bg-gradient-to-br from-medical-white via-medical-blue/5 to-medical-white min-h-screen"
+      <motion.main
+        className="flex-1 flex flex-col bg-gradient-to-br from-surface via-primary/3 to-surface min-h-screen"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
+        role="main"
+        aria-label="Trang giới thiệu bệnh viện Hòa Bình - Hải Phòng"
       >
-        <HeroSection />
-        <StatsSection />
-        <CTASection />
-        <ClinicsSection clinics={generalClinics} />
-      </motion.div>
+        {/* Skip navigation for accessibility */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-white px-4 py-2 rounded-lg z-50 focus:outline-none focus:ring-4 focus:ring-primary/50"
+          tabIndex={0}
+        >
+          Bỏ qua điều hướng, đến nội dung chính
+        </a>
+
+        {/* Page header with breadcrumb navigation */}
+        <nav aria-label="Breadcrumb" className="sr-only">
+          <ol>
+            <li>
+              <a href="/">Trang chủ</a>
+            </li>
+            <li aria-current="page">Về chúng tôi</li>
+          </ol>
+        </nav>
+
+        <div id="main-content" tabIndex={-1}>
+          <HeroSection />
+          <StatsSection />
+          <CTASection />
+          <ClinicsSection clinics={generalClinics} />
+        </div>
+
+        {/* Enhanced page footer with accessibility info */}
+        <footer className="mt-auto py-8 bg-surface border-t border-border" role="contentinfo">
+          <div className="container mx-auto px-6 lg:px-8 text-center">
+            <p className="text-text-secondary text-sm">
+              © 2024 Bệnh viện Đa khoa Hòa Bình - Hải Phòng.
+              <span className="sr-only">Trang web tuân thủ tiêu chuẩn WCAG 2.1 AA về khả năng tiếp cận.</span>
+            </p>
+            <div className="mt-2 flex justify-center gap-4 text-xs text-text-muted">
+              <span>
+                Hotline:{' '}
+                <a href="tel:0976091115" className="text-primary hover:underline">
+                  0976.091.115
+                </a>
+              </span>
+              <span>
+                Cấp cứu 24/7:{' '}
+                <a href="tel:0868115666" className="text-error hover:underline">
+                  0868.115666
+                </a>
+              </span>
+            </div>
+          </div>
+        </footer>
+      </motion.main>
     </AnimatePresence>
   );
 }

@@ -128,7 +128,7 @@ export const MEDICAL_CACHE_TTL: Record<MedicalContentType, number> = {
   emergency: 30 * 1000, // 30 seconds - Critical emergency info
   departments: 10 * 60 * 1000, // 10 minutes - Department info changes rarely (increased from 5min)
   doctors: 15 * 60 * 1000, // 15 minutes - Doctor profiles semi-static (increased from 10min)
-  services: 120 * 60 * 1000, // 120 minutes - Service prices are relatively stable (increased from 60min)
+  services: 240 * 60 * 1000, // 240 minutes (4 hours) - Service prices are very stable (increased for performance)
   posts: 60 * 60 * 1000, // 60 minutes - Articles don't change often (increased from 30min)
   search: 5 * 60 * 1000, // 5 minutes - Search results can be dynamic (increased from 2min)
   general: 15 * 60 * 1000, // 15 minutes - Default for other content (increased from 5min)
@@ -141,11 +141,22 @@ export const MEDICAL_PRIORITY: Record<MedicalContentType, number> = {
   emergency: 1, // Highest priority - never evict unless expired
   departments: 2, // High priority - hospital structure info
   doctors: 2, // High priority - staff information
-  services: 3, // Medium priority - service information
+  services: 1, // Highest priority - critical for medical services (updated for performance)
   posts: 4, // Lower priority - educational content
   search: 5, // Lowest priority - can be regenerated
   general: 3, // Medium priority - default
 };
+
+/**
+ * Performance monitoring thresholds
+ */
+export const PERFORMANCE_THRESHOLDS = {
+  SLOW_REQUEST: 800, // 800ms - Reduced threshold for better monitoring
+  VERY_SLOW_REQUEST: 1500, // 1.5 seconds - Reduced for service price optimization
+  CACHE_SIZE_WARNING: 80 * 1024 * 1024, // 80MB
+  CACHE_ENTRIES_WARNING: 1500,
+  SERVICE_PRICE_THRESHOLD: 1000, // 1 second - Specific threshold for service price requests
+} as const;
 
 /**
  * Compression utilities for cache optimization
@@ -386,9 +397,11 @@ class EnhancedMedicalCache {
       let compressed = false;
       let checksum: string | undefined;
 
-      // Determine if compression should be applied
+      // Determine if compression should be applied with content-type specific thresholds
       const originalSize = this.estimateSize(data);
-      if (originalSize > COMPRESSION_THRESHOLD) {
+      const compressionThreshold = contentType === 'services' ? 512 : COMPRESSION_THRESHOLD; // Lower threshold for service data
+
+      if (originalSize > compressionThreshold) {
         const compressionResult = CompressionUtils.compress(data);
 
         if (compressionResult.ratio < MAX_COMPRESSION_RATIO) {
@@ -819,6 +832,10 @@ function detectContentType(endpoint: string, params: QueryParams): MedicalConten
       // SERVICE_ID
       return 'services';
     }
+    if (parent === '7220') {
+      // SERVICE_PRICE_ID - Critical fix for service price performance
+      return 'services';
+    }
   }
 
   if (url.includes('posts')) {
@@ -981,11 +998,18 @@ export const fetchWPData = async <T>(
   options: FetchOptions = {}
 ): Promise<T> => {
   const { cache: enableCache = true, abortSignal, retries = 3, retryDelay = 1000 } = options;
+  const startTime = Date.now();
 
   const url = buildURL(endpoint, params);
   const cacheKey = url;
   const contentType = detectContentType(endpoint, params);
   const cacheTags = generateCacheTags(endpoint, params, contentType);
+
+  // Performance monitoring for service price requests
+  const isServicePriceRequest = params.parent?.toString() === '7220';
+  const performanceThreshold = isServicePriceRequest
+    ? PERFORMANCE_THRESHOLDS.SERVICE_PRICE_THRESHOLD
+    : PERFORMANCE_THRESHOLDS.SLOW_REQUEST;
 
   // Check cache if enabled
   if (enableCache) {
@@ -1050,14 +1074,28 @@ export const fetchWPData = async <T>(
         // Track API response time
         const responseTime = performance.now() - requestStartTime;
 
-        // Log slow requests for monitoring
-        if (responseTime > 1000) {
-          // Log requests slower than 1 second
-          console.warn(`Slow API request detected: ${url} took ${responseTime.toFixed(2)}ms`, {
-            contentType,
-            timeout,
-            responseTime,
-          });
+        // Log slow requests for monitoring with dynamic thresholds
+        if (responseTime > performanceThreshold) {
+          const severity = responseTime > PERFORMANCE_THRESHOLDS.VERY_SLOW_REQUEST ? 'error' : 'warn';
+          const message = `${severity === 'error' ? 'Very slow' : 'Slow'} API request detected: ${url} took ${responseTime.toFixed(2)}ms`;
+
+          if (severity === 'error') {
+            console.error(message, {
+              contentType,
+              timeout,
+              responseTime,
+              threshold: performanceThreshold,
+              isServicePriceRequest,
+            });
+          } else {
+            console.warn(message, {
+              contentType,
+              timeout,
+              responseTime,
+              threshold: performanceThreshold,
+              isServicePriceRequest,
+            });
+          }
         }
 
         // Mark end of API request for performance monitoring
@@ -1290,8 +1328,12 @@ export const warmupMedicalCache = async (): Promise<void> => {
     try {
       // Warm up critical services data in parallel
       await Promise.all([
-        // Critical services - prioritize these
-        preloadCache('/wp-json/wp/v2/pages', { parent: 7220, per_page: 100, _fields: 'id,title,content,modified' }),
+        // Critical services - prioritize these with optimized parameters
+        preloadCache('/wp-json/wp/v2/pages', {
+          parent: 7220,
+          per_page: 50,
+          _fields: 'id,title,content.rendered,modified',
+        }),
         preloadCache('/wp-json/wp/v2/posts', { per_page: 10, _fields: 'id,title,excerpt,modified' }),
         preloadCache('/wp-json/wp/v2/pages', { parent: 1009, per_page: 50, _fields: 'id,title,content,modified' }),
 

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Date Picker Layout</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+        }
+        
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .content {
+            flex: 1;
+            padding-bottom: 120px; /* Space for FAB */
+        }
+        
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .date-picker {
+            position: relative;
+            width: 100%;
+        }
+        
+        .date-picker-trigger {
+            width: 100%;
+            min-height: 52px;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s;
+        }
+        
+        .date-picker-trigger:hover {
+            border-color: #0891b2;
+        }
+        
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            margin-top: 8px;
+            background: white;
+            border: 2px solid #0891b2;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(8, 145, 178, 0.2);
+            z-index: 50;
+            max-height: 320px;
+            overflow-y: auto;
+        }
+        
+        .dropdown.top {
+            top: auto;
+            bottom: 100%;
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+        
+        .dropdown-header {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2e8f0;
+            background: rgba(8, 145, 178, 0.05);
+            font-weight: 600;
+            color: #0891b2;
+        }
+        
+        .dropdown-content {
+            padding: 12px;
+            max-height: 280px;
+            overflow-y: auto;
+        }
+        
+        .date-option {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            margin-bottom: 8px;
+            text-align: left;
+            transition: all 0.2s;
+        }
+        
+        .date-option:hover {
+            border-color: #0891b2;
+            background: rgba(8, 145, 178, 0.05);
+        }
+        
+        .fab {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.4);
+            z-index: 10;
+        }
+        
+        .fab:disabled {
+            background: #e2e8f0;
+            color: #64748b;
+            cursor: not-allowed;
+        }
+        
+        /* Scrollbar styling */
+        .dropdown-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .dropdown-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .dropdown-content::-webkit-scrollbar-thumb {
+            background: rgba(8, 145, 178, 0.3);
+            border-radius: 3px;
+        }
+        
+        .dropdown-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(8, 145, 178, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <div class="section">
+                <h2>Chọn loại khám</h2>
+                <p>Vui lòng chọn loại khám phù hợp với nhu cầu của bạn</p>
+                <div style="margin: 20px 0;">
+                    <button style="width: 100%; padding: 16px; border: 2px solid #2563eb; border-radius: 8px; background: #eff6ff; color: #2563eb;">
+                        Khám chuyên khoa
+                    </button>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Chọn khoa khám</h2>
+                <p>Vui lòng chọn khoa bạn muốn đăng ký</p>
+                <div style="margin: 20px 0;">
+                    <button style="width: 100%; padding: 16px; border: 2px solid #10b981; border-radius: 8px; background: #f0fdf4; color: #10b981;">
+                        CẤP CỨU - HỒI SỨC TÍCH CỰC ✓
+                    </button>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>3. Chọn ngày khám</h2>
+                <p>Vui lòng chọn ngày và giờ phù hợp với lịch trình của bạn</p>
+                
+                <div class="date-picker">
+                    <div class="date-picker-trigger" onclick="toggleDropdown()">
+                        <div>
+                            <div>📅 Chọn ngày và giờ khám</div>
+                        </div>
+                        <div>▼</div>
+                    </div>
+                    
+                    <div id="dropdown" class="dropdown" style="display: none;">
+                        <div class="dropdown-header">
+                            Chọn ngày khám
+                        </div>
+                        <div class="dropdown-content">
+                            <button class="date-option">
+                                <div><strong>Thứ Hai, 29/07/2024</strong></div>
+                                <div style="font-size: 14px; color: #64748b;">Hôm nay</div>
+                            </button>
+                            <button class="date-option">
+                                <div><strong>Thứ Ba, 30/07/2024</strong></div>
+                                <div style="font-size: 14px; color: #64748b;">Ngày mai</div>
+                            </button>
+                            <button class="date-option">
+                                <div><strong>Thứ Tư, 31/07/2024</strong></div>
+                            </button>
+                            <button class="date-option">
+                                <div><strong>Thứ Năm, 01/08/2024</strong></div>
+                            </button>
+                            <button class="date-option">
+                                <div><strong>Thứ Sáu, 02/08/2024</strong></div>
+                            </button>
+                            <button class="date-option">
+                                <div><strong>Thứ Bảy, 03/08/2024</strong></div>
+                            </button>
+                            <button class="date-option">
+                                <div><strong>Chủ Nhật, 04/08/2024</strong></div>
+                            </button>
+                            <button class="date-option">
+                                <div><strong>Thứ Hai, 05/08/2024</strong></div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <button class="fab">
+            Hoàn thành thông tin
+        </button>
+    </div>
+    
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdown');
+            const trigger = document.querySelector('.date-picker-trigger');
+            const rect = trigger.getBoundingClientRect();
+            const viewportHeight = window.innerHeight;
+            const dropdownHeight = 320;
+            const fabHeight = 100;
+            const spaceBelow = viewportHeight - rect.bottom - fabHeight;
+            const spaceAbove = rect.top;
+            
+            if (dropdown.style.display === 'none') {
+                // Determine position
+                if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
+                    dropdown.classList.add('top');
+                } else {
+                    dropdown.classList.remove('top');
+                }
+                dropdown.style.display = 'block';
+            } else {
+                dropdown.style.display = 'none';
+            }
+        }
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const datePicker = document.querySelector('.date-picker');
+            if (!datePicker.contains(event.target)) {
+                document.getElementById('dropdown').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

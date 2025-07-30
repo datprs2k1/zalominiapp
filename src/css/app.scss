@@ -11,6 +11,15 @@
   }
 }
 
+@keyframes shimmer-medical {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
 @keyframes skeleton-pulse {
   0%,
   100% {
@@ -21,20 +30,60 @@
   }
 }
 
-/* Hardware acceleration for smooth animations */
-.skeleton-optimized {
-  will-change: transform;
-  transform: translateZ(0);
-  backface-visibility: hidden;
+@keyframes medical-skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    background-color: #f0f4ff;
+  }
+  50% {
+    opacity: 0.8;
+    background-color: #e6efff;
+  }
 }
 
-/* Smooth skeleton shimmer effect */
+/* Hardware acceleration for smooth animations - iOS-safe version */
+.skeleton-optimized {
+  will-change: background-position;
+  /* Removed translateZ(0) and backface-visibility: hidden for iOS compatibility */
+  contain: layout style;
+}
+
+/* iOS-specific skeleton optimizations */
+@supports (-webkit-touch-callout: none) {
+  .skeleton-optimized {
+    /* Further reduce hardware acceleration on iOS */
+    will-change: auto;
+    contain: none;
+  }
+}
+
+/* Medical skeleton shimmer effect with healthcare colors */
 .skeleton-shimmer {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background: linear-gradient(90deg, #f0f4ff 25%, #e6efff 50%, #f0f4ff 75%);
   background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
+  animation: shimmer-medical 1.5s infinite linear;
+}
+
+/* Medical skeleton variants */
+.skeleton-medical-primary {
+  background: linear-gradient(90deg, #f0f4ff 25%, #e6efff 50%, #f0f4ff 75%);
+  background-size: 200% 100%;
+  animation: shimmer-medical 1.5s infinite linear;
+}
+
+.skeleton-medical-secondary {
+  background: linear-gradient(90deg, #f0fdf9 25%, #e6fffa 50%, #f0fdf9 75%);
+  background-size: 200% 100%;
+  animation: shimmer-medical 1.5s infinite linear;
+}
+
+.skeleton-medical-neutral {
+  background: linear-gradient(90deg, #fafbfc 25%, #f8f9fb 50%, #fafbfc 75%);
+  background-size: 200% 100%;
+  animation: shimmer-medical 1.5s infinite linear;
 }
 
 :root {
@@ -103,43 +152,43 @@
   --color-background-success: #ecfdf5; /* Success background */
 
   /* Surface Colors - Clean Medical Surfaces */
-  --color-surface: #ffffff;              /* Pure white surfaces */
-  --color-surface-elevated: #ffffff;     /* Elevated surfaces */
-  --color-surface-hover: #f1f5f9;        /* Hover state surfaces */
-  --color-surface-medical: #f0fdf4;      /* Medical section surfaces */
+  --color-surface: #ffffff; /* Pure white surfaces */
+  --color-surface-elevated: #ffffff; /* Elevated surfaces */
+  --color-surface-hover: #f1f5f9; /* Hover state surfaces */
+  --color-surface-medical: #f0fdf4; /* Medical section surfaces */
 
   /* Border Colors - Professional Medical Borders */
-  --color-border: #e2e8f0;               /* Default border */
-  --color-border-light: #f1f5f9;         /* Light border */
-  --color-border-strong: #cbd5e1;        /* Strong border */
-  --color-border-focus: #2563eb;         /* Focus border */
-  --color-border-error: #dc2626;         /* Error border */
+  --color-border: #e2e8f0; /* Default border */
+  --color-border-light: #f1f5f9; /* Light border */
+  --color-border-strong: #cbd5e1; /* Strong border */
+  --color-border-focus: #2563eb; /* Focus border */
+  --color-border-error: #dc2626; /* Error border */
 
   /* Text Colors - Medical Typography */
-  --color-text-primary: #475569;         /* Primary text - excellent readability */
-  --color-text-secondary: #64748b;       /* Secondary text */
-  --color-text-muted: #94a3b8;           /* Muted text */
-  --color-text-disabled: #cbd5e1;        /* Disabled text */
-  --color-text-inverse: #ffffff;         /* White text for dark backgrounds */
-  --color-text-on-primary: #ffffff;      /* Text on primary background */
-  --color-text-on-secondary: #ffffff;    /* Text on secondary background */
+  --color-text-primary: #475569; /* Primary text - excellent readability */
+  --color-text-secondary: #64748b; /* Secondary text */
+  --color-text-muted: #94a3b8; /* Muted text */
+  --color-text-disabled: #cbd5e1; /* Disabled text */
+  --color-text-inverse: #ffffff; /* White text for dark backgrounds */
+  --color-text-on-primary: #ffffff; /* Text on primary background */
+  --color-text-on-secondary: #ffffff; /* Text on secondary background */
 
   /* Semantic State Colors */
-  --color-success: #22c55e;              /* Success green */
-  --color-success-light: #f0fdf4;        /* Light success background */
-  --color-success-hover: #16a34a;        /* Success hover state */
+  --color-success: #22c55e; /* Success green */
+  --color-success-light: #f0fdf4; /* Light success background */
+  --color-success-hover: #16a34a; /* Success hover state */
 
-  --color-warning: #f59e0b;              /* Warning amber */
-  --color-warning-light: #fffbeb;        /* Light warning background */
-  --color-warning-hover: #d97706;        /* Warning hover state */
+  --color-warning: #f59e0b; /* Warning amber */
+  --color-warning-light: #fffbeb; /* Light warning background */
+  --color-warning-hover: #d97706; /* Warning hover state */
 
-  --color-error: #dc2626;                /* Error red */
-  --color-error-light: #fef2f2;          /* Light error background */
-  --color-error-hover: #b91c1c;          /* Error hover state */
+  --color-error: #dc2626; /* Error red */
+  --color-error-light: #fef2f2; /* Light error background */
+  --color-error-hover: #b91c1c; /* Error hover state */
 
-  --color-info: #0ea5e9;                 /* Info blue */
-  --color-info-light: #f0f9ff;           /* Light info background */
-  --color-info-hover: #0284c7;           /* Info hover state */
+  --color-info: #0ea5e9; /* Info blue */
+  --color-info-light: #f0f9ff; /* Light info background */
+  --color-info-hover: #0284c7; /* Info hover state */
 
   /* Enhanced Medical Typography System - Premium Hospital Grade */
   --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
@@ -539,7 +588,7 @@
   }
 }
 
-// Accessibility enhancements
+// Enhanced accessibility for reduced motion
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -553,9 +602,54 @@
   .medical-loading,
   .medical-pulse,
   .medical-heartbeat,
-  .emergency-pulse {
+  .emergency-pulse,
+  .skeleton-shimmer,
+  .skeleton-medical-primary,
+  .skeleton-medical-secondary,
+  .skeleton-medical-neutral,
+  .animate-shimmer-medical,
+  .animate-medical-pulse,
+  .animate-skeleton-fast,
+  .animate-skeleton-slow {
     animation: none !important;
+    background: #F0F4FF !important; /* Fallback to static medical blue */
   }
+}
+
+// User preference for reduced motion
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+.reduce-motion .skeleton-shimmer,
+.reduce-motion .skeleton-medical-primary,
+.reduce-motion .skeleton-medical-secondary,
+.reduce-motion .skeleton-medical-neutral {
+  animation: none !important;
+  background: #F0F4FF !important;
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+  .skeleton-shimmer,
+  .skeleton-medical-primary,
+  .skeleton-medical-secondary,
+  .skeleton-medical-neutral {
+    background: #E6EFFF !important;
+    border: 2px solid #2563EB !important;
+  }
+}
+
+.high-contrast .skeleton-shimmer,
+.high-contrast .skeleton-medical-primary,
+.high-contrast .skeleton-medical-secondary,
+.high-contrast .skeleton-medical-neutral {
+  background: #E6EFFF !important;
+  border: 2px solid #2563EB !important;
 }
 
 @keyframes medical-skeleton {
@@ -565,6 +659,23 @@
   100% {
     background-position: calc(200px + 100%) 0;
   }
+}
+
+/* Tailwind animation utilities for medical skeletons */
+.animate-shimmer-medical {
+  animation: shimmer-medical 1.5s infinite linear;
+}
+
+.animate-medical-pulse {
+  animation: medical-skeleton-pulse 2s infinite ease-in-out;
+}
+
+.animate-skeleton-fast {
+  animation: shimmer-medical 1s infinite linear;
+}
+
+.animate-skeleton-slow {
+  animation: shimmer-medical 2s infinite linear;
 }
 
 @keyframes medical-pulse {
@@ -861,14 +972,7 @@ html[lang='vi'] {
 }
 
 // Shimmer effect for loading images
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
+// Note: shimmer keyframes already defined at the top of the file
 
 .animate-shimmer {
   animation: shimmer 2s infinite;
@@ -1190,12 +1294,7 @@ html[lang='vi'] {
 /* Enhanced Medical Animations - Premium Hospital Micro-Interactions */
 
 /* Medical Heartbeat Animation */
-@keyframes medical-heartbeat {
-  0%, 100% { transform: scale(1); }
-  25% { transform: scale(1.1); }
-  50% { transform: scale(1); }
-  75% { transform: scale(1.05); }
-}
+/* Note: medical-heartbeat keyframes already defined earlier in the file */
 
 .medical-heartbeat {
   animation: medical-heartbeat 2s ease-in-out infinite;
@@ -1203,8 +1302,15 @@ html[lang='vi'] {
 
 /* Medical Breathing Animation */
 @keyframes medical-breathe {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.05); opacity: 0.8; }
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
 }
 
 .medical-breathe {
@@ -1212,10 +1318,7 @@ html[lang='vi'] {
 }
 
 /* Medical Pulse Animation for Status Indicators */
-@keyframes medical-pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.7; transform: scale(1.02); }
-}
+/* Note: medical-pulse keyframes already defined earlier in the file */
 
 .medical-pulse {
   animation: medical-pulse 2s ease-in-out infinite;
@@ -1223,8 +1326,15 @@ html[lang='vi'] {
 
 /* Medical Glow Effect for Emergency Elements */
 @keyframes medical-glow {
-  0%, 100% { box-shadow: 0 0 5px var(--color-emergency); }
-  50% { box-shadow: 0 0 20px var(--color-emergency), 0 0 30px var(--color-emergency); }
+  0%,
+  100% {
+    box-shadow: 0 0 5px var(--color-emergency);
+  }
+  50% {
+    box-shadow:
+      0 0 20px var(--color-emergency),
+      0 0 30px var(--color-emergency);
+  }
 }
 
 .medical-glow {
@@ -1233,8 +1343,14 @@ html[lang='vi'] {
 
 /* Medical Blink Animation for Alerts */
 @keyframes medical-blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0.3; }
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0.3;
+  }
 }
 
 .medical-blink {
@@ -1251,7 +1367,9 @@ html[lang='vi'] {
 }
 
 .medical-hover-lift {
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  transition:
+    transform 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
 }
 
 .medical-hover-lift:hover {
@@ -1288,8 +1406,12 @@ html[lang='vi'] {
 
 /* Medical Loading Spinner */
 @keyframes medical-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .medical-spinner {
