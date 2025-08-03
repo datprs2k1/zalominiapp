@@ -1,0 +1,38 @@
+{
+  "entry": [
+    "src/app.ts",
+    "src/router.tsx",
+    "vite.config.mts",
+    "tailwind.config.js",
+    "postcss.config.js"
+  ],
+  "extensions": [".ts", ".tsx", ".js", ".jsx"],
+  "ignorePatterns": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/*.d.ts",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "**/coverage/**",
+    "**/__tests__/**",
+    "**/static/**",
+    "**/*.css",
+    "**/*.scss",
+    "**/*.sass"
+  ],
+  "ignoreUnresolved": [
+    "zmp-ui/**",
+    "zmp-sdk/**",
+    "@vitejs/**",
+    "vite/**"
+  ],
+  "aliases": {
+    "@/*": ["./src/*"]
+  },
+  "includeZ": false,
+  "showPreset": true,
+  "cache": false
+}
