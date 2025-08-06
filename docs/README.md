@@ -1,348 +1,216 @@
-# Medical Color Design System
+# Zalo Medical Mini App Documentation
 
-## 🎨 Tổng quan
+## Overview
 
-Hệ thống màu sắc y tế thống nhất cho Zalo Mini App, được thiết kế dựa trên nguyên tắc thiết kế bệnh viện hiện đại với trọng tâm là sự tin cậy, sạch sẽ và chuyên nghiệp.
+This is a comprehensive medical/healthcare Zalo Mini App built with React, TypeScript, and Tailwind CSS. The application provides medical services, doctor consultations, appointment booking, and health-related features.
 
-### ✨ Tính năng chính
+## Table of Contents
 
-- **🎯 Thống nhất**: Single source of truth cho tất cả màu sắc
-- **♿ Accessibility**: Tuân thủ WCAG 2.1 AA standards
-- **🌙 Dark Mode**: Hỗ trợ đầy đủ chế độ tối
-- **🧪 Testing**: Công cụ kiểm tra tự động
-- **📱 Responsive**: Tối ưu cho mọi thiết bị
-- **🔧 Developer-friendly**: API dễ sử dụng và type-safe
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [Architecture](#architecture)
+- [Features](#features)
+- [Development](#development)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
 
-## 🚀 Quick Start
+## Documentation Structure
 
-### 1. Import Color System
+### Core Documentation
 
-```typescript
-import { getColorToken, COLOR_TOKENS, MEDICAL_COLOR_PALETTE } from '@/styles/unified-color-system';
+- **[Architecture](./ARCHITECTURE.md)** - Detailed system architecture and code organization
+- **[API Documentation](./API.md)** - API services, endpoints, and data management
+- **[Components](./COMPONENTS.md)** - React components documentation and usage
+- **[Styling](./STYLING.md)** - Styling system, themes, and design guidelines
+- **[Development](./DEVELOPMENT.md)** - Development setup, workflow, and best practices
+- **[Testing](./TESTING.md)** - Testing strategies, tools, and examples
+- **[Deployment](./DEPLOYMENT.md)** - Deployment process and environment configuration
+
+### Component-Specific Documentation
+
+#### Header Components
+
+- **[Header Migration Guide](./HEADER_MIGRATION_GUIDE.md)** - Migration guide for header component updates
+- **[Medical Header Redesign](./MEDICAL_HEADER_REDESIGN.md)** - Medical-specific header enhancements
+
+#### Footer Components
+
+- **[Footer Architecture v2.0](./FOOTER_ARCHITECTURE_V2.md)** - Complete refactor overview and new modular architecture
+- **[Mobile Footer Components](./MOBILE_FOOTER_COMPONENTS.md)** - Detailed footer component documentation
+- **[Footer Quick Reference](./FOOTER_QUICK_REFERENCE.md)** - Quick reference guide for footer usage
+- **[Footer Redesign Summary](./MOBILE_FOOTER_REDESIGN_SUMMARY.md)** - Summary of footer improvements and changes
+
+#### Page Documentation
+
+- **[About Page](./ABOUT_PAGE.md)** - Comprehensive documentation for the About page component, animations, and content management
+
+## Project Structure
+
+```
+zalo/
+├── docs/                    # Documentation
+├── public/                  # Static assets
+├── src/                     # Source code
+│   ├── components/          # React components
+│   ├── pages/              # Page components
+│   ├── services/           # API services
+│   ├── hooks/              # Custom React hooks
+│   ├── utils/              # Utility functions
+│   ├── types/              # TypeScript type definitions
+│   ├── styles/             # Styling and themes
+│   ├── contexts/           # React contexts
+│   ├── data/               # Static data
+│   └── static/             # Static assets
+├── app-config.json         # ZMP app configuration
+├── package.json            # Dependencies and scripts
+├── tailwind.config.js      # Tailwind CSS configuration
+├── tsconfig.json           # TypeScript configuration
+├── vite.config.mts         # Vite build configuration
+└── zmp-cli.json           # ZMP CLI configuration
 ```
 
-### 2. Use in Components
+## Getting Started
 
-```tsx
-import { useThemeStyles } from '@/components/theme-provider';
+### Prerequisites
 
-const MyComponent = () => {
-  const { getColor, cardStyle } = useThemeStyles();
+- Node.js (v16 or higher)
+- Yarn package manager
+- Zalo Mini Program CLI
 
-  return (
-    <div style={cardStyle}>
-      <h2 style={{ color: getColor('primary') }}>Medical Title</h2>
-      <p style={{ color: getColor('text-secondary') }}>Description</p>
-    </div>
-  );
-};
-```
-
-### 3. Use in CSS
-
-```css
-.medical-button {
-  background-color: var(--color-primary);
-  color: var(--color-text-on-primary);
-  border: 1px solid var(--color-primary);
-}
-
-.medical-button:hover {
-  background-color: var(--color-primary-hover);
-}
-```
-
-### 4. Use with Tailwind
-
-```html
-<button class="bg-primary text-text-on-primary hover:bg-primary-hover">Medical Action</button>
-```
-
-## 🎨 Color Palette
-
-### Primary Colors
-
-- **Medical Blue**: `#2563EB` - Màu chính của thương hiệu
-- **Healing Green**: `#10B981` - Màu xanh chữa lành
-- **Trust Cyan**: `#0891B2` - Màu cyan tin cậy
-- **Medical White**: `#FAFBFC` - Màu trắng y tế
-
-### Semantic Colors
-
-- **Success**: `#22C55E` - Thành công
-- **Error**: `#DC2626` - Lỗi/Khẩn cấp
-- **Warning**: `#F59E0B` - Cảnh báo
-- **Info**: `#0EA5E9` - Thông tin
-
-## 📚 Documentation
-
-### 📖 Core Documentation
-
-- [**Color Design System**](./color-design-system.md) - Tài liệu chi tiết về hệ thống màu
-- [**Color Usage Examples**](./color-usage-examples.md) - Ví dụ sử dụng cụ thể
-- [**Migration Guide**](./color-migration-guide.md) - Hướng dẫn migration
-- [**Medical Design System**](./medical-design-system.md) - Hệ thống thiết kế y tế tổng thể
-
-### 🔧 Technical Documentation
-
-- [**API Reference**](../src/styles/unified-color-system.ts) - API documentation
-- [**Theme Provider**](../src/components/theme-provider.tsx) - Theme management
-- [**Testing Tools**](../src/utils/color-testing.ts) - Color validation utilities
-
-## 🧪 Testing & Validation
-
-### Automated Testing
-
-```typescript
-import { runColorSystemTests } from '@/utils/color-testing';
-
-// Run comprehensive color system tests
-const results = runColorSystemTests();
-console.log(`Health Score: ${results.overallScore}%`);
-```
-
-### Testing Dashboard
-
-```tsx
-import ColorTestingDashboard from '@/components/color-testing-dashboard';
-
-// Use the visual testing dashboard
-<ColorTestingDashboard />;
-```
-
-### Validation Features
-
-- ✅ WCAG 2.1 AA contrast ratio validation
-- 🎨 Color blindness simulation
-- 🔍 Hardcoded color detection
-- 📊 Comprehensive health scoring
-
-## 🔄 Migration
-
-### From Old System
+### Installation
 
 ```bash
-# 1. Backup current code
-git checkout -b backup/pre-color-migration
+# Clone the repository
+git clone <repository-url>
+cd zalo
 
-# 2. Run migration tools
-npm run migrate:colors
-
-# 3. Validate migration
-npm run validate:colors
-```
-
-### Step-by-step Guide
-
-1. **Audit**: Identify current color usage
-2. **Replace**: Update hardcoded colors with tokens
-3. **Test**: Run accessibility and visual tests
-4. **Validate**: Ensure all components work correctly
-
-## 🎯 Best Practices
-
-### ✅ Do's
-
-- Always use color tokens from the unified system
-- Test color combinations for accessibility
-- Implement proper hover and focus states
-- Use semantic color names
-- Support dark mode from the start
-
-### ❌ Don'ts
-
-- Never hardcode hex colors in components
-- Don't rely solely on color to convey information
-- Avoid using too many colors in one interface
-- Don't skip accessibility testing
-- Never ignore contrast ratio requirements
-
-## 🛠️ Development Workflow
-
-### 1. Setup
-
-```bash
 # Install dependencies
-npm install
+yarn install
 
-# Import unified colors CSS
-@import '../styles/unified-colors.css';
+# Start development server
+yarn start
 ```
 
-### 2. Development
+### Available Scripts
 
-```typescript
-// Use theme hooks for dynamic styling
-const { getColor, isDark } = useThemeStyles();
+- `yarn start` - Start development server
+- `yarn deploy` - Deploy to Zalo Mini Program platform
+- `yarn format` - Format code with Prettier
+- `yarn login` - Login to ZMP CLI
 
-// Use color tokens for consistency
-const primaryColor = getColorToken('primary');
-```
+## Architecture
 
-### 3. Testing
+### Technology Stack
+
+- **Frontend**: React 18, TypeScript
+- **Styling**: Tailwind CSS, SCSS
+- **State Management**: Jotai
+- **Routing**: React Router DOM v7
+- **Build Tool**: Vite
+- **UI Components**: ZMP UI
+- **Animations**: Framer Motion
+- **HTTP Client**: Axios
+
+### Key Libraries
+
+- `zmp-sdk` - Zalo Mini Program SDK
+- `zmp-ui` - Zalo Mini Program UI components
+- `@tanstack/react-virtual` - Virtual scrolling
+- `react-hot-toast` - Toast notifications
+- `jotai` - State management
+
+## Features
+
+### Core Features
+
+- Medical service browsing
+- Doctor profiles and consultations
+- Appointment booking system
+- Medical department exploration
+- Health news and articles
+- User profile management
+- Search functionality
+- Feedback system
+
+### Technical Features
+
+- Responsive design for mobile devices
+- iOS-specific optimizations
+- Performance monitoring
+- Accessibility support
+- Error boundary handling
+- Loading states and skeletons
+- Virtual scrolling for large lists
+- Optimized API caching
+
+### Navigation & UI Components
+
+#### Header System
+
+- **Modular Header Architecture**: Platform-specific header components (iOS, Android, Web)
+- **Medical Theming**: Healthcare-specific styling and branding
+- **Performance Optimized**: Lazy loading, memoization, and optimized rendering
+- **Accessibility Compliant**: WCAG 2.1 AA compliance with skip links and navigation status
+- **Error Boundary Protection**: Graceful error handling with fallback UI
+
+#### Footer System
+
+- **Modular Footer Architecture**: Platform-specific footer components (iOS, Android, Web)
+- **Medical Context Integration**: Emergency mode, trust indicators, and health status
+- **Automatic Platform Detection**: Smart detection and rendering of appropriate footer
+- **Unified Design System**: iOS-style design across all platforms for consistency
+- **Accessibility Compliant**: Full keyboard navigation, screen reader support, and ARIA labels
+- **Performance Optimized**: Lazy loading, shared components, and optimized animations
+- **Haptic Feedback**: Native-like touch interactions on supported devices
+
+#### About Page
+
+- **Comprehensive Landing Page**: Hospital showcase with modern animations
+- **Content Management System**: Centralized content with easy localization support
+- **Accessibility Optimized**: WCAG 2.1 AA compliance with motion preference respect
+- **Performance Focused**: Lazy loading, code splitting, and optimized animations
+
+## Development
+
+### Code Organization
+
+- **Components**: Reusable UI components organized by feature
+- **Pages**: Route-level components
+- **Services**: API integration and data fetching
+- **Hooks**: Custom React hooks for shared logic
+- **Utils**: Helper functions and utilities
+- **Types**: TypeScript type definitions
+- **Styles**: Theme system and styling utilities
+
+### Development Guidelines
+
+- Follow TypeScript best practices
+- Use functional components with hooks
+- Implement proper error handling
+- Write accessible components
+- Optimize for mobile performance
+- Follow the established folder structure
+
+## Deployment
+
+The application is deployed using the Zalo Mini Program platform:
 
 ```bash
-# Run color system tests
-npm run test:colors
+# Login to ZMP CLI
+yarn login
 
-# Generate accessibility report
-npm run report:accessibility
+# Deploy to production
+yarn deploy
 ```
 
-## 📊 Color System Health
+## Contributing
 
-### Current Status
+1. Follow the existing code style and structure
+2. Write TypeScript for all new code
+3. Test on both iOS and Android devices
+4. Ensure accessibility compliance
+5. Update documentation for new features
 
-- **Health Score**: 95% ✅
-- **WCAG Compliance**: AA Standard ✅
-- **Dark Mode Support**: Full ✅
-- **Component Coverage**: 100% ✅
+## Support
 
-### Monitoring
-
-- Automated daily health checks
-- Accessibility compliance monitoring
-- Performance impact tracking
-- Usage analytics
-
-## 🔧 Tools & Utilities
-
-### Color Functions
-
-```typescript
-// Get color token
-const primary = getColorToken('primary');
-
-// Get medical color with shade
-const medicalBlue = getMedicalColor('blue', 500);
-
-// Generate CSS variables
-const variables = generateCSSVariables(isDark);
-```
-
-### Testing Functions
-
-```typescript
-// Validate contrast
-const isAccessible = validateColorContrast(fg, bg);
-
-// Simulate color blindness
-const protanopia = simulateColorBlindness(color, 'protanopia');
-
-// Detect hardcoded colors
-const hardcoded = detectHardcodedColors(cssContent);
-```
-
-## 🎨 Color Tokens Reference
-
-### Background Colors
-
-```typescript
-'background'; // #FFFFFF - Main background
-'background-secondary'; // #FAFBFC - Secondary background
-'surface'; // #FFFFFF - Card surfaces
-'surface-hover'; // #F1F5F9 - Hover states
-```
-
-### Text Colors
-
-```typescript
-'text-primary'; // #475569 - Main text
-'text-secondary'; // #64748B - Secondary text
-'text-muted'; // #94A3B8 - Muted text
-'text-on-primary'; // #FFFFFF - Text on primary bg
-```
-
-### Border Colors
-
-```typescript
-'border'; // #E2E8F0 - Default borders
-'border-light'; // #F1F5F9 - Light borders
-'border-focus'; // #2563EB - Focus borders
-'border-error'; // #DC2626 - Error borders
-```
-
-## 🌙 Dark Mode
-
-### Automatic Detection
-
-```typescript
-// Theme provider automatically detects system preference
-<ThemeProvider defaultTheme="light">
-  <App />
-</ThemeProvider>
-```
-
-### Manual Toggle
-
-```typescript
-const { isDark, toggleTheme } = useTheme();
-
-<button onClick={toggleTheme}>
-  {isDark ? '☀️' : '🌙'} Toggle Theme
-</button>
-```
-
-## 📱 Mobile Support
-
-### Responsive Colors
-
-- Optimized for mobile screens
-- Touch-friendly contrast ratios
-- Proper focus states for touch devices
-- Battery-efficient dark mode
-
-### Performance
-
-- Minimal CSS custom properties
-- Efficient color calculations
-- Optimized for mobile browsers
-- Reduced paint operations
-
-## 🤝 Contributing
-
-### Adding New Colors
-
-1. Update `unified-color-system.ts`
-2. Add to Tailwind config
-3. Update CSS variables
-4. Add tests and documentation
-5. Run validation tools
-
-### Reporting Issues
-
-- Use the Color Testing Dashboard
-- Run automated health checks
-- Provide specific use cases
-- Include accessibility concerns
-
-## 📞 Support
-
-### Getting Help
-
-- 📖 Check documentation first
-- 🧪 Use testing tools for validation
-- 💬 Ask team for complex scenarios
-- 🐛 Report bugs with examples
-
-### Resources
-
-- [Design System Guidelines](./color-design-system.md)
-- [Implementation Examples](./color-usage-examples.md)
-- [Migration Support](./color-migration-guide.md)
-- [Component Documentation](./component-documentation.md)
-- [API Documentation](../src/styles/unified-color-system.ts)
-
----
-
-## 🎉 Success Stories
-
-> "The unified color system reduced our design inconsistencies by 90% and improved our accessibility score to AA compliance." - Development Team
-
-> "Migration was smooth with the provided tools and documentation. Dark mode implementation became trivial." - UI/UX Team
-
----
-
-**Version**: 1.0.0  
-**Last Updated**: 2024-01-15  
-**Maintainer**: Medical App Development Team
+For issues and questions, please refer to the Zalo Mini Program documentation or contact the development team.

@@ -1,0 +1,272 @@
+/**
+ * Performance Optimizations
+ * Optimized backdrop blur effects and animations for better performance across all devices
+ * 
+ * @version 1.0.0
+ * @author Medical Development Team
+ * @since 2024-08-06
+ */
+
+/* CSS Custom Properties for Performance Control */
+:root {
+  /* Backdrop blur settings - optimized for performance */
+  --blur-light: 8px;
+  --blur-medium: 16px;
+  --blur-heavy: 24px;
+  --blur-max: 30px;
+  
+  /* Animation timing - optimized for 60fps */
+  --animation-fast: 0.15s;
+  --animation-normal: 0.3s;
+  --animation-slow: 0.5s;
+  
+  /* Easing functions - hardware accelerated */
+  --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  
+  /* Performance flags */
+  --enable-blur: 1;
+  --enable-animations: 1;
+  --enable-shadows: 1;
+}
+
+/* Device capability detection and performance adjustments */
+@media (max-width: 375px) and (max-height: 667px) {
+  :root {
+    /* Older/smaller devices - reduced effects */
+    --blur-light: 4px;
+    --blur-medium: 8px;
+    --blur-heavy: 12px;
+    --blur-max: 16px;
+    --animation-fast: 0.1s;
+    --animation-normal: 0.2s;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    /* Disable animations for accessibility */
+    --enable-animations: 0;
+    --animation-fast: 0s;
+    --animation-normal: 0s;
+    --animation-slow: 0s;
+  }
+}
+
+/* Low-end device detection (approximate) */
+@media (max-resolution: 1.5dppx) and (max-width: 414px) {
+  :root {
+    /* Reduce effects on low-end devices */
+    --blur-light: 2px;
+    --blur-medium: 4px;
+    --blur-heavy: 6px;
+    --blur-max: 8px;
+    --enable-shadows: 0;
+  }
+}
+
+/* High-performance device detection */
+@media (min-resolution: 2dppx) and (min-width: 768px) {
+  :root {
+    /* Enhanced effects on high-end devices */
+    --blur-max: 40px;
+    --enable-shadows: 1;
+  }
+}
+
+/* Optimized backdrop blur classes */
+.backdrop-blur-light {
+  backdrop-filter: blur(var(--blur-light));
+  -webkit-backdrop-filter: blur(var(--blur-light));
+  /* Fallback for unsupported browsers */
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.backdrop-blur-medium {
+  backdrop-filter: blur(var(--blur-medium));
+  -webkit-backdrop-filter: blur(var(--blur-medium));
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
+.backdrop-blur-heavy {
+  backdrop-filter: blur(var(--blur-heavy));
+  -webkit-backdrop-filter: blur(var(--blur-heavy));
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.backdrop-blur-max {
+  backdrop-filter: blur(var(--blur-max));
+  -webkit-backdrop-filter: blur(var(--blur-max));
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+/* Performance-optimized animation classes */
+.animate-fast {
+  transition-duration: var(--animation-fast);
+  transition-timing-function: var(--ease-out);
+}
+
+.animate-normal {
+  transition-duration: var(--animation-normal);
+  transition-timing-function: var(--ease-in-out);
+}
+
+.animate-slow {
+  transition-duration: var(--animation-slow);
+  transition-timing-function: var(--ease-spring);
+}
+
+/* Hardware acceleration utilities */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.gpu-accelerated-scroll {
+  transform: translateZ(0);
+  -webkit-overflow-scrolling: touch;
+  will-change: scroll-position;
+}
+
+/* Optimized shadow utilities */
+.shadow-light {
+  box-shadow: calc(var(--enable-shadows) * 0px) calc(var(--enable-shadows) * 1px) calc(var(--enable-shadows) * 3px) rgba(0, 0, 0, 0.1);
+}
+
+.shadow-medium {
+  box-shadow: calc(var(--enable-shadows) * 0px) calc(var(--enable-shadows) * 2px) calc(var(--enable-shadows) * 8px) rgba(0, 0, 0, 0.15);
+}
+
+.shadow-heavy {
+  box-shadow: calc(var(--enable-shadows) * 0px) calc(var(--enable-shadows) * 4px) calc(var(--enable-shadows) * 16px) rgba(0, 0, 0, 0.2);
+}
+
+/* Performance-optimized header styles */
+.header-performance {
+  /* Use transform instead of changing position for better performance */
+  transform: translateY(0);
+  transition: transform var(--animation-fast) var(--ease-out);
+  will-change: transform;
+  contain: layout style paint;
+}
+
+.header-performance.scrolled {
+  transform: translateY(0);
+  backdrop-filter: blur(var(--blur-medium));
+  -webkit-backdrop-filter: blur(var(--blur-medium));
+}
+
+/* Performance-optimized footer styles */
+.footer-performance {
+  /* Optimize for fixed positioning */
+  transform: translateZ(0);
+  will-change: auto;
+  contain: layout style;
+  isolation: isolate;
+}
+
+/* Button interaction optimizations */
+.button-performance {
+  /* Optimize touch interactions */
+  transform: translateZ(0);
+  transition: transform var(--animation-fast) var(--ease-out),
+              opacity var(--animation-fast) var(--ease-out);
+  will-change: transform, opacity;
+}
+
+.button-performance:active {
+  transform: scale(0.95) translateZ(0);
+}
+
+.button-performance:hover {
+  transform: scale(1.02) translateZ(0);
+}
+
+/* Scroll performance optimizations */
+.scroll-performance {
+  /* Optimize scrolling performance */
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  will-change: scroll-position;
+}
+
+/* Disable expensive effects on low-end devices */
+@media (max-width: 320px), (max-height: 568px) {
+  .backdrop-blur-light,
+  .backdrop-blur-medium,
+  .backdrop-blur-heavy,
+  .backdrop-blur-max {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background-color: rgba(255, 255, 255, 0.95) !important;
+  }
+  
+  .shadow-light,
+  .shadow-medium,
+  .shadow-heavy {
+    box-shadow: none !important;
+  }
+}
+
+/* Battery optimization for mobile devices */
+@media (max-width: 768px) and (orientation: portrait) {
+  .gpu-accelerated {
+    /* Reduce GPU usage on mobile */
+    will-change: auto;
+  }
+  
+  .animate-slow {
+    /* Speed up animations on mobile */
+    transition-duration: var(--animation-normal);
+  }
+}
+
+/* High refresh rate display optimizations */
+@media (min-resolution: 120dpi) {
+  .animate-fast {
+    transition-duration: calc(var(--animation-fast) * 0.8);
+  }
+  
+  .animate-normal {
+    transition-duration: calc(var(--animation-normal) * 0.8);
+  }
+}
+
+/* Debug performance utilities */
+.debug-performance {
+  /* Visual indicators for performance debugging */
+  outline: 2px dashed rgba(255, 165, 0, 0.5);
+}
+
+.debug-performance::after {
+  content: 'PERF';
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: orange;
+  color: white;
+  font-size: 10px;
+  padding: 2px 4px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* Container query support for future-proofing */
+@supports (container-type: inline-size) {
+  .performance-container {
+    container-type: inline-size;
+  }
+  
+  @container (max-width: 375px) {
+    .backdrop-blur-heavy,
+    .backdrop-blur-max {
+      backdrop-filter: blur(var(--blur-light)) !important;
+      -webkit-backdrop-filter: blur(var(--blur-light)) !important;
+    }
+  }
+}

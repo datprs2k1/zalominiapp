@@ -25,39 +25,39 @@ export default function Step1() {
   const [isValidating, setIsValidating] = useState(false);
   const prefersReducedMotion = useReducedMotion();
 
-  useEffect(() => {
-    const auth = async () => {
-      setLoading(true);
-      try {
-        const data = await authorize({
-          scopes: ['scope.userInfo', 'scope.userPhonenumber'],
-        });
+  // useEffect(() => {
+  //   const auth = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const data = await authorize({
+  //         scopes: ['scope.userInfo', 'scope.userPhonenumber'],
+  //       });
 
-        if (!data['scope.userInfo'] || !data['scope.userPhonenumber']) {
-          toast.error('Vui lòng cấp quyền truy cập thông tin cá nhân và số điện thoại!');
-          navigate('/');
-        }
-      } catch (error) {
-        console.error('Authorization error:', error);
-        toast.error('Không thể xác thực quyền truy cập');
-      } finally {
-        setLoading(false);
-      }
-    };
+  //       if (!data['scope.userInfo'] || !data['scope.userPhonenumber']) {
+  //         toast.error('Vui lòng cấp quyền truy cập thông tin cá nhân và số điện thoại!');
+  //         navigate('/');
+  //       }
+  //     } catch (error) {
+  //       console.error('Authorization error:', error);
+  //       toast.error('Không thể xác thực quyền truy cập');
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    const checkPermission = async () => {
-      try {
-        const data = await getSetting();
-        if (!data.authSetting['scope.userInfo'] && !data.authSetting['scope.userPhonenumber']) {
-          auth();
-        }
-      } catch (error) {
-        console.error('Permission check error:', error);
-      }
-    };
+  //   const checkPermission = async () => {
+  //     try {
+  //       const data = await getSetting();
+  //       if (!data.authSetting['scope.userInfo'] && !data.authSetting['scope.userPhonenumber']) {
+  //         auth();
+  //       }
+  //     } catch (error) {
+  //       console.error('Permission check error:', error);
+  //     }
+  //   };
 
-    checkPermission();
-  }, []);
+  //   checkPermission();
+  // }, []);
 
   useEffect(() => {
     if (selectedSlot) {

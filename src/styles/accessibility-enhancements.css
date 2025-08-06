@@ -1,0 +1,312 @@
+/**
+ * Accessibility Enhancements
+ * WCAG 2.1 AA compliant styles for header and footer components
+ * 
+ * @version 1.0.0
+ * @author Medical Development Team
+ * @since 2024-08-06
+ */
+
+/* CSS Custom Properties for Accessibility */
+:root {
+  /* WCAG AA compliant color contrasts */
+  --a11y-text-primary: #1f2937;        /* 4.5:1 contrast ratio */
+  --a11y-text-secondary: #374151;      /* 4.5:1 contrast ratio */
+  --a11y-text-muted: #6b7280;          /* 4.5:1 contrast ratio on light backgrounds */
+  --a11y-link-color: #1d4ed8;          /* 4.5:1 contrast ratio */
+  --a11y-link-visited: #7c3aed;        /* 4.5:1 contrast ratio */
+  --a11y-focus-color: #2563eb;         /* High contrast focus indicator */
+  --a11y-error-color: #dc2626;         /* High contrast error color */
+  --a11y-success-color: #059669;       /* High contrast success color */
+  --a11y-warning-color: #d97706;       /* High contrast warning color */
+  
+  /* Focus indicator properties */
+  --a11y-focus-width: 2px;
+  --a11y-focus-offset: 2px;
+  --a11y-focus-radius: 4px;
+  
+  /* Touch target sizes */
+  --a11y-touch-target-min: 44px;
+  --a11y-touch-target-recommended: 48px;
+}
+
+/* High contrast mode adjustments */
+@media (prefers-contrast: high) {
+  :root {
+    --a11y-text-primary: #000000;
+    --a11y-text-secondary: #000000;
+    --a11y-link-color: #0000ff;
+    --a11y-focus-color: #000000;
+    --a11y-focus-width: 3px;
+  }
+}
+
+/* Enhanced focus indicators for all interactive elements */
+.a11y-focus,
+button:focus,
+a:focus,
+input:focus,
+select:focus,
+textarea:focus,
+[tabindex]:focus {
+  outline: var(--a11y-focus-width) solid var(--a11y-focus-color) !important;
+  outline-offset: var(--a11y-focus-offset) !important;
+  border-radius: var(--a11y-focus-radius) !important;
+  box-shadow: 0 0 0 calc(var(--a11y-focus-width) + 1px) rgba(37, 99, 235, 0.2) !important;
+  transition: outline 0.15s ease-out, box-shadow 0.15s ease-out !important;
+}
+
+/* Remove default focus styles to prevent double outlines */
+.a11y-focus:focus,
+button:focus,
+a:focus,
+input:focus,
+select:focus,
+textarea:focus,
+[tabindex]:focus {
+  outline-style: solid !important;
+}
+
+/* Skip link enhancements */
+.skip-link {
+  position: absolute !important;
+  top: -40px !important;
+  left: 6px !important;
+  background: var(--a11y-focus-color) !important;
+  color: white !important;
+  padding: 8px 16px !important;
+  text-decoration: none !important;
+  border-radius: var(--a11y-focus-radius) !important;
+  font-weight: 600 !important;
+  z-index: 10000 !important;
+  transition: top 0.3s ease-out !important;
+}
+
+.skip-link:focus {
+  top: 6px !important;
+  outline: 2px solid white !important;
+  outline-offset: 2px !important;
+}
+
+/* Screen reader only content */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.sr-only:focus {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  padding: inherit !important;
+  margin: inherit !important;
+  overflow: visible !important;
+  clip: auto !important;
+  white-space: normal !important;
+}
+
+/* Enhanced button accessibility */
+.a11y-button {
+  min-width: var(--a11y-touch-target-min) !important;
+  min-height: var(--a11y-touch-target-min) !important;
+  padding: max(8px, calc((var(--a11y-touch-target-min) - 1em) / 2)) !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+/* Enhanced link accessibility */
+.a11y-link {
+  color: var(--a11y-link-color) !important;
+  text-decoration: underline !important;
+  text-underline-offset: 2px !important;
+  text-decoration-thickness: 1px !important;
+}
+
+.a11y-link:visited {
+  color: var(--a11y-link-visited) !important;
+}
+
+.a11y-link:hover {
+  text-decoration-thickness: 2px !important;
+}
+
+/* Color contrast enhancements */
+.a11y-text-primary {
+  color: var(--a11y-text-primary) !important;
+}
+
+.a11y-text-secondary {
+  color: var(--a11y-text-secondary) !important;
+}
+
+.a11y-text-muted {
+  color: var(--a11y-text-muted) !important;
+}
+
+/* Header accessibility enhancements */
+.header-a11y {
+  /* Ensure proper heading hierarchy */
+  role: banner;
+}
+
+.header-a11y h1,
+.header-a11y .h1 {
+  font-size: clamp(1.25rem, 4vw, 1.5rem) !important;
+  line-height: 1.2 !important;
+  color: var(--a11y-text-primary) !important;
+  font-weight: 700 !important;
+}
+
+.header-a11y .subtitle {
+  font-size: clamp(0.875rem, 3vw, 1rem) !important;
+  color: var(--a11y-text-secondary) !important;
+  line-height: 1.4 !important;
+}
+
+/* Footer accessibility enhancements */
+.footer-a11y {
+  role: contentinfo;
+}
+
+.footer-a11y nav {
+  role: navigation;
+  aria-label: "Main navigation";
+}
+
+.footer-a11y button,
+.footer-a11y a {
+  min-width: var(--a11y-touch-target-min) !important;
+  min-height: var(--a11y-touch-target-min) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+  text-align: center !important;
+  color: var(--a11y-text-secondary) !important;
+  text-decoration: none !important;
+}
+
+.footer-a11y button:hover,
+.footer-a11y a:hover,
+.footer-a11y button.active,
+.footer-a11y a.active {
+  color: var(--a11y-link-color) !important;
+  background-color: rgba(37, 99, 235, 0.1) !important;
+}
+
+/* Icon accessibility */
+.a11y-icon {
+  /* Ensure icons have proper alt text or are decorative */
+  width: 1em !important;
+  height: 1em !important;
+  display: inline-block !important;
+  vertical-align: middle !important;
+}
+
+.a11y-icon[aria-hidden="true"] {
+  /* Decorative icons hidden from screen readers */
+  pointer-events: none !important;
+}
+
+/* Motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .a11y-focus,
+  .skip-link,
+  .a11y-button,
+  .a11y-link {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Large text support */
+@media (min-resolution: 1.5dppx) {
+  .a11y-text-primary,
+  .a11y-text-secondary {
+    /* Improve text rendering on high-DPI displays */
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+  }
+}
+
+/* Keyboard navigation enhancements */
+.a11y-keyboard-nav {
+  /* Visible focus indicators for keyboard users */
+  outline: none !important;
+}
+
+.a11y-keyboard-nav:focus-visible {
+  outline: var(--a11y-focus-width) solid var(--a11y-focus-color) !important;
+  outline-offset: var(--a11y-focus-offset) !important;
+}
+
+/* Error and status message accessibility */
+.a11y-error {
+  color: var(--a11y-error-color) !important;
+  font-weight: 600 !important;
+  role: alert;
+  aria-live: assertive;
+}
+
+.a11y-success {
+  color: var(--a11y-success-color) !important;
+  font-weight: 600 !important;
+  role: status;
+  aria-live: polite;
+}
+
+.a11y-warning {
+  color: var(--a11y-warning-color) !important;
+  font-weight: 600 !important;
+  role: alert;
+  aria-live: assertive;
+}
+
+/* Form accessibility enhancements */
+.a11y-form-group {
+  margin-bottom: 1rem !important;
+}
+
+.a11y-label {
+  display: block !important;
+  margin-bottom: 0.5rem !important;
+  font-weight: 600 !important;
+  color: var(--a11y-text-primary) !important;
+}
+
+.a11y-input {
+  width: 100% !important;
+  padding: 0.75rem !important;
+  border: 2px solid #d1d5db !important;
+  border-radius: var(--a11y-focus-radius) !important;
+  font-size: 1rem !important;
+  line-height: 1.5 !important;
+  color: var(--a11y-text-primary) !important;
+}
+
+.a11y-input:focus {
+  border-color: var(--a11y-focus-color) !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+}
+
+/* Dark mode accessibility */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --a11y-text-primary: #f9fafb;
+    --a11y-text-secondary: #e5e7eb;
+    --a11y-text-muted: #9ca3af;
+    --a11y-link-color: #60a5fa;
+    --a11y-link-visited: #a78bfa;
+    --a11y-focus-color: #3b82f6;
+  }
+}

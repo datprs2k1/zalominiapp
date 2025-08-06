@@ -17,6 +17,7 @@
   "scripts": {
     "login": "zmp login",
     "start": "zmp start",
+    "dev": "zmp start",
     "deploy": "zmp deploy",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\" | cat"
   },

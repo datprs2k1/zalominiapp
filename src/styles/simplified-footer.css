@@ -1,0 +1,192 @@
+/* Simplified Footer Styles - Clean and Modern */
+
+.simplified-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 8px 16px;
+  padding-bottom: max(8px, env(safe-area-inset-bottom));
+  height: 70px;
+  box-sizing: border-box;
+}
+
+.footer-nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.footer-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 44px;
+  min-height: 44px;
+  color: #6b7280;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.footer-item:hover {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+}
+
+.footer-item:active {
+  background: rgba(59, 130, 246, 0.2);
+}
+
+.footer-item.active {
+  color: #3b82f6;
+}
+
+.footer-item.active .footer-icon {
+  transform: scale(1.1);
+}
+
+.footer-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2px;
+  transition: transform 0.2s ease;
+}
+
+.footer-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 2;
+}
+
+.footer-label {
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .simplified-footer {
+    background: rgba(17, 24, 39, 0.95);
+    border-top-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .footer-item {
+    color: #9ca3af;
+  }
+  
+  .footer-item:hover {
+    background: rgba(59, 130, 246, 0.2);
+    color: #60a5fa;
+  }
+  
+  .footer-item.active {
+    color: #60a5fa;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 375px) {
+  .footer-item {
+    padding: 6px 8px;
+    min-width: 40px;
+  }
+  
+  .footer-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+  
+  .footer-label {
+    font-size: 9px;
+  }
+}
+
+@media (min-width: 768px) {
+  .simplified-footer {
+    height: 80px;
+    padding: 12px 24px;
+  }
+  
+  .footer-item {
+    padding: 12px 16px;
+    min-width: 60px;
+    min-height: 56px;
+  }
+  
+  .footer-icon svg {
+    width: 26px;
+    height: 26px;
+  }
+  
+  .footer-label {
+    font-size: 11px;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .footer-item,
+  .footer-icon {
+    transition: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .simplified-footer {
+    border-top: 2px solid;
+  }
+  
+  .footer-item.active {
+    background: rgba(59, 130, 246, 0.3);
+    border: 2px solid #3b82f6;
+  }
+}
+
+/* Focus styles for keyboard navigation */
+.footer-item:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.footer-item:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Safe area adjustments for different devices */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .simplified-footer {
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+  }
+}
+
+/* Prevent text selection on touch devices */
+.simplified-footer * {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

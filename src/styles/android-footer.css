@@ -1,0 +1,345 @@
+/* Android Footer Styles - Material Design 3 Compliant */
+
+/* Material Ripple Animation */
+@keyframes material-ripple {
+  to {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.material-ripple {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: material-ripple 300ms cubic-bezier(0.2, 0.0, 0, 1.0);
+}
+
+/* Android Footer Container (Rounded Bar Style) */
+.android-footer.ios-styled.rounded-bar {
+  /* Layout */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 83px; /* iOS height */
+
+  /* Rounded Bar Layout */
+  padding: 0 16px max(env(safe-area-inset-bottom), 36px) 16px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  /* Remove background from container */
+  background: transparent;
+}
+
+/* Rounded Bar Inner Container */
+.android-footer.ios-styled.rounded-bar .rounded-bar-container {
+  background-color: rgba(248, 248, 248, 0.94); /* iOS background with transparency */
+  backdrop-filter: blur(20px); /* iOS backdrop blur */
+  -webkit-backdrop-filter: blur(20px); /* Safari support */
+  border-radius: 24px; /* Rounded bar */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08); /* Elevated shadow */
+  border: 0.5px solid rgba(60, 60, 67, 0.15); /* Subtle border */
+  width: 100%;
+  max-width: 400px; /* Maximum width for larger screens */
+  height: 64px; /* Rounded bar height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px; /* Space from bottom */
+}
+
+/* Rounded Bar Navigation Content */
+.android-footer.ios-styled.rounded-bar .nav-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 16px; /* Rounded bar padding */
+}
+
+/* Rounded Bar Navigation Items */
+.android-footer.ios-styled.rounded-bar .nav-item {
+  /* Rounded Bar Touch Target */
+  min-width: 48px; /* Rounded bar touch target */
+  min-height: 48px; /* Rounded bar touch target */
+  padding: 6px; /* Compact padding for rounded bar */
+
+  /* Layout */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  /* Rounded Bar Visual Style */
+  border-radius: 12px; /* Rounded button */
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+
+  /* iOS Typography */
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif; /* iOS font */
+  color: rgba(60, 60, 67, 0.6); /* iOS secondary label */
+
+  /* iOS Transitions */
+  transition: color 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              background-color 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* iOS spring curve */
+
+  /* Remove default button styles */
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+/* Rounded Bar Navigation Item States */
+.android-footer.ios-styled.rounded-bar .nav-item:active {
+  background-color: rgba(116, 116, 128, 0.12); /* Slightly stronger press state for rounded bar */
+  transition-duration: 100ms; /* iOS timing */
+}
+
+.android-footer.ios-styled.rounded-bar .nav-item.selected {
+  color: rgb(0, 122, 255); /* iOS system blue */
+}
+
+.android-footer.ios-styled.rounded-bar .nav-item:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Rounded Bar Focus Indicator */
+.android-footer.ios-styled.rounded-bar .nav-item:focus-visible {
+  outline: 2px solid rgb(0, 122, 255); /* iOS system blue */
+  outline-offset: 2px;
+  border-radius: 14px; /* Rounded focus border */
+}
+
+/* Remove Android State Layer for iOS styling */
+
+/* Rounded Bar Navigation Item Icon */
+.android-footer.ios-styled.rounded-bar .nav-item .icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1px; /* Compact spacing for rounded bar */
+  font-size: 18px; /* Slightly smaller icon for rounded bar */
+  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* iOS spring curve */
+}
+
+/* Rounded Bar Navigation Item Label */
+.android-footer.ios-styled.rounded-bar .nav-item .label {
+  font-size: 9px; /* Smaller text for rounded bar */
+  font-weight: 500; /* Slightly bolder for readability */
+  line-height: 10px; /* Compact line height for rounded bar */
+  letter-spacing: 0px; /* iOS letter spacing */
+  text-align: center;
+  max-width: 48px; /* Smaller max width for rounded bar */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif; /* iOS font */
+}
+
+.android-footer.ios-styled.rounded-bar .nav-item.selected .label {
+  font-weight: 600; /* iOS semibold for selected */
+}
+
+/* Rounded Bar Badge */
+.android-footer.ios-styled.rounded-bar .badge {
+  position: absolute;
+  top: 2px; /* Adjusted for rounded bar */
+  right: 2px; /* Adjusted for rounded bar */
+  min-width: 16px; /* Slightly smaller badge */
+  height: 16px; /* Slightly smaller badge */
+  background-color: rgb(255, 59, 48); /* iOS system red */
+  color: white;
+  border-radius: 8px; /* Rounded badge */
+  font-size: 10px; /* Smaller font for compact design */
+  font-weight: 600; /* iOS font weight */
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif; /* iOS font */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  box-shadow: 0 2px 6px rgba(255, 59, 48, 0.3); /* Red shadow for emphasis */
+}
+
+.android-footer .badge:empty {
+  min-width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  padding: 0;
+}
+
+/* Android Badge Animation */
+.android-footer .badge-enter {
+  animation: android-badge-bounce 0.4s cubic-bezier(0.2, 0.0, 0, 1.0);
+}
+
+@keyframes android-badge-bounce {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.android-footer .badge-update {
+  animation: android-badge-pulse 0.25s cubic-bezier(0.2, 0.0, 0, 1.0);
+}
+
+@keyframes android-badge-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+/* Rounded Bar Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .android-footer.ios-styled.rounded-bar .rounded-bar-container {
+    background-color: rgba(28, 28, 30, 0.94); /* iOS dark background */
+    border-color: rgba(84, 84, 88, 0.65); /* iOS dark separator */
+  }
+
+  .android-footer.ios-styled.rounded-bar .nav-item {
+    color: rgba(235, 235, 245, 0.6); /* iOS dark secondary label */
+  }
+
+  .android-footer.ios-styled.rounded-bar .nav-item.selected {
+    color: rgb(10, 132, 255); /* iOS dark system blue */
+  }
+
+  .android-footer.ios-styled.rounded-bar .nav-item:active {
+    background-color: rgba(142, 142, 147, 0.12); /* iOS dark quaternary fill */
+  }
+
+  .android-footer.ios-styled.rounded-bar .nav-item:focus-visible {
+    outline-color: rgb(10, 132, 255); /* iOS dark system blue */
+  }
+}
+
+/* iOS High Contrast Mode */
+@media (prefers-contrast: high) {
+  .android-footer.ios-styled {
+    border-top-width: 2px;
+    border-top-color: var(--ios-label, #000000);
+  }
+
+  .android-footer.ios-styled .nav-item {
+    border: 1px solid var(--ios-label, #000000);
+  }
+
+  .android-footer.ios-styled .nav-item.selected {
+    background-color: var(--ios-system-blue, #007AFF);
+    color: white;
+  }
+  
+  .android-footer .nav-item.selected {
+    background-color: rgb(37, 99, 235);
+    color: white;
+  }
+}
+
+/* Android Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .android-footer .nav-item {
+    transition: none;
+  }
+  
+  .android-footer .nav-item .state-layer {
+    transition: none;
+  }
+  
+  .android-footer .badge-enter,
+  .android-footer .badge-update {
+    animation: none;
+  }
+  
+  .material-ripple {
+    animation: none;
+  }
+}
+
+/* Android Navigation Rail for Tablets */
+@media (min-width: 768px) and (orientation: landscape) {
+  .android-footer {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 80px;
+    height: 100vh;
+    flex-direction: column;
+    padding: 24px 0;
+    border-top: none;
+    border-right: 1px solid rgb(226, 232, 240);
+  }
+  
+  .android-footer .nav-content {
+    height: auto;
+    flex-direction: column;
+    padding: 0;
+    gap: 12px;
+  }
+  
+  .android-footer .nav-item {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto;
+    border-radius: 16px;
+  }
+  
+  .android-footer .nav-item .label {
+    font-size: 11px;
+    margin-top: 4px;
+  }
+}
+
+/* Android Large Screen Adaptations */
+@media (min-width: 1024px) {
+  .android-footer {
+    height: 64px;
+    padding-bottom: 24px;
+  }
+
+  .android-footer .nav-item {
+    min-width: 48px;
+    min-height: 48px;
+    padding: 8px;
+  }
+}
+
+/* Android Gesture Navigation Support */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .android-footer {
+    padding-bottom: max(env(safe-area-inset-bottom), 36px);
+  }
+}
+
+/* Android Keyboard Navigation Support */
+.android-footer .nav-item[data-keyboard-focused="true"] {
+  background-color: rgba(37, 99, 235, 0.08);
+}
+
+/* Android Voice Access Support */
+.android-footer .nav-item[data-voice-label]::after {
+  content: attr(data-voice-label);
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.android-footer .nav-item[data-voice-active="true"]::after {
+  opacity: 1;
+}

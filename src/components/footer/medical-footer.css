@@ -1,0 +1,377 @@
+/**
+ * Medical Footer CSS
+ * Enhanced iOS Hospital App-inspired styling with medical gradients and backdrop blur
+ * 
+ * @version 1.0.0
+ * @author Medical Development Team
+ * @since 2024-08-06
+ */
+
+/* CSS Custom Properties for Medical Footer */
+:root {
+  /* Medical Backdrop Blur */
+  --medical-footer-blur: 30px;
+  --medical-footer-saturation: 1.8;
+  --medical-footer-brightness: 1.1;
+  
+  /* Medical Colors */
+  --medical-primary-blue: #2563EB;
+  --medical-healing-green: #10B981;
+  --medical-emergency-red: #DC2626;
+  --medical-trust-cyan: #0891B2;
+  --medical-warning-orange: #F59E0B;
+  
+  /* iOS System Colors */
+  --ios-system-blue: #007AFF;
+  --ios-system-green: #34C759;
+  --ios-system-red: #FF3B30;
+  --ios-system-orange: #FF9500;
+  --ios-system-purple: #5856D6;
+  --ios-system-gray: #8E8E93;
+  
+  /* Medical Animation Curves */
+  --medical-spring-curve: cubic-bezier(0.16, 1, 0.3, 1);
+  --medical-emergency-curve: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --medical-trust-curve: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Medical Spacing */
+  --medical-footer-height: 90px;
+  --medical-content-height: 60px;
+  --medical-safe-area-ios: 34px;
+  --medical-safe-area-android: 36px;
+  --medical-safe-area-web: 16px;
+}
+
+/* Enhanced Medical Footer Base Styling */
+.medical-footer-base {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--medical-footer-height);
+  z-index: 1000;
+  
+  /* Enhanced iOS-style backdrop blur with medical theming */
+  backdrop-filter: blur(var(--medical-footer-blur)) saturate(var(--medical-footer-saturation)) brightness(var(--medical-footer-brightness));
+  -webkit-backdrop-filter: blur(var(--medical-footer-blur)) saturate(var(--medical-footer-saturation)) brightness(var(--medical-footer-brightness));
+  
+  /* Medical gradient background */
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.97) 0%, 
+    rgba(248, 250, 252, 0.97) 30%, 
+    rgba(240, 249, 255, 0.97) 100%);
+  
+  /* Enhanced medical shadows */
+  box-shadow: 
+    0 -1px 0 rgba(0, 0, 0, 0.04),
+    0 -2px 8px rgba(37, 99, 235, 0.08),
+    0 -4px 16px rgba(37, 99, 235, 0.04),
+    0 -8px 32px rgba(16, 185, 129, 0.02);
+  
+  /* Medical border */
+  border-top: 1px solid rgba(229, 231, 235, 0.3);
+  
+  /* Smooth medical transitions */
+  transition: all 300ms var(--medical-spring-curve);
+}
+
+/* iOS Platform Specific Styling */
+.medical-footer-base.ios-footer {
+  padding-bottom: max(env(safe-area-inset-bottom), var(--medical-safe-area-ios));
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+/* Android Platform Specific Styling */
+.medical-footer-base.android-footer {
+  padding-bottom: var(--medical-safe-area-android);
+}
+
+/* Web Platform Specific Styling */
+.medical-footer-base.universal-footer {
+  padding-bottom: var(--medical-safe-area-web);
+}
+
+/* Medical Footer Content Container */
+.medical-footer-content {
+  height: var(--medical-content-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 12px;
+  position: relative;
+}
+
+/* Enhanced Medical Navigation Items */
+.medical-nav-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  
+  /* Medical interaction styling */
+  color: rgba(60, 60, 67, 0.6);
+  transition: all 250ms var(--medical-spring-curve);
+  
+  /* Enhanced touch targets for medical accessibility */
+  @media (max-width: 768px) {
+    min-width: 48px;
+    min-height: 48px;
+  }
+}
+
+/* Medical Navigation Item States */
+.medical-nav-item:hover {
+  background-color: rgba(37, 99, 235, 0.08);
+  color: var(--medical-primary-blue);
+  transform: translateY(-1px);
+}
+
+.medical-nav-item:active {
+  background-color: rgba(37, 99, 235, 0.12);
+  transform: translateY(0) scale(0.98);
+  transition-duration: 150ms;
+}
+
+.medical-nav-item.selected {
+  color: var(--ios-system-blue);
+  background-color: rgba(0, 122, 255, 0.1);
+}
+
+.medical-nav-item.selected::before {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 2px;
+  background: var(--ios-system-blue);
+  border-radius: 1px;
+}
+
+/* Medical Navigation Labels */
+.medical-nav-label {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 12px;
+  text-align: center;
+  margin-top: 2px;
+  opacity: 0.8;
+  transition: opacity 200ms var(--medical-spring-curve);
+}
+
+.medical-nav-item.selected .medical-nav-label {
+  opacity: 1;
+  font-weight: 500;
+}
+
+/* Emergency Mode Styling */
+.medical-footer-base.emergency-mode {
+  background: linear-gradient(135deg,
+    rgba(254, 242, 242, 0.97) 0%,
+    rgba(255, 255, 255, 0.97) 50%,
+    rgba(240, 249, 255, 0.97) 100%);
+  
+  border-top-color: rgba(220, 38, 38, 0.5);
+  
+  box-shadow: 
+    0 -1px 0 rgba(220, 38, 38, 0.08),
+    0 -2px 8px rgba(220, 38, 38, 0.15),
+    0 -4px 16px rgba(220, 38, 38, 0.08),
+    0 -8px 32px rgba(220, 38, 38, 0.04);
+  
+  animation: medical-emergency-pulse 2s ease-in-out infinite;
+}
+
+@keyframes medical-emergency-pulse {
+  0%, 100% { 
+    box-shadow: 
+      0 -1px 0 rgba(220, 38, 38, 0.08),
+      0 -2px 8px rgba(220, 38, 38, 0.15),
+      0 -4px 16px rgba(220, 38, 38, 0.08);
+  }
+  50% { 
+    box-shadow: 
+      0 -1px 0 rgba(220, 38, 38, 0.12),
+      0 -2px 8px rgba(220, 38, 38, 0.25),
+      0 -4px 16px rgba(220, 38, 38, 0.15);
+  }
+}
+
+/* Trust Mode Styling */
+.medical-footer-base.trust-mode {
+  background: linear-gradient(135deg,
+    rgba(240, 249, 255, 0.97) 0%,
+    rgba(255, 255, 255, 0.97) 50%,
+    rgba(240, 253, 244, 0.97) 100%);
+  
+  border-top-color: rgba(16, 185, 129, 0.3);
+  
+  box-shadow: 
+    0 -1px 0 rgba(16, 185, 129, 0.06),
+    0 -2px 8px rgba(16, 185, 129, 0.12),
+    0 -4px 16px rgba(16, 185, 129, 0.06),
+    0 -8px 32px rgba(16, 185, 129, 0.03);
+}
+
+/* Medical Badge Styling */
+.medical-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  min-width: 16px;
+  height: 16px;
+  background-color: var(--ios-system-red);
+  color: white;
+  border-radius: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+.medical-badge.emergency {
+  background-color: var(--ios-system-red);
+  animation: medical-badge-urgent 1s ease-in-out infinite;
+}
+
+.medical-badge.urgent {
+  background-color: var(--ios-system-orange);
+}
+
+.medical-badge.routine {
+  background-color: var(--ios-system-blue);
+}
+
+.medical-badge.consultation {
+  background-color: var(--ios-system-green);
+}
+
+@keyframes medical-badge-urgent {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .medical-footer-base {
+    background: linear-gradient(135deg,
+      rgba(28, 28, 30, 0.97) 0%,
+      rgba(44, 44, 46, 0.97) 30%,
+      rgba(58, 58, 60, 0.97) 100%);
+    
+    border-top-color: rgba(84, 84, 88, 0.65);
+    
+    box-shadow: 
+      0 -1px 0 rgba(255, 255, 255, 0.04),
+      0 -2px 8px rgba(59, 130, 246, 0.12),
+      0 -4px 16px rgba(59, 130, 246, 0.08),
+      0 -8px 32px rgba(52, 211, 153, 0.04);
+  }
+  
+  .medical-nav-item {
+    color: rgba(235, 235, 245, 0.6);
+  }
+  
+  .medical-nav-item:hover {
+    background-color: rgba(59, 130, 246, 0.12);
+    color: #3B82F6;
+  }
+  
+  .medical-nav-item.selected {
+    color: #007AFF;
+    background-color: rgba(0, 122, 255, 0.15);
+  }
+  
+  .medical-footer-base.emergency-mode {
+    background: linear-gradient(135deg,
+      rgba(69, 26, 26, 0.97) 0%,
+      rgba(28, 28, 30, 0.97) 50%,
+      rgba(44, 44, 46, 0.97) 100%);
+  }
+  
+  .medical-footer-base.trust-mode {
+    background: linear-gradient(135deg,
+      rgba(12, 74, 110, 0.97) 0%,
+      rgba(28, 28, 30, 0.97) 50%,
+      rgba(20, 83, 45, 0.97) 100%);
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .medical-footer-base {
+    border-top-width: 2px;
+    border-top-color: currentColor;
+  }
+  
+  .medical-nav-item {
+    border: 1px solid currentColor;
+    border-radius: 8px;
+  }
+  
+  .medical-nav-item.selected {
+    background-color: var(--ios-system-blue);
+    color: white;
+  }
+  
+  .medical-badge {
+    border: 2px solid white;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .medical-footer-base,
+  .medical-nav-item,
+  .medical-nav-label {
+    transition-duration: 0.01s;
+    animation: none;
+  }
+  
+  .medical-footer-base.emergency-mode {
+    animation: none;
+  }
+  
+  .medical-badge.emergency {
+    animation: none;
+  }
+}
+
+/* Focus Indicators for Accessibility */
+.medical-nav-item:focus-visible {
+  outline: 2px solid var(--ios-system-blue);
+  outline-offset: 2px;
+  border-radius: 12px;
+}
+
+/* Loading State */
+.medical-footer-loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.medical-footer-loading .medical-nav-item {
+  animation: medical-loading-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes medical-loading-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.3; }
+}

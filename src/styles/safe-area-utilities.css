@@ -1,0 +1,199 @@
+/**
+ * Safe Area Utilities
+ * Comprehensive safe area support for modern devices with notches and rounded corners
+ * 
+ * @version 1.0.0
+ * @author Medical Development Team
+ * @since 2024-08-06
+ */
+
+/* CSS Custom Properties for Safe Areas */
+:root {
+  /* Safe area inset fallbacks for older browsers */
+  --safe-area-inset-top: 0px;
+  --safe-area-inset-right: 0px;
+  --safe-area-inset-bottom: 0px;
+  --safe-area-inset-left: 0px;
+  
+  /* Enhanced safe area variables with platform detection */
+  --safe-area-top: max(var(--safe-area-inset-top), env(safe-area-inset-top, 0px));
+  --safe-area-right: max(var(--safe-area-inset-right), env(safe-area-inset-right, 0px));
+  --safe-area-bottom: max(var(--safe-area-inset-bottom), env(safe-area-inset-bottom, 0px));
+  --safe-area-left: max(var(--safe-area-inset-left), env(safe-area-inset-left, 0px));
+  
+  /* Platform-specific safe area adjustments */
+  --ios-status-bar-height: 44px;
+  --android-status-bar-height: 24px;
+  --web-header-offset: 0px;
+}
+
+/* Safe area detection and platform-specific adjustments */
+@supports (padding: max(0px)) {
+  :root {
+    /* Modern browsers with safe area support */
+    --safe-area-top: env(safe-area-inset-top, 0px);
+    --safe-area-right: env(safe-area-inset-right, 0px);
+    --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-area-left: env(safe-area-inset-left, 0px);
+  }
+}
+
+/* iOS-specific safe area handling */
+@supports (padding: max(0px)) and (-webkit-touch-callout: none) {
+  :root {
+    /* iOS devices with notches */
+    --safe-area-top: max(44px, env(safe-area-inset-top, 44px));
+    --safe-area-bottom: max(34px, env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* Android-specific safe area handling */
+@supports (padding: max(0px)) and (not (-webkit-touch-callout: none)) {
+  :root {
+    /* Android devices with notches/punch holes */
+    --safe-area-top: max(24px, env(safe-area-inset-top, 24px));
+    --safe-area-bottom: max(0px, env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* Utility Classes for Safe Area Padding */
+.safe-area-top {
+  padding-top: var(--safe-area-top) !important;
+}
+
+.safe-area-right {
+  padding-right: var(--safe-area-right) !important;
+}
+
+.safe-area-bottom {
+  padding-bottom: var(--safe-area-bottom) !important;
+}
+
+.safe-area-left {
+  padding-left: var(--safe-area-left) !important;
+}
+
+.safe-area-all {
+  padding-top: var(--safe-area-top) !important;
+  padding-right: var(--safe-area-right) !important;
+  padding-bottom: var(--safe-area-bottom) !important;
+  padding-left: var(--safe-area-left) !important;
+}
+
+.safe-area-horizontal {
+  padding-left: var(--safe-area-left) !important;
+  padding-right: var(--safe-area-right) !important;
+}
+
+.safe-area-vertical {
+  padding-top: var(--safe-area-top) !important;
+  padding-bottom: var(--safe-area-bottom) !important;
+}
+
+/* Header-specific safe area utilities */
+.header-safe-area {
+  padding-top: max(16px, var(--safe-area-top)) !important;
+  padding-left: max(16px, var(--safe-area-left)) !important;
+  padding-right: max(16px, var(--safe-area-right)) !important;
+}
+
+/* Footer-specific safe area utilities */
+.footer-safe-area {
+  padding-bottom: max(8px, var(--safe-area-bottom)) !important;
+  padding-left: max(16px, var(--safe-area-left)) !important;
+  padding-right: max(16px, var(--safe-area-right)) !important;
+}
+
+/* Enhanced safe area for fixed positioned elements */
+.fixed-top-safe {
+  top: var(--safe-area-top) !important;
+  left: var(--safe-area-left) !important;
+  right: var(--safe-area-right) !important;
+}
+
+.fixed-bottom-safe {
+  bottom: var(--safe-area-bottom) !important;
+  left: var(--safe-area-left) !important;
+  right: var(--safe-area-right) !important;
+}
+
+/* Responsive safe area adjustments */
+@media (max-width: 375px) {
+  :root {
+    /* Smaller devices need more conservative safe areas */
+    --safe-area-top: max(20px, env(safe-area-inset-top, 20px));
+  }
+}
+
+@media (min-width: 768px) {
+  :root {
+    /* Tablets and larger devices */
+    --safe-area-top: max(24px, env(safe-area-inset-top, 24px));
+    --safe-area-left: max(24px, env(safe-area-inset-left, 0px));
+    --safe-area-right: max(24px, env(safe-area-inset-right, 0px));
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    /* Desktop devices - minimal safe areas */
+    --safe-area-top: max(0px, env(safe-area-inset-top, 0px));
+    --safe-area-left: max(0px, env(safe-area-inset-left, 0px));
+    --safe-area-right: max(0px, env(safe-area-inset-right, 0px));
+    --safe-area-bottom: max(0px, env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (orientation: landscape) and (max-height: 500px) {
+  :root {
+    /* Landscape phones need adjusted safe areas */
+    --safe-area-left: max(44px, env(safe-area-inset-left, 0px));
+    --safe-area-right: max(44px, env(safe-area-inset-right, 0px));
+    --safe-area-top: max(0px, env(safe-area-inset-top, 0px));
+  }
+}
+
+/* High contrast mode adjustments */
+@media (prefers-contrast: high) {
+  .header-safe-area,
+  .footer-safe-area {
+    /* Ensure sufficient padding in high contrast mode */
+    padding: max(20px, var(--safe-area-top)) max(20px, var(--safe-area-right)) max(20px, var(--safe-area-bottom)) max(20px, var(--safe-area-left)) !important;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .safe-area-top,
+  .safe-area-right,
+  .safe-area-bottom,
+  .safe-area-left,
+  .safe-area-all,
+  .header-safe-area,
+  .footer-safe-area {
+    /* Remove transitions in reduced motion mode */
+    transition: none !important;
+  }
+}
+
+/* Debug utilities for development */
+.debug-safe-area {
+  position: relative;
+}
+
+.debug-safe-area::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px dashed rgba(255, 0, 0, 0.5);
+  border-top-width: var(--safe-area-top);
+  border-right-width: var(--safe-area-right);
+  border-bottom-width: var(--safe-area-bottom);
+  border-left-width: var(--safe-area-left);
+  pointer-events: none;
+  z-index: 9999;
+}

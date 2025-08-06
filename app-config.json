@@ -1,13 +1,51 @@
 {
   "app": {
-    "title": "zalo",
+    "title": "Healthcare App - Zalo Mini App",
     "textColor": "black",
     "statusBar": "transparent",
     "actionBarHidden": true,
-    "hideIOSSafeAreaBottom": true,
-    "hideAndroidBottomNavigationBar": false
+    "hideIOSSafeAreaBottom": false,
+    "hideAndroidBottomNavigationBar": false,
+    "enablePullToRefresh": true,
+    "enableSwipeBack": true,
+    "orientation": "portrait",
+    "backgroundColor": "#FFFFFF",
+    "themeColor": "#2563EB"
   },
-  "listCSS": [],
+  "ios": {
+    "statusBarStyle": "dark-content",
+    "safeAreaInsets": {
+      "top": true,
+      "bottom": true,
+      "left": true,
+      "right": true
+    },
+    "enableHapticFeedback": true,
+    "enableSwipeGestures": true,
+    "preferredContentSizeCategory": "medium"
+  },
+  "android": {
+    "statusBarColor": "#2563EB",
+    "navigationBarColor": "#FFFFFF",
+    "enableEdgeToEdge": true,
+    "enableGestureNavigation": true,
+    "enableMaterialDesign": true,
+    "targetSdkVersion": 33
+  },
+  "performance": {
+    "enableLazyLoading": true,
+    "enableImageOptimization": true,
+    "enableCodeSplitting": true,
+    "enableServiceWorker": true,
+    "preloadCriticalResources": true
+  },
+  "accessibility": {
+    "enableScreenReader": true,
+    "enableHighContrast": true,
+    "enableReducedMotion": true,
+    "minimumTouchTarget": 44
+  },
+  "listCSS": ["/styles/enhanced-mobile.css", "/styles/ios-scroll-fixes.css"],
   "listSyncJS": [],
   "listAsyncJS": [],
   "template": {

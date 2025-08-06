@@ -1,0 +1,290 @@
+/* iOS Footer Styles - Human Interface Guidelines Compliant */
+
+/* iOS Footer Container (Rounded Bar Style) */
+.ios-footer.rounded-bar {
+  /* Layout */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 90px; /* Larger footer height for better usability */
+
+  /* Rounded Bar Layout - Closer to bottom edge */
+  padding: 0 16px max(env(safe-area-inset-bottom), 8px) 16px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  /* Remove background from container */
+  background: transparent;
+}
+
+/* Rounded Bar Inner Container */
+.ios-footer.rounded-bar .rounded-bar-container {
+  background-color: rgba(248, 248, 248, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 24px; /* Rounded bar */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08); /* Elevated shadow */
+  border: 0.5px solid rgba(60, 60, 67, 0.15); /* Subtle border */
+  width: 100%;
+  max-width: 400px; /* Maximum width for larger screens */
+  height: 76px; /* Larger rounded bar height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px; /* Space from bottom */
+}
+
+/* Rounded Bar Navigation Content */
+.ios-footer.rounded-bar .nav-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 16px; /* Rounded bar padding */
+}
+
+/* Rounded Bar Navigation Items */
+.ios-footer.rounded-bar .nav-item {
+  /* Rounded Bar Touch Target - Larger */
+  min-width: 60px; /* Larger rounded bar touch target */
+  min-height: 60px; /* Larger rounded bar touch target */
+  padding: 10px; /* Larger padding for rounded bar */
+
+  /* Layout */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  /* Rounded Bar Visual Style */
+  border-radius: 12px; /* Rounded button */
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+
+  /* Typography */
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+  color: rgba(60, 60, 67, 0.6);
+
+  /* Transitions */
+  transition: color 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              background-color 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  /* Remove default button styles */
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+/* Rounded Bar Navigation Item States */
+.ios-footer.rounded-bar .nav-item:active {
+  background-color: rgba(116, 116, 128, 0.12); /* Slightly stronger press state for rounded bar */
+  transform: scale(0.95);
+  transition-duration: 0.1s;
+}
+
+.ios-footer.rounded-bar .nav-item.selected {
+  color: rgb(0, 122, 255);
+}
+
+.ios-footer.rounded-bar .nav-item:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Rounded Bar Focus Indicator */
+.ios-footer.rounded-bar .nav-item:focus-visible {
+  outline: 2px solid rgb(0, 122, 255);
+  outline-offset: 2px;
+  border-radius: 14px; /* Rounded focus border */
+}
+
+/* Rounded Bar Navigation Item Icon */
+.ios-footer.rounded-bar .nav-item .icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1px; /* Compact spacing for rounded bar */
+  font-size: 28px; /* Larger icon for rounded bar */
+  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.ios-footer.rounded-bar .nav-item:active .icon {
+  transform: scale(0.9);
+}
+
+/* Rounded Bar Navigation Item Label */
+.ios-footer.rounded-bar .nav-item .label {
+  font-size: 9px; /* Smaller text for rounded bar */
+  font-weight: 500; /* Slightly bolder for readability */
+  line-height: 10px; /* Compact line height for rounded bar */
+  text-align: center;
+  max-width: 48px; /* Smaller max width for rounded bar */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ios-footer.rounded-bar .nav-item.selected .label {
+  font-weight: 600;
+}
+
+/* Rounded Bar Badge */
+.ios-footer.rounded-bar .badge {
+  position: absolute;
+  top: 2px; /* Adjusted for rounded bar */
+  right: 2px; /* Adjusted for rounded bar */
+  min-width: 16px; /* Slightly smaller badge */
+  height: 16px; /* Slightly smaller badge */
+  background-color: rgb(255, 59, 48);
+  color: white;
+  border-radius: 8px; /* Rounded badge */
+  font-size: 10px; /* Smaller font for compact design */
+  font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  box-shadow: 0 2px 6px rgba(255, 59, 48, 0.3); /* Red shadow for emphasis */
+  z-index: 1;
+}
+
+.ios-footer .badge:empty {
+  min-width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  padding: 0;
+}
+
+/* iOS Badge Animation */
+.ios-footer .badge-enter {
+  animation: ios-badge-bounce 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes ios-badge-bounce {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.ios-footer .badge-update {
+  animation: ios-badge-pulse 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes ios-badge-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* Rounded Bar Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .ios-footer.rounded-bar .rounded-bar-container {
+    background-color: rgba(28, 28, 30, 0.94);
+    border-color: rgba(84, 84, 88, 0.65);
+  }
+
+  .ios-footer.rounded-bar .nav-item {
+    color: rgba(235, 235, 245, 0.6);
+  }
+
+  .ios-footer.rounded-bar .nav-item.selected {
+    color: rgb(10, 132, 255);
+  }
+
+  .ios-footer.rounded-bar .nav-item:active {
+    background-color: rgba(120, 120, 128, 0.16);
+  }
+}
+
+/* iOS High Contrast Mode */
+@media (prefers-contrast: high) {
+  .ios-footer {
+    border-top-width: 2px;
+    border-top-color: var(--ios-label, #000000);
+  }
+  
+  .ios-footer .nav-item {
+    border: 1px solid var(--ios-label, #000000);
+  }
+  
+  .ios-footer .nav-item.selected {
+    background-color: var(--ios-system-blue, #007AFF);
+    color: white;
+  }
+}
+
+/* iOS Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .ios-footer .nav-item {
+    transition: none;
+  }
+  
+  .ios-footer .nav-item .icon {
+    transition: none;
+  }
+  
+  .ios-footer .badge-enter,
+  .ios-footer .badge-update {
+    animation: none;
+  }
+}
+
+/* iOS Large Text Support */
+@media (prefers-reduced-motion: no-preference) {
+  .ios-footer .nav-item .label {
+    font-size: max(10px, 1rem * var(--ios-dynamic-type-multiplier, 1));
+  }
+}
+
+/* iOS Landscape Orientation */
+@media (orientation: landscape) {
+  .ios-footer {
+    height: calc(90px * 0.8);
+  }
+  
+  .ios-footer .nav-item {
+    padding: 2px 6px;
+  }
+  
+  .ios-footer .nav-item .label {
+    font-size: 9px;
+    margin-top: 1px;
+  }
+}
+
+/* iOS iPad Adaptations */
+@media (min-width: 768px) {
+  .ios-footer {
+    height: 90px;
+    padding: 0 max(env(safe-area-inset-left), 20px) 
+             max(env(safe-area-inset-bottom), 20px) 
+             max(env(safe-area-inset-right), 20px);
+  }
+  
+  .ios-footer .nav-item {
+    min-width: 72px;
+    min-height: 60px;
+    padding: 12px 16px;
+  }
+  
+  .ios-footer .nav-item .label {
+    font-size: 12px;
+    margin-top: 4px;
+  }
+}
+
+/* iOS iPhone Pro Max Adaptations */
+@media (min-width: 428px) {
+  .ios-footer .nav-item {
+    min-width: 60px;
+    padding: 10px 14px;
+  }
+}

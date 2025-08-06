@@ -1,0 +1,369 @@
+/* Enhanced Mobile Styles for Zalo Mini App Healthcare */
+/* Optimized for both Android (Material Design) and iOS (Human Interface Guidelines) */
+
+/* CSS Custom Properties for Platform Detection */
+:root {
+  /* Default values (iOS) */
+  --platform-touch-target: 44px;
+  --platform-spacing: 16px;
+  --platform-border-radius: 12px;
+  --platform-font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+  --platform-animation-curve: cubic-bezier(0.4, 0.0, 0.2, 1.0);
+  --platform-animation-duration: 300ms;
+  
+  /* Balanced Safe Areas for Mobile */
+  --safe-area-top: env(safe-area-inset-top, 28px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 20px);
+  --safe-area-left: env(safe-area-inset-left, 0px);
+  --safe-area-right: env(safe-area-inset-right, 0px);
+  
+  /* Enhanced Touch Targets */
+  --touch-target-minimum: 44px;
+  --touch-target-recommended: 48px;
+  --touch-target-large: 56px;
+  --touch-spacing: 8px;
+}
+
+/* Android-specific overrides */
+@supports (-webkit-appearance: none) {
+  :root {
+    --platform-touch-target: 48px;
+    --platform-border-radius: 8px;
+    --platform-font-family: "Roboto", "Noto Sans", system-ui, sans-serif;
+    --platform-animation-curve: cubic-bezier(0.2, 0.0, 0, 1.0);
+    --platform-animation-duration: 250ms;
+  }
+}
+
+/* Enhanced Base Styles */
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Allow text selection for content areas */
+p, span, div[role="article"], .content-text, .medical-content {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+html {
+  /* Enhanced font smoothing */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  
+  /* Prevent zoom on input focus */
+  font-size: 16px;
+  
+  /* Enhanced scroll behavior */
+  scroll-behavior: smooth;
+  overscroll-behavior: none;
+}
+
+body {
+  font-family: var(--platform-font-family);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  
+  /* Enhanced touch behavior */
+  touch-action: manipulation;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none;
+  
+  /* Prevent horizontal scrolling */
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Enhanced Touch Targets */
+button,
+a,
+[role="button"],
+[tabindex],
+.touch-target {
+  min-height: var(--platform-touch-target);
+  min-width: var(--platform-touch-target);
+  
+  /* Enhanced touch feedback */
+  touch-action: manipulation;
+  cursor: pointer;
+  
+  /* Smooth transitions */
+  transition: all var(--platform-animation-duration) var(--platform-animation-curve);
+  
+  /* Ensure proper spacing */
+  margin: calc(var(--touch-spacing) / 2);
+}
+
+/* Enhanced Button Styles */
+.btn-enhanced {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  min-height: var(--platform-touch-target);
+  padding: 12px 24px;
+  
+  border: none;
+  border-radius: var(--platform-border-radius);
+  
+  font-family: var(--platform-font-family);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.2;
+  
+  background: linear-gradient(135deg, #2563EB 0%, #1E40AF 100%);
+  color: white;
+  
+  cursor: pointer;
+  touch-action: manipulation;
+  
+  transition: all var(--platform-animation-duration) var(--platform-animation-curve);
+  
+  /* Enhanced shadow */
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+}
+
+.btn-enhanced:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.btn-enhanced:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(37, 99, 235, 0.2);
+}
+
+/* Enhanced Form Elements */
+input,
+textarea,
+select {
+  /* Prevent zoom on iOS */
+  font-size: 16px;
+  font-family: var(--platform-font-family);
+  
+  /* Enhanced styling */
+  min-height: var(--platform-touch-target);
+  padding: 12px 16px;
+  
+  border: 2px solid #E5E7EB;
+  border-radius: var(--platform-border-radius);
+  
+  background: white;
+  color: #1F2937;
+  
+  transition: all var(--platform-animation-duration) var(--platform-animation-curve);
+  
+  /* Remove default styling */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #2563EB;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Enhanced Card Styles */
+.card-enhanced {
+  background: white;
+  border-radius: var(--platform-border-radius);
+  padding: var(--platform-spacing);
+  
+  /* Platform-specific shadows */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  
+  transition: all var(--platform-animation-duration) var(--platform-animation-curve);
+}
+
+.card-enhanced:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Enhanced Navigation */
+.nav-enhanced {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  
+  background: white;
+  border-top: 1px solid #E5E7EB;
+  
+  /* Safe area support */
+  padding-bottom: var(--safe-area-bottom);
+  
+  /* Enhanced shadow */
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+  
+  z-index: 1000;
+}
+
+.nav-item-enhanced {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  min-height: 60px;
+  min-width: 60px;
+  
+  padding: 8px;
+  
+  color: #6B7280;
+  text-decoration: none;
+  
+  transition: all var(--platform-animation-duration) var(--platform-animation-curve);
+}
+
+.nav-item-enhanced.active {
+  color: #2563EB;
+  background: rgba(37, 99, 235, 0.1);
+  border-radius: var(--platform-border-radius);
+}
+
+.nav-item-enhanced:active {
+  transform: scale(0.95);
+}
+
+/* Enhanced Loading States */
+.loading-enhanced {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #E5E7EB;
+  border-radius: 50%;
+  border-top-color: #2563EB;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Enhanced Skeleton Loading */
+.skeleton-enhanced {
+  background: linear-gradient(90deg, #F3F4F6 25%, #E5E7EB 50%, #F3F4F6 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--platform-border-radius);
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Enhanced Responsive Design */
+@media (max-width: 640px) {
+  :root {
+    --platform-spacing: 12px;
+  }
+  
+  .container-enhanced {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  
+  .text-responsive {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  :root {
+    --platform-spacing: 20px;
+  }
+  
+  .container-enhanced {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+@media (min-width: 1025px) {
+  :root {
+    --platform-spacing: 24px;
+  }
+  
+  .container-enhanced {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+}
+
+/* Enhanced Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (prefers-contrast: high) {
+  .btn-enhanced,
+  .card-enhanced,
+  input,
+  textarea,
+  select {
+    border-width: 3px;
+  }
+}
+
+/* Enhanced Focus States */
+.focus-enhanced:focus-visible {
+  outline: 3px solid #2563EB;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Screen Reader Only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Enhanced Print Styles */
+@media print {
+  .nav-enhanced,
+  .btn-enhanced,
+  .loading-enhanced {
+    display: none !important;
+  }
+  
+  .card-enhanced {
+    box-shadow: none;
+    border: 1px solid #E5E7EB;
+  }
+}
