@@ -1,43 +1,232 @@
-/* About page styles - optimized for Framer Motion animations */
+/* About Page Styles - Organized and Optimized */
+/* Main stylesheet that imports all organized style modules */
 
-/* Essential animations for fallback support */
-@keyframes medicalPulse {
-  0% {
-    opacity: 0.5;
-    transform: scale(0.98);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0.5;
-    transform: scale(0.98);
-  }
+/* Import design tokens first for CSS custom properties */
+@import './styles/design-tokens.css';
+
+/* Import utility classes for reusable patterns */
+@import './styles/utilities.css';
+
+/* Import component-specific styles */
+@import './styles/components.css';
+
+/* Page-specific overrides and customizations */
+.about-page {
+  font-family: var(--medical-font-family);
+  line-height: var(--medical-leading-normal);
+  color: var(--medical-text-primary);
+  background: var(--medical-surface);
 }
 
-/* Essential utility classes for medical theme */
-.medical-status {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #10b981;
+/* Remove border from main container */
+.about-page main,
+.about-page motion.main,
+.about-page [role="main"] {
+  border: none !important;
+  outline: none !important;
 }
 
-/* Accessibility Enhancements */
-@media (prefers-reduced-motion: reduce) {
-  .medical-pulse {
-    animation: none;
-  }
-}
-
-/* High Contrast Mode Support */
+/* Override high contrast mode borders for main container */
 @media (prefers-contrast: high) {
-  .medical-status {
-    border: 2px solid currentColor;
+  .about-page main,
+  .about-page motion.main,
+  .about-page [role="main"] {
+    border: none !important;
+    outline: none !important;
+  }
+}
+
+/* Override manual high contrast mode borders for main container */
+.high-contrast .about-page main,
+.high-contrast .about-page motion.main,
+.high-contrast .about-page [role="main"] {
+  border: none !important;
+  outline: none !important;
+}
+
+/* Additional override for any blue borders on main container */
+.about-page main,
+.about-page motion.main,
+.about-page [role="main"] {
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Override focus states that might add blue borders */
+.about-page main:focus,
+.about-page motion.main:focus,
+.about-page [role="main"]:focus,
+.about-page main:focus-visible,
+.about-page motion.main:focus-visible,
+.about-page [role="main"]:focus-visible,
+.about-page main:focus-within,
+.about-page motion.main:focus-within,
+.about-page [role="main"]:focus-within {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Override hover states that might add blue borders */
+.about-page main:hover,
+.about-page motion.main:hover,
+.about-page [role="main"]:hover {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Override any CSS that might add borders to the main container */
+.about-page main *,
+.about-page motion.main *,
+.about-page [role="main"] * {
+  border-color: var(--medical-border) !important;
+}
+
+/* Ensure no blue borders from Tailwind or other CSS frameworks */
+.about-page.flex-1,
+.about-page .flex-1 {
+  border: none !important;
+  outline: none !important;
+}
+
+/* Override all possible interactive states */
+.about-page main:active,
+.about-page motion.main:active,
+.about-page [role="main"]:active,
+.about-page main:target,
+.about-page motion.main:target,
+.about-page [role="main"]:target {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Override ring utilities from Tailwind */
+.about-page main,
+.about-page motion.main,
+.about-page [role="main"] {
+  --tw-ring-shadow: none !important;
+  --tw-ring-color: transparent !important;
+  --tw-ring-offset-shadow: none !important;
+}
+
+/* Override any focus ring classes */
+.about-page .focus\:ring,
+.about-page .focus\:ring-blue-500,
+.about-page .focus\:ring-primary,
+.about-page .focus-visible\:ring,
+.about-page .focus-within\:ring {
+  --tw-ring-shadow: none !important;
+  box-shadow: none !important;
+}
+
+/* Nuclear option - remove all borders and outlines from main container */
+.about-page main *,
+.about-page motion.main *,
+.about-page [role="main"] * {
+  border-style: none !important;
+  outline-style: none !important;
+}
+
+/* Override any CSS that might add blue borders specifically */
+.about-page main,
+.about-page motion.main,
+.about-page [role="main"] {
+  border-width: 0 !important;
+  border-style: none !important;
+  outline-width: 0 !important;
+  outline-style: none !important;
+  outline-color: transparent !important;
+  border-color: transparent !important;
+}
+
+/* Override framer-motion specific styles that might add borders */
+.about-page [data-framer-name],
+.about-page [data-framer-component-type] {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Remove blue borders from HeroSection elements */
+.about-page .hero-section,
+.about-page section[aria-labelledby="hero-title"] {
+  border: none !important;
+  outline: none !important;
+}
+
+/* Override borders in HeroSection cards and elements */
+.about-page .hero-section .border-primary,
+.about-page .hero-section .border-primary\/10,
+.about-page .hero-section .border-primary\/20,
+.about-page .hero-section .border-primary\/25,
+.about-page .hero-section .border-l-4,
+.about-page .hero-section .border-2 {
+  border-color: var(--medical-border) !important;
+}
+
+/* Remove hover borders from HeroSection */
+.about-page .hero-section .hover\:border-primary\/25:hover,
+.about-page .hero-section *:hover {
+  border-color: var(--medical-border) !important;
+}
+
+/* Ensure smooth scrolling for better UX */
+.about-page {
+  scroll-behavior: smooth;
+}
+
+/* Performance optimization for animations */
+.about-page * {
+  will-change: auto;
+}
+
+.about-page .motion-element {
+  will-change: transform, opacity;
+}
+
+/* Remove will-change after animations complete */
+.about-page .motion-element.animation-complete {
+  will-change: auto;
+}
+
+/* Skip link for accessibility */
+.skip-link {
+  position: absolute;
+  top: var(--medical-space-md);
+  left: var(--medical-space-md);
+  background: var(--medical-primary);
+  color: var(--medical-text-inverse);
+  padding: var(--medical-space-sm) var(--medical-space-md);
+  border-radius: var(--medical-radius-lg);
+  text-decoration: none;
+  font-weight: var(--medical-font-semibold);
+  z-index: var(--medical-z-modal);
+  transform: translateY(-100px);
+  transition: transform var(--medical-duration-normal) var(--medical-ease-out);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+  outline: 3px solid var(--medical-accent);
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  .about-page {
+    background: white;
+    color: black;
+  }
+
+  .about-page .motion-element {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .about-page .medical-card {
+    box-shadow: none;
+    border: 1px solid #ccc;
   }
 }

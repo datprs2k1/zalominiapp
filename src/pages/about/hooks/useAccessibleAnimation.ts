@@ -1,12 +1,14 @@
 import { useReducedMotion } from 'framer-motion';
+import type { AccessibleAnimationHook } from '../types';
 
 /**
  * Enhanced utility hook for reduced motion support with performance optimizations
+ * @returns AccessibleAnimationHook with animation utilities
  */
-export const useAccessibleAnimation = () => {
+export const useAccessibleAnimation = (): AccessibleAnimationHook => {
   const shouldReduceMotion = useReducedMotion();
 
-  const getAnimationProps = (normalProps: any, reducedProps?: any) => {
+  const getAnimationProps = (normalProps: Record<string, any>, reducedProps?: Record<string, any>) => {
     if (shouldReduceMotion) {
       return (
         reducedProps || {

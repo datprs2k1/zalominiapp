@@ -1,5 +1,7 @@
+import type { PageContent } from '../types';
+
 // Enhanced content with improved medical terminology and accessibility
-export const CONTENT = {
+export const CONTENT: PageContent = {
   about: {
     banner: 'Về chúng tôi',
     title: 'BỆNH VIỆN ĐA KHOA',
@@ -22,16 +24,6 @@ export const CONTENT = {
       { icon: 'stethoscope' as const, title: 'Đội ngũ chuyên gia', description: 'Bác sĩ giàu kinh nghiệm' },
       { icon: 'heartbeat' as const, title: 'Công nghệ hiện đại', description: 'Trang thiết bị y tế tiên tiến' },
       { icon: 'pill' as const, title: 'Điều trị toàn diện', description: 'Đa dạng chuyên khoa' },
-    ],
-  },
-  stats: {
-    title: 'Thành Tựu Y Khoa',
-    subtitle: 'Những con số ấn tượng trong hành trình chăm sóc sức khỏe cộng đồng',
-    items: [
-      { number: '15+', label: 'Năm kinh nghiệm', icon: 'cross' as const },
-      { number: '50,000+', label: 'Bệnh nhân đã điều trị', icon: 'stethoscope' as const },
-      { number: '20+', label: 'Chuyên khoa', icon: 'heartbeat' as const },
-      { number: '100+', label: 'Đội ngũ y bác sĩ', icon: 'pill' as const },
     ],
   },
   stats: [

@@ -1,11 +1,11 @@
 /**
  * Enhanced Medical Navigation Icons
  * iOS Hospital App-inspired iconography with medical context and status overlays
- * 
+ *
  * @version 1.0.0
  * @author Medical Development Team
  * @since 2024-08-06
- * 
+ *
  * @features
  * - Hospital-themed medical icons with iOS design patterns
  * - Medical status overlays (emergency, urgent, routine, consultation)
@@ -28,15 +28,15 @@ interface MedicalStatusOverlayProps {
 const MedicalStatusOverlay: React.FC<MedicalStatusOverlayProps> = memo(({ status, count, size = 'md' }) => {
   const statusColors = MEDICAL_FOOTER_THEME.colors.status;
   const badgeColors = MEDICAL_FOOTER_THEME.colors.badges;
-  
+
   const sizeMap = {
     sm: { width: 12, height: 12, fontSize: '8px' },
     md: { width: 16, height: 16, fontSize: '10px' },
     lg: { width: 20, height: 20, fontSize: '12px' },
   };
-  
+
   const overlaySize = sizeMap[size];
-  
+
   return (
     <div
       className="absolute -top-1 -right-1 rounded-full flex items-center justify-center text-white font-semibold"
@@ -44,10 +44,14 @@ const MedicalStatusOverlay: React.FC<MedicalStatusOverlayProps> = memo(({ status
         width: overlaySize.width,
         height: overlaySize.height,
         fontSize: overlaySize.fontSize,
-        backgroundColor: status === 'emergency' ? statusColors.emergency :
-                         status === 'urgent' ? statusColors.urgent :
-                         status === 'consultation' ? statusColors.consultation :
-                         statusColors.routine,
+        backgroundColor:
+          status === 'emergency'
+            ? statusColors.emergency
+            : status === 'urgent'
+              ? statusColors.urgent
+              : status === 'consultation'
+                ? statusColors.consultation
+                : statusColors.routine,
         boxShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
         zIndex: 10,
       }}
@@ -68,29 +72,38 @@ interface TrustIndicatorProps {
 const TrustIndicator: React.FC<TrustIndicatorProps> = memo(({ type, size = 'sm' }) => {
   const trustColors = MEDICAL_FOOTER_THEME.colors.trust;
   const iconSize = size === 'sm' ? 8 : 12;
-  
+
   return (
     <div
       className="absolute -bottom-1 -right-1 rounded-full flex items-center justify-center"
       style={{
         width: iconSize + 4,
         height: iconSize + 4,
-        backgroundColor: type === 'verified' ? trustColors.verified :
-                         type === 'secure' ? trustColors.secure :
-                         trustColors.certified,
+        backgroundColor:
+          type === 'verified' ? trustColors.verified : type === 'secure' ? trustColors.secure : trustColors.certified,
         zIndex: 5,
       }}
     >
       <svg width={iconSize} height={iconSize} viewBox="0 0 12 12" fill="white">
         {type === 'verified' && (
-          <path d="M10 3L4.5 8.5L2 6" stroke="white" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+          <path
+            d="M10 3L4.5 8.5L2 6"
+            stroke="white"
+            strokeWidth="1.5"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         )}
         {type === 'secure' && (
-          <path d="M3 5V4a3 3 0 0 1 6 0v1m-5 0h4a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z" stroke="white" strokeWidth="1" fill="none"/>
+          <path
+            d="M3 5V4a3 3 0 0 1 6 0v1m-5 0h4a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"
+            stroke="white"
+            strokeWidth="1"
+            fill="none"
+          />
         )}
-        {type === 'certified' && (
-          <path d="M6 1l1.5 3h3l-2.5 2 1 3L6 7.5 3 9l1-3L1.5 4h3L6 1z" fill="white"/>
-        )}
+        {type === 'certified' && <path d="M6 1l1.5 3h3l-2.5 2 1 3L6 7.5 3 9l1-3L1.5 4h3L6 1z" fill="white" />}
       </svg>
     </div>
   );
@@ -99,10 +112,20 @@ const TrustIndicator: React.FC<TrustIndicatorProps> = memo(({ type, size = 'sm' 
 TrustIndicator.displayName = 'TrustIndicator';
 
 // Enhanced Medical Home Icon
-export const EnhancedHomeIcon = memo<{ status?: 'emergency' | 'urgent' | 'routine' | 'consultation'; count?: number; trusted?: boolean }>
-(({ status, count, trusted = true }) => (
+export const EnhancedHomeIcon = memo<{
+  status?: 'emergency' | 'urgent' | 'routine' | 'consultation';
+  count?: number;
+  trusted?: boolean;
+}>(({ status, count, trusted = true }) => (
   <div className="relative">
-    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="28"
+      height="28"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      stroke="none"
+    >
       {/* Hospital building with medical cross */}
       <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
       {/* Enhanced medical cross overlay */}
@@ -118,10 +141,21 @@ export const EnhancedHomeIcon = memo<{ status?: 'emergency' | 'urgent' | 'routin
 ));
 
 // Enhanced Medical Services Icon
-export const EnhancedServicesIcon = memo<{ status?: 'emergency' | 'urgent' | 'routine' | 'consultation'; count?: number; certified?: boolean }>
-(({ status, count, certified = true }) => (
+export const EnhancedServicesIcon = memo<{
+  status?: 'emergency' | 'urgent' | 'routine' | 'consultation';
+  count?: number;
+  certified?: boolean;
+}>(({ status, count, certified = true }) => (
   <div className="relative">
-    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="28"
+      height="28"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
       {/* Stethoscope with enhanced medical styling */}
       <path d="M11 2a2 2 0 0 1 2 0" />
       <path d="M11 2v8.5a1 1 0 0 0 1 1v0a1 1 0 0 0 1-1V2" />
@@ -139,10 +173,21 @@ export const EnhancedServicesIcon = memo<{ status?: 'emergency' | 'urgent' | 'ro
 ));
 
 // Enhanced Medical Booking Icon
-export const EnhancedBookingIcon = memo<{ status?: 'emergency' | 'urgent' | 'routine' | 'consultation'; count?: number; urgent?: boolean }>
-(({ status, count, urgent = false }) => (
+export const EnhancedBookingIcon = memo<{
+  status?: 'emergency' | 'urgent' | 'routine' | 'consultation';
+  count?: number;
+  urgent?: boolean;
+}>(({ status, count, urgent = false }) => (
   <div className="relative">
-    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="28"
+      height="28"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
       {/* Calendar with medical appointment styling */}
       <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
       <line x1="16" y1="2" x2="16" y2="6" />
@@ -153,7 +198,11 @@ export const EnhancedBookingIcon = memo<{ status?: 'emergency' | 'urgent' | 'rou
       <rect x="9" y="15" width="6" height="2" fill="currentColor" />
       {/* Urgent indicator */}
       {urgent && <circle cx="19" cy="5" r="2" fill="#FF3B30" />}
-      {urgent && <text x="19" y="7" textAnchor="middle" fontSize="8" fill="white">!</text>}
+      {urgent && (
+        <text x="19" y="7" textAnchor="middle" fontSize="8" fill="white">
+          !
+        </text>
+      )}
     </svg>
     {status && <MedicalStatusOverlay status={status} count={count} />}
     {urgent && <TrustIndicator type="verified" />}
@@ -161,10 +210,21 @@ export const EnhancedBookingIcon = memo<{ status?: 'emergency' | 'urgent' | 'rou
 ));
 
 // Enhanced Medical Doctor Icon
-export const EnhancedDoctorIcon = memo<{ status?: 'emergency' | 'urgent' | 'routine' | 'consultation'; count?: number; available?: boolean }>
-(({ status, count, available = true }) => (
+export const EnhancedDoctorIcon = memo<{
+  status?: 'emergency' | 'urgent' | 'routine' | 'consultation';
+  count?: number;
+  available?: boolean;
+}>(({ status, count, available = true }) => (
   <div className="relative">
-    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="28"
+      height="28"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
       {/* Doctor figure with medical styling */}
       <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
       <circle cx="12" cy="7" r="4" />
@@ -181,10 +241,21 @@ export const EnhancedDoctorIcon = memo<{ status?: 'emergency' | 'urgent' | 'rout
 ));
 
 // Enhanced Medical Support Icon
-export const EnhancedSupportIcon = memo<{ status?: 'emergency' | 'urgent' | 'routine' | 'consultation'; count?: number; emergency?: boolean }>
-(({ status, count, emergency = false }) => (
+export const EnhancedSupportIcon = memo<{
+  status?: 'emergency' | 'urgent' | 'routine' | 'consultation';
+  count?: number;
+  emergency?: boolean;
+}>(({ status, count, emergency = false }) => (
   <div className="relative">
-    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="28"
+      height="28"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
       {/* Support/Help with medical context */}
       <circle cx="12" cy="12" r="10" />
       <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
@@ -193,7 +264,9 @@ export const EnhancedSupportIcon = memo<{ status?: 'emergency' | 'urgent' | 'rou
       {emergency && (
         <>
           <circle cx="18" cy="6" r="3" fill="#FF3B30" />
-          <text x="18" y="8" textAnchor="middle" fontSize="10" fill="white" fontWeight="bold">SOS</text>
+          <text x="18" y="8" textAnchor="middle" fontSize="10" fill="white" fontWeight="bold">
+            SOS
+          </text>
         </>
       )}
     </svg>
@@ -259,47 +332,52 @@ export const createEnhancedMedicalNavigationItems = (
   }
 ): NavigationItem[] => {
   const context = medicalContext || {};
-  
+
   return ENHANCED_MEDICAL_NAV_ITEMS.map((item) => {
     // Add medical context to icons
     let enhancedIcon = item.icon;
-    
+
     if (item.id === 'home') {
-      enhancedIcon = <EnhancedHomeIcon 
-        trusted={context.trustLevel === 'verified'} 
-        status={context.emergencyMode ? 'emergency' : 'routine'}
-      />;
+      enhancedIcon = (
+        <EnhancedHomeIcon
+          trusted={context.trustLevel === 'verified'}
+          status={context.emergencyMode ? 'emergency' : 'routine'}
+        />
+      );
     } else if (item.id === 'services') {
-      enhancedIcon = <EnhancedServicesIcon 
-        certified={context.trustLevel === 'certified'} 
-        status={context.emergencyMode ? 'emergency' : 'routine'}
-      />;
+      enhancedIcon = (
+        <EnhancedServicesIcon
+          certified={context.trustLevel === 'certified'}
+          status={context.emergencyMode ? 'emergency' : 'routine'}
+        />
+      );
     } else if (item.id === 'booking') {
-      enhancedIcon = <EnhancedBookingIcon 
-        urgent={context.urgentNotifications ? context.urgentNotifications > 0 : false}
-        count={context.appointmentCount}
-        status={context.emergencyMode ? 'emergency' : 'routine'}
-      />;
+      enhancedIcon = (
+        <EnhancedBookingIcon
+          urgent={context.urgentNotifications ? context.urgentNotifications > 0 : false}
+          count={context.appointmentCount}
+          status={context.emergencyMode ? 'emergency' : 'routine'}
+        />
+      );
     } else if (item.id === 'doctor') {
-      enhancedIcon = <EnhancedDoctorIcon 
-        available={true}
-        status={context.emergencyMode ? 'emergency' : 'consultation'}
-      />;
+      enhancedIcon = (
+        <EnhancedDoctorIcon available={true} status={context.emergencyMode ? 'emergency' : 'consultation'} />
+      );
     } else if (item.id === 'support') {
-      enhancedIcon = <EnhancedSupportIcon 
-        emergency={context.emergencyMode || false}
-        count={context.urgentNotifications}
-        status={context.emergencyMode ? 'emergency' : 'routine'}
-      />;
+      enhancedIcon = (
+        <EnhancedSupportIcon
+          emergency={context.emergencyMode || false}
+          count={context.urgentNotifications}
+          status={context.emergencyMode ? 'emergency' : 'routine'}
+        />
+      );
     }
-    
+
     return {
       ...item,
       icon: enhancedIcon,
       // Enhanced ARIA labels with medical context
-      ariaLabel: context.emergencyMode 
-        ? `${item.ariaLabel} - Chế độ khẩn cấp đang hoạt động`
-        : item.ariaLabel,
+      ariaLabel: context.emergencyMode ? `${item.ariaLabel} - Chế độ khẩn cấp đang hoạt động` : item.ariaLabel,
     };
   });
 };

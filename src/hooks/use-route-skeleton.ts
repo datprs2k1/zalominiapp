@@ -138,11 +138,9 @@ export function useRouteSkeleton() {
 
   const skeletonInfo = useMemo(() => {
     const pathname = location.pathname;
-    
+
     // Find matching pattern
-    const matchedPattern = routePatterns.find(pattern => 
-      pattern.pattern.test(pathname)
-    );
+    const matchedPattern = routePatterns.find((pattern) => pattern.pattern.test(pathname));
 
     // Return matched skeleton or fallback to generic
     if (matchedPattern) {
@@ -172,11 +170,11 @@ export function useSkeletonVisibility() {
 
   const shouldShowSkeleton = useMemo(() => {
     const pathname = location.pathname;
-    
+
     // Routes that should not show skeleton (e.g., 404 page)
     const excludedRoutes = ['/404', '*'];
-    
-    return !excludedRoutes.some(route => {
+
+    return !excludedRoutes.some((route) => {
       if (route === '*') return false; // Handle wildcard separately if needed
       return pathname === route;
     });
@@ -187,13 +185,13 @@ export function useSkeletonVisibility() {
 
 // Utility function to get skeleton component by route name
 export function getSkeletonByRouteName(routeName: string) {
-  const pattern = routePatterns.find(p => p.name === routeName);
+  const pattern = routePatterns.find((p) => p.name === routeName);
   return pattern ? pattern.component : GenericPageSkeleton;
 }
 
 // Utility function to get all available skeleton types
 export function getAvailableSkeletonTypes() {
-  return routePatterns.map(pattern => ({
+  return routePatterns.map((pattern) => ({
     name: pattern.name,
     description: pattern.description,
     component: pattern.component,
@@ -204,18 +202,18 @@ export function getAvailableSkeletonTypes() {
 export function useSkeletonPreloader() {
   const preloadSkeleton = (routeName: string) => {
     const SkeletonComponent = getSkeletonByRouteName(routeName);
-    
+
     // Preload the component by creating a hidden instance
     if (typeof window !== 'undefined') {
       const preloadContainer = document.createElement('div');
       preloadContainer.style.display = 'none';
       preloadContainer.setAttribute('data-skeleton-preload', routeName);
-      
+
       // This would trigger the component to be loaded into memory
       // In a real implementation, you might use React.createElement here
       // For now, we just mark it as preloaded
       preloadContainer.setAttribute('data-preloaded', 'true');
-      
+
       // Clean up after a short delay
       setTimeout(() => {
         if (preloadContainer.parentNode) {
@@ -232,7 +230,7 @@ export function useSkeletonPreloader() {
 export function useRouteSkeletonWithLoading(isLoading: boolean = false) {
   const skeletonInfo = useRouteSkeleton();
   const shouldShow = useSkeletonVisibility();
-  
+
   return {
     ...skeletonInfo,
     shouldShow: shouldShow && isLoading,

@@ -1,31 +1,25 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useAccessibleAnimation } from '../hooks/useAccessibleAnimation';
-
-interface ProfessionalButtonProps {
-  children: React.ReactNode;
-  href: string;
-  variant: 'primary' | 'secondary';
-  className?: string;
-  ariaLabel?: string;
-}
+import type { ProfessionalButtonProps, ButtonVariant } from '../types';
 
 /**
  * Professional button component with micro-interactions
  */
-export const ProfessionalButton: React.FC<ProfessionalButtonProps> = ({ 
-  children, 
-  href, 
-  variant, 
-  className = '', 
-  ariaLabel 
+export const ProfessionalButton: React.FC<ProfessionalButtonProps> = ({
+  children,
+  href,
+  variant = 'primary',
+  className = '',
+  ariaLabel,
+  onClick,
 }) => {
   const { getAnimationProps } = useAccessibleAnimation();
 
   const baseClasses =
     'flex items-center justify-center px-4 sm:px-6 py-3 sm:py-4 rounded-xl font-semibold transition-all shadow-lg text-center min-h-[48px] sm:min-h-[56px] focus:outline-none focus:ring-4 focus:ring-opacity-50 touch-manipulation';
 
-  const variantClasses = {
+  const variantClasses: Record<ButtonVariant, string> = {
     primary:
       'bg-gradient-to-r from-medical-blue to-medical-blue-dark text-white hover:from-medical-blue-dark hover:to-medical-blue focus:ring-medical-blue',
     secondary:

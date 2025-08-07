@@ -1,14 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useAccessibleAnimation } from '../hooks/useAccessibleAnimation';
-import { fadeInUp, fadeInScale, fadeInSlide } from '../constants/animations';
-
-interface AnimatedElementProps {
-  children: React.ReactNode;
-  delay?: number;
-  className?: string;
-  animation?: 'fadeUp' | 'fadeScale' | 'fadeSlide';
-}
+import {
+  fadeInUp,
+  fadeInScale,
+  fadeInSlide,
+  fadeInRight,
+  createTransition,
+  TRANSITIONS,
+} from '../constants/animations';
+import type { AnimatedElementProps, AnimationType } from '../types';
 
 /**
  * Reusable animated element component with Framer Motion
@@ -16,27 +17,40 @@ interface AnimatedElementProps {
 export const AnimatedElement: React.FC<AnimatedElementProps> = ({
   children,
   delay = 0,
+  duration = 0.4,
   className = '',
-  animation = 'fadeUp',
+  animation = 'fadeIn',
 }) => {
-  const { getAnimationProps, getTransition } = useAccessibleAnimation();
+  const { getAnimationProps, shouldReduceMotion } = useAccessibleAnimation();
 
-  const variants = {
-    fadeUp: fadeInUp,
+  // Optimized animation variants mapping
+  const variants: Record<string, any> = {
+    fadeIn: fadeInUp,
     fadeScale: fadeInScale,
     fadeSlide: fadeInSlide,
+    slideUp: fadeInUp,
+    slideLeft: fadeInSlide,
+    slideRight: fadeInRight,
   };
+
+  // Create optimized transition
+  const transition = shouldReduceMotion ? { duration: 0.01, delay: 0 } : createTransition(duration, delay);
 
   const animationProps = getAnimationProps({
     initial: 'hidden',
     whileInView: 'visible',
     viewport: { once: true, margin: '-50px' },
     variants: variants[animation],
-    transition: getTransition(0.6, delay / 1000),
+    transition,
   });
 
   return (
-    <motion.div className={className} {...animationProps}>
+    <motion.div
+      className={className}
+      {...animationProps}
+      // Performance optimization
+      style={{ willChange: shouldReduceMotion ? 'auto' : 'transform, opacity' }}
+    >
       {children}
     </motion.div>
   );

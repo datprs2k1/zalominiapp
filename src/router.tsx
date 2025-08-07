@@ -251,7 +251,7 @@ const router = createBrowserRouter(
           ),
           handle: {
             back: true,
-            title: 'Bác sĩ',
+            title: 'Chi tiết bác sĩ',
           },
         },
         {

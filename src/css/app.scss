@@ -787,7 +787,6 @@
   &:focus {
     outline: 3px solid var(--primary);
     outline-offset: 2px;
-    border-radius: var(--radius-medical-sm);
     box-shadow: 0 0 0 1px var(--primary-light);
   }
 
@@ -947,7 +946,6 @@ html[lang='vi'] {
   &:focus {
     outline: none;
     box-shadow: var(--shadow-input-focus);
-    border-color: var(--primary);
   }
 
   &:focus-visible {
@@ -1233,7 +1231,6 @@ html[lang='vi'] {
 .medical-focus:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.3);
-  border-color: var(--primary);
 }
 
 .medical-focus:focus-visible {

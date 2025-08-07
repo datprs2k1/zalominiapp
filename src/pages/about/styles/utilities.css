@@ -1,0 +1,257 @@
+/* About Page Utility Classes */
+/* Reusable utility classes for consistent styling */
+
+/* Medical Status Indicators */
+.medical-status {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 12px;
+  border-radius: var(--medical-radius-full);
+  background: var(--medical-success);
+  box-shadow: var(--medical-shadow-sm);
+}
+
+.medical-status--primary {
+  background: var(--medical-primary);
+}
+
+.medical-status--secondary {
+  background: var(--medical-secondary);
+}
+
+.medical-status--warning {
+  background: var(--medical-warning);
+}
+
+.medical-status--error {
+  background: var(--medical-error);
+}
+
+/* Medical Cards */
+.medical-card {
+  background: var(--medical-surface);
+  border: 1px solid var(--medical-border);
+  border-radius: var(--medical-radius-xl);
+  box-shadow: var(--medical-shadow-md);
+  transition: all var(--medical-duration-normal) var(--medical-ease-out);
+}
+
+.medical-card:hover {
+  box-shadow: var(--medical-shadow-lg);
+  transform: translateY(-2px);
+}
+
+.medical-card--elevated {
+  background: var(--medical-surface-elevated);
+  box-shadow: var(--medical-shadow-lg);
+}
+
+.medical-card--interactive {
+  cursor: pointer;
+}
+
+.medical-card--interactive:hover {
+  box-shadow: var(--medical-shadow-xl);
+  transform: translateY(-4px);
+}
+
+/* Medical Buttons */
+.medical-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--medical-space-md) var(--medical-space-lg);
+  font-family: var(--medical-font-family);
+  font-size: var(--medical-font-size-base);
+  font-weight: var(--medical-font-semibold);
+  line-height: var(--medical-leading-tight);
+  border: none;
+  border-radius: var(--medical-radius-lg);
+  cursor: pointer;
+  transition: all var(--medical-duration-normal) var(--medical-ease-out);
+  text-decoration: none;
+  min-height: 48px;
+  touch-action: manipulation;
+}
+
+.medical-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--medical-primary), 0 0 0 1px var(--medical-surface);
+}
+
+.medical-button--primary {
+  background: linear-gradient(135deg, var(--medical-primary), var(--medical-primary-hover));
+  color: var(--medical-text-inverse);
+  box-shadow: var(--medical-shadow-md);
+}
+
+.medical-button--primary:hover {
+  background: linear-gradient(135deg, var(--medical-primary-hover), var(--medical-primary));
+  box-shadow: var(--medical-shadow-lg);
+  transform: translateY(-1px);
+}
+
+.medical-button--secondary {
+  background: var(--medical-surface);
+  color: var(--medical-primary);
+  border: 2px solid var(--medical-primary);
+}
+
+.medical-button--secondary:hover {
+  background: var(--medical-primary);
+  color: var(--medical-text-inverse);
+  transform: translateY(-1px);
+}
+
+/* Medical Gradients */
+.medical-gradient-primary {
+  background: linear-gradient(135deg, var(--medical-primary), var(--medical-secondary));
+}
+
+.medical-gradient-secondary {
+  background: linear-gradient(135deg, var(--medical-secondary), var(--medical-accent));
+}
+
+.medical-gradient-surface {
+  background: linear-gradient(135deg, var(--medical-surface), var(--medical-surface-elevated));
+}
+
+/* Medical Text Styles */
+.medical-text-gradient {
+  background: linear-gradient(135deg, var(--medical-primary), var(--medical-secondary), var(--medical-accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 200%;
+  animation: medical-gradient-shift 3s ease-in-out infinite;
+}
+
+/* Medical Animations */
+@keyframes medical-pulse {
+  0%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes medical-gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes medical-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.medical-pulse {
+  animation: medical-pulse 2s ease-in-out infinite;
+}
+
+.medical-float {
+  animation: medical-float 6s ease-in-out infinite;
+}
+
+/* Medical Layout Utilities */
+.medical-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--medical-space-lg);
+}
+
+.medical-section {
+  padding: var(--medical-space-3xl) 0;
+}
+
+.medical-section--compact {
+  padding: var(--medical-space-2xl) 0;
+}
+
+.medical-section--spacious {
+  padding: calc(var(--medical-space-3xl) * 1.5) 0;
+}
+
+/* Medical Grid */
+.medical-grid {
+  display: grid;
+  gap: var(--medical-space-lg);
+}
+
+.medical-grid--2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.medical-grid--3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.medical-grid--4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .medical-grid--2,
+  .medical-grid--3,
+  .medical-grid--4 {
+    grid-template-columns: 1fr;
+  }
+  
+  .medical-container {
+    padding: 0 var(--medical-space-md);
+  }
+  
+  .medical-section {
+    padding: var(--medical-space-2xl) 0;
+  }
+}
+
+/* Accessibility Enhancements */
+@media (prefers-reduced-motion: reduce) {
+  .medical-pulse,
+  .medical-float,
+  .medical-text-gradient {
+    animation: none;
+  }
+  
+  .medical-card:hover,
+  .medical-button:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-contrast: high) {
+  .medical-status,
+  .medical-card,
+  .medical-button {
+    border: 2px solid currentColor;
+  }
+  
+  .medical-text-gradient {
+    -webkit-text-fill-color: currentColor;
+    background: none;
+  }
+}
+
+/* Focus management for keyboard navigation */
+.medical-focus-ring:focus-visible {
+  outline: 3px solid var(--medical-primary);
+  outline-offset: 2px;
+  border-radius: var(--medical-radius-sm);
+}
