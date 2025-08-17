@@ -1,136 +1,11 @@
-import HorizontalDivider from './horizontal-divider';
-import { useAtomValue } from 'jotai';
 import TransitionLink from './transition-link';
 import HomeIcon from './icons/home';
-import ExploreIcon from './icons/explore';
-import ChatIcon from './icons/cart';
+import VoucherIcon from './icons/voucher';
+import GiftIcon from './icons/gift';
 import ProfileIcon from './icons/profile';
-import BigPlusIcon from './icons/big-plus';
+import DealIcon from './icons/deal';
 import { useRouteHandle } from '@/hooks';
-import FooterWave from './icons/footer-wave';
-import { useEffect, useRef, useState } from 'react';
-import book from '@/static/book.svg';
-import history from '@/static/history.svg';
-import all from '@/static/services/all.svg';
-import hospital from '@/static/services/hospital.svg';
-
-interface QuickAccessItem {
-  to: string;
-  icon: string;
-  title: string;
-}
-
-function QuickAccessButton({ active }: { active?: boolean }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
-  const buttonRef = useRef<HTMLDivElement>(null);
-
-  const quickAccessItems: QuickAccessItem[] = [
-    { to: '/booking', icon: book, title: 'Đặt lịch khám' },
-    { to: '/schedule', icon: history, title: 'Lịch sử khám' },
-    { to: '/services', icon: all, title: 'Dịch vụ y tế' },
-    { to: '/departments', icon: hospital, title: 'Khoa chuyên môn' },
-  ];
-
-  const toggleMenu = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsOpen(!isOpen);
-  };
-
-  const closeMenu = () => {
-    setIsOpen(false);
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
-      if (
-        menuRef.current &&
-        buttonRef.current &&
-        !menuRef.current.contains(event.target as Node) &&
-        !buttonRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('touchstart', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('touchstart', handleClickOutside);
-    };
-  }, []);
-
-  return (
-    <>
-      {isOpen && (
-        <div
-          ref={menuRef}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 animate-fade-in will-change-opacity"
-        >
-          <div className="absolute inset-0" onClick={closeMenu} aria-hidden="true"></div>
-          <div
-            className="mx-6 w-full max-w-xs bg-white rounded-3xl shadow-2xl py-5 px-4 animate-scale-in relative animation-optimized"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex justify-between items-center px-1 mb-3">
-              <h3 className="text-lg font-bold text-gray-900">Truy cập nhanh</h3>
-              <button
-                onClick={closeMenu}
-                className="text-gray-500 p-1 hover:bg-gray-100 rounded-full transition-colors duration-200"
-              >
-                <span className="sr-only">Đóng</span>
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              {quickAccessItems.map((item, index) => (
-                <TransitionLink
-                  key={index}
-                  to={item.to}
-                  className="flex flex-col items-center gap-2 p-4 rounded-2xl hover:bg-gray-50 active:bg-gray-100 active:scale-95 transition-transform transition-colors duration-200 hardware-accelerated"
-                  onClick={closeMenu}
-                >
-                  <div
-                    className={`flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full ${
-                      index === 0
-                        ? 'bg-teal-500/15'
-                        : index === 1
-                          ? 'bg-orange-400/15'
-                          : index === 2
-                            ? 'bg-blue-500/15'
-                            : 'bg-purple-500/15'
-                    }`}
-                  >
-                    <img src={item.icon} className="h-6 w-6" alt={item.title} />
-                  </div>
-                  <span className="text-sm font-medium text-center text-gray-800">{item.title}</span>
-                </TransitionLink>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-      <div
-        ref={buttonRef}
-        onClick={toggleMenu}
-        className="w-12 h-12 bg-gradient-to-r from-primary to-primary-gradient rounded-full flex items-center justify-center -mt-4 shadow-lg shadow-highlight/30 hover:shadow-highlight/40 active:scale-95 transition-transform duration-200 cursor-pointer hardware-accelerated"
-      >
-        <BigPlusIcon className={`w-7 h-7 text-white transition-transform duration-300 ${isOpen ? 'rotate-45' : ''}`} />
-      </div>
-    </>
-  );
-}
+import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 
 const NAV_ITEMS = [
   {
@@ -139,22 +14,22 @@ const NAV_ITEMS = [
     icon: HomeIcon,
   },
   {
-    name: 'Khám phá',
-    path: '/explore',
-    icon: ExploreIcon,
+    name: 'Dich vu',
+    path: '/service-price',
+    icon: VoucherIcon,
   },
   {
-    path: '/quick-access',
-    icon: QuickAccessButton,
-    isSpecial: true,
+    name: 'Dat lich',
+    path: '/booking',
+    icon: DealIcon,
   },
   {
-    name: 'Bác sĩ',
+    name: 'Bac si',
     path: '/doctor',
-    icon: ChatIcon,
+    icon: GiftIcon,
   },
   {
-    name: 'Thông tin',
+    name: 'Thong tin',
     path: '/about',
     icon: ProfileIcon,
   },
@@ -162,60 +37,121 @@ const NAV_ITEMS = [
 
 export default function Footer() {
   const [handle] = useRouteHandle();
+  const { triggerSelectionFeedback } = useHapticFeedback();
+
   if (handle.back) {
     return <></>;
   }
 
+  const handleNavClick = () => {
+    triggerSelectionFeedback();
+  };
+
   return (
     <div className="w-full relative">
-      <FooterWave
-        className="absolute inset-x-0 bottom-sb z-10 h-24 -mb-6"
-        style={{
-          filter: 'drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.08))',
-          willChange: 'filter',
-        }}
-      />
+      {/* White background for mobile performance */}
       <div
-        className="w-full px-4 pt-2 grid text-3xs relative z-20 justify-center pb-sb bg-white border-t border-gray-100/30"
+        className="absolute inset-0 bg-white backdrop-blur-sm"
+        style={{
+          contain: 'layout style paint',
+          transform: 'translate3d(0, 0, 0)', // GPU acceleration
+        }}
+      ></div>
+
+      <nav
+        className="w-full relative z-10 grid justify-center border-t border-gray-200 shadow-lg backdrop-blur-sm"
         style={{
           gridTemplateColumns: `repeat(${NAV_ITEMS.length}, 1fr)`,
+          paddingTop: 'clamp(0.5rem, 2vw, 1rem)', // Responsive padding
+          paddingLeft: 'clamp(0.25rem, 1vw, 0.75rem)',
+          paddingRight: 'clamp(0.25rem, 1vw, 0.75rem)',
+          paddingBottom: 'max(env(safe-area-inset-bottom), 1.25rem)', // Enhanced safe area
+          contain: 'layout style paint',
+          backgroundColor: 'rgba(255, 255, 255, 0.95)', // White background with slight transparency
+          transform: 'translate3d(0, 0, 0)', // GPU acceleration
         }}
+        role="navigation"
+        aria-label="Điều hướng chính"
       >
-        {NAV_ITEMS.map((item) => {
-          return item.isSpecial ? (
-            <div key={item.path} className="flex justify-center relative">
-              <item.icon />
-            </div>
-          ) : (
-            <TransitionLink
-              to={item.path}
-              key={item.path}
-              className="flex flex-col items-center space-y-0.5 p-1 active:scale-105 transition-transform duration-150"
-              style={{ willChange: 'transform' }}
-            >
-              {({ isActive }) =>
-                item.name ? (
-                  <>
-                    <div
-                      className={`w-6 h-6 flex justify-center items-center ${isActive ? 'scale-110' : ''} transition-transform duration-200`}
-                      style={{ willChange: 'transform', transform: 'translateZ(0)' }}
-                    >
-                      <item.icon active={isActive} />
-                    </div>
-                    <div
-                      className={`text-2xs truncate font-medium ${isActive ? 'text-primary' : 'text-disabled hover:text-gray-500 transition-colors'}`}
-                    >
-                      {item.name}
-                    </div>
-                  </>
-                ) : (
-                  <item.icon active={isActive} />
-                )
-              }
-            </TransitionLink>
-          );
-        })}
-      </div>
+        {NAV_ITEMS.map((item, index) => (
+          <TransitionLink
+            to={item.path}
+            key={item.path}
+            className="flex flex-col items-center justify-center rounded-xl transition-all duration-300 ease-out active:scale-95 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400/60 focus:ring-offset-2 focus:ring-offset-white"
+            onClick={handleNavClick}
+            style={{
+              willChange: 'transform',
+              minHeight: '56px', // Optimized touch target (exceeds iOS 44px & Android 48dp)
+              minWidth: '56px', // Optimized touch target
+              padding: 'clamp(0.5rem, 2vw, 0.75rem) clamp(0.25rem, 1vw, 0.5rem)', // Responsive padding
+              gap: 'clamp(0.125rem, 0.5vw, 0.25rem)', // Responsive gap between icon and text
+              contain: 'layout style paint',
+              transform: 'translate3d(0, 0, 0)', // GPU acceleration
+            }}
+            aria-label={`Điều hướng đến ${item.name}`}
+            role="tab"
+            aria-selected={false}
+            tabIndex={0}
+          >
+            {({ isActive }) => (
+              <>
+                {/* Mobile-optimized icon container with responsive sizing */}
+                <div
+                  className={`
+                    flex justify-center items-center rounded-lg transition-all duration-300 ease-out
+                    ${
+                      isActive
+                        ? 'bg-gradient-to-br from-blue-400 to-blue-500 shadow-lg shadow-blue-300/30 scale-105'
+                        : 'bg-gradient-to-br from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-200 border border-gray-200'
+                    }
+                  `}
+                  style={{
+                    width: 'clamp(28px, 7vw, 36px)', // Responsive icon container size
+                    height: 'clamp(28px, 7vw, 36px)',
+                    willChange: 'transform',
+                    transform: 'translate3d(0, 0, 0)', // GPU acceleration
+                    contain: 'layout style paint',
+                    backgroundColor: isActive ? '#64B5F6' : '#F3F4F6', // Active: Serene Blue, Inactive: Light Gray
+                  }}
+                  aria-hidden="true"
+                >
+                  <div
+                    className={`${isActive ? 'text-white' : 'text-gray-600'} transition-colors duration-300`}
+                    style={{
+                      width: 'clamp(18px, 4.5vw, 24px)', // Responsive icon size
+                      height: 'clamp(18px, 4.5vw, 24px)',
+                    }}
+                  >
+                    <item.icon active={isActive} />
+                  </div>
+                </div>
+
+                {/* Mobile-optimized label with responsive typography */}
+                <span
+                  className={`
+                    font-medium leading-tight text-center transition-all duration-300 max-w-full
+                    ${isActive ? 'text-blue-700 font-semibold' : 'text-gray-600 hover:text-gray-800'}
+                  `}
+                  style={{
+                    fontSize: 'clamp(10px, 2.5vw, 12px)', // Responsive font size
+                    lineHeight: '1.3', // Better readability
+                    textOverflow: 'ellipsis',
+                    overflow: 'hidden',
+                    whiteSpace: 'nowrap',
+                    fontWeight: isActive ? '600' : '500',
+                    maxWidth: '100%',
+                    // Ensure text doesn't break on small screens
+                    wordBreak: 'keep-all',
+                    hyphens: 'none',
+                  }}
+                >
+                  {item.name}
+                </span>
+              </>
+            )}
+          </TransitionLink>
+        ))}
+      </nav>
     </div>
   );
 }

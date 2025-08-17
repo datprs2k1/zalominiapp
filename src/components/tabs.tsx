@@ -14,42 +14,60 @@ interface TabsProps {
 function Tabs({ activeTab, onTabChange, tabs }: TabsProps) {
   return (
     <div className="flex flex-col flex-1 overflow-hidden">
+      {/* Modern Hospital Tab Navigation */}
       <div
-        className="flex-none flex items-start justify-start px-4 sm:px-6 gap-4 sm:gap-8 bg-white overflow-x-auto scrollbar-hide border-b border-gray-100"
+        className="flex-none flex items-center justify-center px-4 py-2 bg-gradient-to-b from-white to-medical-50 border-b border-medical-200/50 overflow-x-auto scrollbar-hide"
         style={{ WebkitOverflowScrolling: 'touch' }}
       >
-        {tabs.map(({ name }, index) => (
-          <div
-            key={index}
-            className={`flex-none flex flex-col items-center cursor-pointer py-3 sm:py-4 relative transition-colors duration-200 group select-none`}
-            onClick={() => onTabChange(index)}
-          >
-            <div
-              className={`truncate px-2 sm:px-4 py-1 rounded-md transition-colors duration-200 ${
-                activeTab === index ? 'text-blue-600 font-semibold' : 'text-gray-500 group-hover:text-gray-700'
-              }`}
+        <div className="flex gap-2 bg-medical-100/50 rounded-medical p-1 backdrop-blur-sm">
+          {tabs.map(({ name }, index) => (
+            <button
+              key={index}
+              className={`
+                flex-none px-6 py-3 rounded-medical-lg font-medium text-sm transition-all duration-300
+                min-h-[44px] min-w-[120px] flex items-center justify-center
+                transform active:scale-98 select-none
+                ${
+                  activeTab === index
+                    ? 'bg-medical-500 text-white shadow-button-medical scale-102'
+                    : 'text-medical-600 hover:bg-medical-200/70 hover:text-medical-700 active:bg-medical-300/50'
+                }
+              `}
+              onClick={() => onTabChange(index)}
+              type="button"
+              role="tab"
+              aria-selected={activeTab === index}
+              aria-controls={`tabpanel-${index}`}
             >
-              {name}
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 h-[3px]">
-              <div
-                className={`h-full bg-blue-500 rounded-t transition-all duration-300 ${
-                  activeTab === index ? 'opacity-100' : 'opacity-0'
-                }`}
-              />
-            </div>
-          </div>
-        ))}
+              <span className="truncate">{name}</span>
+              {activeTab === index && <div className="ml-2 w-2 h-2 bg-white rounded-full animate-pulse" />}
+            </button>
+          ))}
+        </div>
       </div>
-      <div className="flex-1 overflow-y-auto bg-white">
+
+      {/* Tab Content */}
+      <div className="flex-1 overflow-y-auto bg-gradient-to-b from-white to-medical-50/30">
         <Suspense
           fallback={
-            <div className="flex justify-center items-center p-8">
-              <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            <div className="flex flex-col justify-center items-center p-8 min-h-[200px]">
+              {/* Medical Loading Animation */}
+              <div className="relative">
+                <div className="w-8 h-8 border-3 border-medical-200 border-t-medical-500 rounded-full animate-spin"></div>
+                <div className="absolute inset-0 w-8 h-8 border-3 border-transparent border-r-medical-300 rounded-full animate-spin animate-reverse"></div>
+              </div>
+              <p className="text-medical-600 text-sm mt-4 font-medium">Đang tải nội dung...</p>
             </div>
           }
         >
-          {createElement(tabs[activeTab].content)}
+          <div
+            role="tabpanel"
+            id={`tabpanel-${activeTab}`}
+            aria-labelledby={`tab-${activeTab}`}
+            className="animate-fade-in-mobile"
+          >
+            {createElement(tabs[activeTab].content)}
+          </div>
         </Suspense>
       </div>
     </div>

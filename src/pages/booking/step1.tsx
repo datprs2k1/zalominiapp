@@ -94,16 +94,18 @@ export default function Step1() {
     >
       <div className="bg-white flex flex-col">
         {loading && (
-          <div className="flex justify-center py-4">
+          <div className="flex justify-center py-6">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
           </div>
         )}
 
-        <div className="p-5">
-          <h2 className="text-lg font-medium mb-4">Chọn khoa và ngày khám</h2>
+        <div className="p-4 sm:p-5 space-y-6">
+          <h2 className="text-lg sm:text-xl font-medium mb-2">Chọn khoa và ngày khám</h2>
 
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">Khoa khám</label>
+          <div className="space-y-4">
+            <label className="mobile-form-label">
+              Khoa khám <span className="text-red-500">*</span>
+            </label>
             <div className="relative">
               <DepartmentPicker
                 label=""
@@ -117,43 +119,69 @@ export default function Step1() {
                 }
               />
               {formData?.department && (
-                <div className="mt-3 p-3 bg-blue-50 rounded-lg border border-blue-100">
-                  <p className="text-sm text-blue-800">
-                    Đã chọn: <span className="font-semibold">{getDepartmentName()}</span>
-                  </p>
+                <div className="mt-3 p-3 bg-medical-50 rounded-medical border border-medical-200 mobile-card-enhanced">
+                  <div className="flex items-center">
+                    <div className="w-5 h-5 rounded-full bg-medical-500 flex items-center justify-center mr-2 flex-shrink-0">
+                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                    <p className="text-sm text-medical-800 flex-1">
+                      <span className="font-semibold">{getDepartmentName()}</span>
+                    </p>
+                  </div>
                 </div>
               )}
             </div>
           </div>
 
-          <div className="border-t border-gray-100 pt-5">
-            <label className="block text-sm font-medium text-gray-700 mb-2">Chọn ngày khám</label>
-            <DateTimePicker value={selectedSlot} onChange={setSelectedSlot} slots={timeSlots} />
+          <div className="border-t border-gray-100 pt-6 space-y-4">
+            <label className="mobile-form-label">
+              Chọn ngày khám <span className="text-red-500">*</span>
+            </label>
+            <div className="bg-gray-50 rounded-medical p-3">
+              <DateTimePicker value={selectedSlot} onChange={setSelectedSlot} slots={timeSlots} />
+            </div>
 
             {formData?.slot && (
-              <div className="mt-4 p-3 bg-green-50 rounded-lg border border-green-100">
-                <p className="text-sm text-green-800">
-                  Đã chọn ngày:{' '}
-                  <span className="font-semibold">
-                    {new Date(formData.slot.date).toLocaleString('vi-VN', {
-                      weekday: 'long',
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })}
-                  </span>
-                </p>
+              <div className="mt-4 p-3 bg-success-50 rounded-medical border border-success-200 mobile-card-enhanced">
+                <div className="flex items-center">
+                  <div className="w-5 h-5 rounded-full bg-success-500 flex items-center justify-center mr-2 flex-shrink-0">
+                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        fillRule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-xs text-success-600 mb-1">Đã chọn ngày khám</p>
+                    <p className="text-sm font-semibold text-success-800">
+                      {new Date(formData.slot.date).toLocaleString('vi-VN', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                    </p>
+                  </div>
+                </div>
               </div>
             )}
           </div>
         </div>
 
-        <div className="mt-4 p-4 bg-gray-50">
-          <div className="flex items-center">
-            <div className="flex-shrink-0 bg-primary rounded-full p-1">
+        <div className="mt-4 p-4 bg-medical-50 border-t border-medical-100">
+          <div className="flex items-start">
+            <div className="flex-shrink-0 bg-medical-500 rounded-full p-1.5 mt-0.5">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 text-white"
+                className="h-3 w-3 text-white"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -166,7 +194,7 @@ export default function Step1() {
                 />
               </svg>
             </div>
-            <p className="ml-3 text-xs text-gray-500">
+            <p className="ml-3 text-xs sm:text-sm text-medical-700 leading-relaxed">
               Vui lòng chọn đúng khoa và ngày khám phù hợp để có trải nghiệm tốt nhất
             </p>
           </div>

@@ -21,6 +21,7 @@ import AboutPage from './pages/about';
 import DoctorPage from './pages/doctor';
 import DepartmentsPage from './pages/departments';
 import DoctorDetailPage from './pages/detail/docter';
+import SectionDemo from './pages/section-demo';
 
 const router = createBrowserRouter(
   [
@@ -35,6 +36,14 @@ const router = createBrowserRouter(
         {
           path: '/about',
           element: <AboutPage />,
+        },
+        {
+          path: '/section-demo',
+          element: <SectionDemo />,
+          handle: {
+            back: true,
+            title: 'Section Demo',
+          },
         },
         {
           path: '/search',

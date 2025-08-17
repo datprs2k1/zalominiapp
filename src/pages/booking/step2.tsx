@@ -130,13 +130,13 @@ export default function Step2() {
     >
       <div className="flex flex-col">
         {/* Personal Information Section */}
-        <div className="bg-white p-5 rounded-lg">
-          <h2 className="text-lg font-medium mb-4">Thông tin cá nhân</h2>
+        <div className="bg-white p-4 sm:p-5 rounded-lg">
+          <h2 className="text-lg sm:text-xl font-medium mb-4">Thông tin cá nhân</h2>
 
-          <div className="flex justify-end mb-2">
+          <div className="flex justify-end mb-4">
             <button
               type="button"
-              className="flex items-center gap-2 text-sm text-primary font-medium px-3 py-1.5 rounded-md bg-primary/10"
+              className="flex items-center gap-2 text-sm text-medical-600 font-medium px-4 py-2 rounded-medical bg-medical-50 hover:bg-medical-100 transition-colors comfortable-touch-target mobile-focus-visible"
               onClick={handleGetUserInfo}
             >
               <svg
@@ -157,49 +157,68 @@ export default function Step2() {
             </button>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-5">
             <div className="form-control">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="mobile-form-label">
                 Họ và tên
                 <span className="text-red-500">*</span>
               </label>
               <Input
-                className="w-full rounded-lg border-gray-300 focus:border-primary focus:ring-primary"
+                className="mobile-form-input"
                 placeholder="Nhập họ và tên"
                 value={formData.name}
                 onChange={(e) => setFormData((prev) => ({ ...prev, name: e.currentTarget.value }))}
               />
               {formData.name.trim().length === 0 && (
-                <p className="mt-1 text-xs text-red-500">Vui lòng nhập họ và tên</p>
+                <p className="mt-2 text-xs text-red-500 flex items-center">
+                  <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                      fillRule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  Vui lòng nhập họ và tên
+                </p>
               )}
             </div>
 
             <div className="form-control">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="mobile-form-label">
                 Số điện thoại
                 <span className="text-red-500">*</span>
               </label>
               <Input
-                className="w-full rounded-lg border-gray-300 focus:border-primary focus:ring-primary"
+                className="mobile-form-input"
                 placeholder="Nhập số điện thoại"
                 value={formData.phone}
+                type="tel"
                 onChange={(e) => setFormData((prev) => ({ ...prev, phone: e.currentTarget.value }))}
               />
               {formData.phone.trim().length === 0 && (
-                <p className="mt-1 text-xs text-red-500">Vui lòng nhập số điện thoại</p>
+                <p className="mt-2 text-xs text-red-500 flex items-center">
+                  <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                      fillRule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  Vui lòng nhập số điện thoại
+                </p>
               )}
             </div>
           </div>
         </div>
 
         {/* Appointment Information Section */}
-        <div className="mt-4">
-          <div className="bg-gray-50 p-4 rounded-lg mb-4">
+        <div className="mt-4 space-y-4">
+          <div className="bg-medical-50 p-4 rounded-medical border border-medical-100">
             <div className="flex items-start">
-              <div className="flex-shrink-0 bg-blue-100 rounded-full p-1 mt-1">
+              <div className="flex-shrink-0 bg-medical-500 rounded-full p-1.5 mt-0.5">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4 text-blue-600"
+                  className="h-3 w-3 text-white"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -212,8 +231,9 @@ export default function Step2() {
                   />
                 </svg>
               </div>
-              <div className="ml-3">
-                <p className="text-sm text-gray-600">
+              <div className="ml-3 flex-1">
+                <h3 className="text-sm font-medium text-medical-800 mb-1">Lưu ý quan trọng</h3>
+                <p className="text-sm text-medical-700 leading-relaxed">
                   Vui lòng mô tả chi tiết các triệu chứng, vấn đề sức khỏe bạn đang gặp phải để bác sĩ có thể chuẩn bị
                   tốt hơn cho buổi khám.
                 </p>
@@ -221,14 +241,17 @@ export default function Step2() {
             </div>
           </div>
 
-          <SymptomInquiry value={formData} onChange={setFormData} />
+          <div className="bg-white rounded-medical border border-gray-200">
+            <SymptomInquiry value={formData} onChange={setFormData} />
+          </div>
         </div>
 
         {isSubmitting && (
-          <div className="fixed inset-0 bg-white/80 flex items-center justify-center z-50">
-            <div className="flex flex-col items-center">
-              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary mb-3"></div>
-              <p className="text-gray-700">Đang xử lý...</p>
+          <div className="fixed inset-0 bg-white/90 backdrop-blur-sm flex items-center justify-center z-50 safe-area-padding">
+            <div className="flex flex-col items-center bg-white rounded-medical shadow-lg p-6 mx-4">
+              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-medical-500 mb-3"></div>
+              <p className="text-medical-700 font-medium">Đang xử lý...</p>
+              <p className="text-sm text-medical-600 mt-1">Vui lòng đợi trong giây lát</p>
             </div>
           </div>
         )}

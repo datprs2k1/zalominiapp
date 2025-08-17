@@ -1,13 +1,16 @@
 import React from 'react';
 import { Clinic } from '@/data/clinics';
+import { Card } from '@/components/ui';
+import { cn } from '@/utils/cn';
 
 interface ClinicCardProps {
   clinic: Clinic;
   className?: string;
+  onSelect?: (clinic: Clinic) => void;
 }
 
 const iconClass =
-  'w-9 h-9 flex items-center justify-center rounded-full bg-green-100 hover:bg-green-200 transition-colors duration-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2';
+  'w-8 h-8 md:w-9 md:h-9 flex items-center justify-center rounded-full bg-medical-100 hover:bg-medical-200 transition-colors duration-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-medical-500 focus:ring-offset-2 min-h-[44px] min-w-[44px] md:min-h-[36px] md:min-w-[36px] touch-manipulation';
 
 const SocialIcon = ({
   href,
@@ -32,37 +35,47 @@ const SocialIcon = ({
   </a>
 );
 
-export default function ClinicCard({ clinic, className = '' }: ClinicCardProps) {
+export default function ClinicCard({ clinic, className = '', onSelect }: ClinicCardProps) {
   const { name, address, phone, facebookUrl = '', zaloUrl = '', emailUrl = '', mapEmbedUrl, type } = clinic;
 
+  const handleClick = () => {
+    if (onSelect) {
+      onSelect(clinic);
+    }
+  };
+
   return (
-    <article
-      className={`bg-white border border-gray-200 rounded-2xl shadow-sm p-4 md:p-6 flex flex-col gap-4 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 focus-within:ring-2 focus-within:ring-green-500 focus-within:ring-offset-2 ${className}`}
+    <Card
+      variant="hover"
+      padding="lg"
+      className={cn('flex flex-col gap-3 md:gap-4 mobile-card-enhanced', className)}
+      onClick={handleClick}
       tabIndex={0}
     >
       <div className="flex-1 flex flex-col justify-center text-left">
         <header>
-          <h2 className="text-lg md:text-2xl font-extrabold text-green-700 uppercase mb-2 tracking-wide leading-tight">
+          <h2 className="text-lg md:text-medical-title font-bold text-medical-700 uppercase mb-2 tracking-wide leading-tight">
             {name}
           </h2>
           <span
-            className={`inline-block px-3 py-1 text-xs font-semibold rounded-full mb-3 ${
-              type === 'general' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800'
-            }`}
+            className={cn(
+              'inline-block px-2 py-1 md:px-3 text-xs font-semibold rounded-full mb-3',
+              type === 'general' ? 'bg-medical-100 text-medical-800' : 'bg-accent-100 text-accent-800'
+            )}
           >
             {type === 'general' ? 'Đa khoa' : 'Nha khoa'}
           </span>
         </header>
 
-        <div className="space-y-2 mb-4">
-          <div className="text-gray-700 text-sm md:text-base">
+        <div className="space-y-2 mb-3 md:mb-4">
+          <div className="text-neutral-700 text-sm md:text-medical-body">
             <span className="font-semibold">Địa chỉ:</span> {address}
           </div>
-          <div className="text-gray-700 text-sm md:text-base">
+          <div className="text-neutral-700 text-sm md:text-medical-body">
             <span className="font-semibold">Điện thoại: </span>
             <a
               href={`tel:${phone}`}
-              className="text-green-600 hover:text-green-800 transition-colors font-medium"
+              className="text-medical-600 hover:text-medical-800 transition-colors font-medium touch-manipulation"
               aria-label={`Gọi điện thoại ${phone}`}
             >
               {phone}
@@ -70,10 +83,15 @@ export default function ClinicCard({ clinic, className = '' }: ClinicCardProps) 
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mt-auto pt-2">
+        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 md:gap-3 mt-auto pt-2">
           {facebookUrl && (
             <SocialIcon href={facebookUrl} title="Facebook">
-              <svg className="w-5 h-5 text-green-700" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <svg
+                className="w-4 h-4 md:w-5 md:h-5 text-green-700"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
                 <path d="M22.675 0h-21.35C.595 0 0 .592 0 1.326v21.348C0 23.406.595 24 1.326 24H12.82v-9.294H9.692v-3.622h3.127V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.797.143v3.24l-1.918.001c-1.504 0-1.797.715-1.797 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116C23.406 24 24 23.406 24 22.674V1.326C24 .592 23.406 0 22.675 0" />
               </svg>
             </SocialIcon>
@@ -81,7 +99,7 @@ export default function ClinicCard({ clinic, className = '' }: ClinicCardProps) 
 
           {zaloUrl && (
             <SocialIcon href={zaloUrl} title="Zalo">
-              <svg className="w-5 h-5 text-green-700" viewBox="0 0 460.1 436.6" aria-hidden="true">
+              <svg className="w-4 h-4 md:w-5 md:h-5 text-green-700" viewBox="0 0 460.1 436.6" aria-hidden="true">
                 <style>{`.st0{fill:currentColor}.st1{fill:#0180c7}.st2{fill:#0172b1}.st3{fill:none;stroke:#0180c7;stroke-width:2;stroke-miterlimit:10}`}</style>
                 <path
                   className="st0"
@@ -118,7 +136,7 @@ export default function ClinicCard({ clinic, className = '' }: ClinicCardProps) 
           {emailUrl && (
             <SocialIcon href={emailUrl} title="Email">
               <svg
-                className="w-5 h-5 text-green-700"
+                className="w-4 h-4 md:w-5 md:h-5 text-green-700"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
@@ -137,10 +155,10 @@ export default function ClinicCard({ clinic, className = '' }: ClinicCardProps) 
           {/* Call button for easy access on mobile */}
           <a
             href={`tel:${phone}`}
-            className="bg-green-500 text-white px-4 py-2 rounded-full flex items-center gap-1 text-sm font-medium hover:bg-green-600 transition-colors"
+            className="bg-medical-500 text-white px-3 py-2 md:px-4 rounded-medical flex items-center gap-1 text-xs md:text-sm font-medium hover:bg-medical-600 transition-colors min-h-[44px] shadow-button-medical touch-manipulation"
           >
             <svg
-              className="w-4 h-4"
+              className="w-3 h-3 md:w-4 md:h-4"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -153,10 +171,11 @@ export default function ClinicCard({ clinic, className = '' }: ClinicCardProps) 
                 d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
               ></path>
             </svg>
-            Gọi
+            <span className="hidden sm:inline">Gọi</span>
+            <span className="sm:hidden">📞</span>
           </a>
         </div>
       </div>
-    </article>
+    </Card>
   );
 }

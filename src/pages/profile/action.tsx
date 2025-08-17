@@ -1,4 +1,5 @@
-import { Link, To } from "react-router-dom";
+import { Link, To } from 'react-router-dom';
+import { cn } from '@/utils/cn';
 
 interface ActionProps {
   label: string;
@@ -9,16 +10,21 @@ interface ActionProps {
 
 export function Action({ label, badge, icon, to }: ActionProps) {
   return (
-    <Link className="flex items-center justify-between py-4" to={to}>
-      <div className="flex items-center gap-1 text-sm">
-        <div>{label}</div>
+    <Link
+      className="flex items-center justify-between py-4 px-4 rounded-medical hover:bg-medical-50 transition-colors duration-200 min-h-[44px] group"
+      to={to}
+    >
+      <div className="flex items-center gap-2 text-medical-body">
+        <div className="font-medium text-neutral-900 group-hover:text-medical-700 transition-colors duration-200">
+          {label}
+        </div>
         {badge && (
-          <div className="flex h-4 w-4 items-center justify-center rounded-full bg-red-500 px-1 text-center text-3xs text-white">
-            {badge}
+          <div className="flex min-w-[18px] h-[18px] items-center justify-center rounded-full bg-danger-500 px-1 text-center text-xs text-white font-medium">
+            {badge > 99 ? '99+' : badge}
           </div>
         )}
       </div>
-      {icon}
+      <div className="text-neutral-400 group-hover:text-medical-500 transition-colors duration-200">{icon}</div>
     </Link>
   );
 }

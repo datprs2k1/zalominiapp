@@ -1,24 +1,191 @@
 @use 'tailwind.scss';
 @import '../styles/mobile.css';
+@import '../styles/mobile-hospital-enhancements.css';
 
 :root {
-  --primary: #00abbb;
-  --primary-gradient: #00bead;
-  --highlight: #01bdaf1a;
-  --background: #f2f9f9;
-  --disabled: #9a9a9a;
+  /* Legacy colors (maintain compatibility) */
+  --primary: #4f8cc9;
+  --primary-gradient: #5b9bd5;
+  --highlight: #4f8cc91a;
+  --background: #f8fafc;
+  --disabled: #94a3b8;
+  --foreground: #1e293b;
 
+  /* Enhanced Serene Blues Design System Tokens */
+  /* Optimized for healthcare mobile applications with improved accessibility */
+
+  /* Primary Serene Blue Colors - Enhanced for mobile readability */
+  /* Implementing the specified Serene Blues palette for healthcare mobile applications */
+  --medical-50: #E3F2FD;   /* Serene Blues - Lightest background */
+  --medical-100: #BBDEFB;  /* Serene Blues - Light cards and surfaces */
+  --medical-200: #90CAF9;  /* Serene Blues - Subtle accents and borders */
+  --medical-300: #64B5F6;  /* Serene Blues - Primary interactive elements */
+  --medical-400: #42A5F5;  /* Enhanced contrast for better accessibility */
+  --medical-500: #2196F3;  /* Primary action color - WCAG AA compliant */
+  --medical-600: #1E88E5;  /* Enhanced focus states and hover */
+  --medical-700: #1976D2;  /* Better text contrast on light backgrounds */
+  --medical-800: #1565C0;  /* Improved readability for important text */
+  --medical-900: #0D47A1;  /* Enhanced depth and emphasis */
+  --medical-950: #0A3D91;  /* Maximum contrast for critical text */
+
+  /* Modern Header Design Tokens */
+  --header-bg: #ffffff;
+  --header-bg-blur: rgba(255, 255, 255, 0.95);
+  --header-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --header-shadow-scroll: 0 2px 8px rgba(0, 0, 0, 0.15);
+  --header-height: 64px;
+  --header-height-mobile: 56px;
+  --header-padding: 16px 20px;
+  --header-padding-mobile: 12px 16px;
+
+  /* Wellness Colors */
+  --wellness-50: #f0fdf4;
+  --wellness-100: #dcfce7;
+  --wellness-200: #bbf7d0;
+  --wellness-300: #86efac;
+  --wellness-400: #4ade80;
+  --wellness-500: #22c55e;
+  --wellness-600: #16a34a;
+  --wellness-700: #15803d;
+  --wellness-800: #166534;
+  --wellness-900: #14532d;
+  --wellness-950: #052e16;
+
+  /* Accent Colors */
+  --accent-50: #fff7ed;
+  --accent-100: #ffedd5;
+  --accent-200: #fed7aa;
+  --accent-300: #fdba74;
+  --accent-400: #fb923c;
+  --accent-500: #f97316;
+  --accent-600: #ea580c;
+  --accent-700: #c2410c;
+  --accent-800: #9a3412;
+  --accent-900: #7c2d12;
+  --accent-950: #431407;
+
+  /* Status Colors */
+  --success-50: #f0fdf4;
+  --success-500: #22c55e;
+  --success-600: #16a34a;
+  --success-700: #15803d;
+
+  --warning-50: #fffbeb;
+  --warning-500: #f59e0b;
+  --warning-600: #d97706;
+  --warning-700: #b45309;
+
+  --danger-50: #fef2f2;
+  --danger-500: #ef4444;
+  --danger-600: #dc2626;
+  --danger-700: #b91c1c;
+
+  /* Neutral Colors */
+  --neutral-50: #f9fafb;
+  --neutral-100: #f3f4f6;
+  --neutral-200: #e5e7eb;
+  --neutral-300: #d1d5db;
+  --neutral-400: #9ca3af;
+  --neutral-500: #6b7280;
+  --neutral-600: #4b5563;
+  --neutral-700: #374151;
+  --neutral-800: #1f2937;
+  --neutral-900: #111827;
+  --neutral-950: #030712;
+
+  /* Enhanced Typography Tokens - Mobile-First Design */
+  /* Optimized for mobile readability and accessibility */
+  --font-size-medical-label: 14px;    /* Further increased for better mobile readability */
+  --font-size-medical-body: 16px;     /* Enhanced mobile text size */
+  --font-size-medical-heading: 20px;  /* Better visual hierarchy */
+  --font-size-medical-title: 28px;    /* Improved mobile prominence */
+
+  --line-height-medical-label: 20px;  /* Better mobile line spacing */
+  --line-height-medical-body: 24px;   /* Enhanced readability */
+  --line-height-medical-heading: 28px; /* Improved visual flow */
+  --line-height-medical-title: 36px;  /* Better mobile spacing */
+
+  /* Mobile-specific typography enhancements */
+  --font-weight-medical-regular: 400;
+  --font-weight-medical-medium: 500;
+  --font-weight-medical-semibold: 600;
+  --font-weight-medical-bold: 700;
+
+  /* Mobile touch target optimizations */
+  --touch-target-minimum: 44px;       /* WCAG AA minimum */
+  --touch-target-recommended: 48px;   /* Recommended size */
+  --touch-target-comfortable: 52px;   /* Comfortable size */
+
+  /* Modern Header Typography */
+  --header-logo-size: 32px;
+  --header-title-size: 20px;
+  --header-title-weight: 600;
+  --header-subtitle-size: 14px;
+  --header-subtitle-weight: 400;
+  --header-page-title-size: 18px;
+  --header-page-title-weight: 600;
+  --header-back-button-size: 40px;
+
+  /* Enhanced Spacing Tokens - Mobile-First */
+  --spacing-touch-target: 48px;      /* Increased for better mobile accessibility */
+  --spacing-touch-target-sm: 44px;   /* Minimum recommended size */
+  --spacing-form-gap: 1.5rem;
+  --spacing-card-padding: 1.25rem;
+  --spacing-card-padding-mobile: 1rem; /* Optimized for mobile */
+  --spacing-section-gap: 1.5rem;     /* Consistent section spacing */
+  --spacing-section-gap-compact: 1rem; /* Compact mode spacing */
+
+  /* Enhanced Border Radius Tokens */
+  --radius-medical: 14px;            /* Slightly increased for modern look */
+  --radius-medical-lg: 18px;         /* Better visual hierarchy */
+  --radius-medical-xl: 24px;         /* Enhanced card aesthetics */
+  --radius-medical-button: 12px;     /* Optimized button radius */
+
+  /* Enhanced Shadow Tokens with Serene Blues */
+  /* Updated to use the new Serene Blues palette for consistent visual hierarchy */
+  --shadow-card-medical: 0 2px 12px rgba(33, 150, 243, 0.08);
+  --shadow-card-hover: 0 6px 20px rgba(33, 150, 243, 0.12);
+  --shadow-card-elevated: 0 8px 24px rgba(33, 150, 243, 0.15);
+  --shadow-button-medical: 0 3px 10px rgba(33, 150, 243, 0.15);
+  --shadow-form-focus: 0 0 0 3px rgba(33, 150, 243, 0.12);
+  --shadow-emergency: 0 4px 16px rgba(239, 68, 68, 0.15);
+  --shadow-subtle: 0 1px 3px rgba(33, 150, 243, 0.05);
+
+  /* ZaUI Integration */
   --zaui-light-body-background-color: var(--background);
-  --zaui-light-input-border-color: rgba(0, 0, 0, 0.1);
-  --zaui-light-input-hover-border-color: var(--primary);
-  --zaui-light-option-selected-color: var(--primary);
-  --zaui-light-radio-checked-background: var(--primary);
+  --zaui-light-input-border-color: var(--neutral-300);
+  --zaui-light-input-hover-border-color: var(--medical-500);
+  --zaui-light-option-selected-color: var(--medical-500);
+  --zaui-light-radio-checked-background: var(--medical-500);
 
+  /* Safe Area */
   --safe-top: var(--zaui-safe-area-inset-top, env(safe-area-inset-top, 30px));
-  --safe-bottom: max(
-    8px,
-    var(--zaui-safe-area-inset-bottom, env(safe-area-inset-bottom, 30px))
-  );
+  --safe-bottom: max(8px, var(--zaui-safe-area-inset-bottom, env(safe-area-inset-bottom, 30px)));
+}
+
+/* Safe Area Utilities */
+.pt-st {
+  padding-top: var(--safe-top);
+}
+
+.pb-st {
+  padding-bottom: var(--safe-bottom);
+}
+
+/* Enhanced Safe Area Support for iOS Notches and Android Navigation */
+.safe-area-padding-x {
+  padding-left: max(1rem, env(safe-area-inset-left));
+  padding-right: max(1rem, env(safe-area-inset-right));
+}
+
+.safe-area-padding-y {
+  padding-top: max(0.5rem, env(safe-area-inset-top));
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+
+.safe-area-margin-x {
+  margin-left: max(0, env(safe-area-inset-left));
+  margin-right: max(0, env(safe-area-inset-right));
 }
 
 :not(input):not(textarea) {
@@ -56,7 +223,7 @@
   max-height: calc(100vh - 200px);
 }
 
-/* Animation for quick access menu */
+/* Animations for QuickActions and quick access menu */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -68,8 +235,63 @@
   }
 }
 
+@keyframes fadeInDelay {
+  from {
+    opacity: 0;
+    transform: translateY(15px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes bounce-gentle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
 .animate-fade-in {
-  animation: fadeIn 0.2s ease-out forwards;
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-fade-in-delay {
+  animation: fadeInDelay 0.4s ease-out 0.1s forwards;
+  opacity: 0;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.animate-bounce-gentle {
+  animation: bounce-gentle 1s ease-in-out infinite;
 }
 
 .footer-border {
@@ -128,7 +350,7 @@
 
 /* Add any app-specific CSS here */
 
-/* Performance optimizations for animations */
+/* Enhanced Performance optimizations for mobile animations */
 .will-change-transform {
   will-change: transform;
 }
@@ -148,8 +370,94 @@
   backface-visibility: hidden;
 }
 
+/* Mobile-specific performance optimizations */
+.mobile-optimized-animation {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  /* Use GPU acceleration for smooth 60fps animations */
+  transform-style: preserve-3d;
+  /* Optimize for mobile rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Reduced motion support for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .mobile-optimized-animation,
+  .animation-optimized,
+  .animate-slide-up,
+  .animate-slide-down,
+  .animate-fade-in {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Enhanced scroll performance for mobile */
+.smooth-scroll {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Optimize touch scrolling on iOS */
+.ios-scroll-fix {
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+}
+
 /* Fix for iOS 100vh issue */
 .full-height {
   height: 100vh;
   height: calc(var(--vh, 1vh) * 100);
+}
+
+/* Android-specific footer improvements */
+.os-android {
+  /* Better safe area handling for Android */
+  --safe-bottom: max(16px, env(safe-area-inset-bottom, 16px));
+}
+
+/* Android footer optimizations */
+.os-android .android-footer {
+  /* Hardware acceleration for better performance */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  /* Better safe area support */
+  padding-bottom: var(--safe-bottom) !important;
+}
+
+/* Enhanced Android touch target improvements with Serene Blues */
+.os-android button,
+.os-android a,
+.os-android [role="button"] {
+  min-height: 48px;
+  min-width: 48px;
+  -webkit-tap-highlight-color: rgba(33, 150, 243, 0.1); /* Updated to Serene Blues */
+}
+
+/* iOS-specific optimizations */
+.os-ios button,
+.os-ios a,
+.os-ios [role="button"] {
+  min-height: 44px;
+  min-width: 44px;
+  -webkit-tap-highlight-color: rgba(33, 150, 243, 0.08); /* Subtle iOS feedback */
+}
+
+/* Enhanced cross-platform touch feedback */
+.touch-feedback {
+  -webkit-tap-highlight-color: rgba(33, 150, 243, 0.1);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.touch-feedback:active {
+  transform: scale(0.97);
+  background-color: rgba(33, 150, 243, 0.05);
+}
+
+/* Android-specific animations */
+.os-android .active:scale-98 {
+  transform: scale(0.98);
 }

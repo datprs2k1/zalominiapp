@@ -29,11 +29,11 @@ export default function Layout() {
 
   return (
     <div
-      className="w-screen h-screen flex flex-col bg-background text-foreground overflow-hidden"
+      className="w-screen h-screen flex flex-col text-foreground overflow-hidden"
       style={{ height: 'calc(var(--vh, 1vh) * 100)' }}
     >
       <Header />
-      <main className="flex-1 overflow-x-hidden overflow-y-auto overscroll-none datprs">
+      <main className="flex-1 overflow-x-hidden overflow-y-auto overscroll-none datprs pb-2">
         <Page />
       </main>
       <Footer />

@@ -1,115 +1,258 @@
-import Section from '@/components/section';
 import TransitionLink from '@/components/transition-link';
-import book from '@/static/book.svg';
-import history from '@/static/history.svg';
-import all from '@/static/services/all.svg';
-import hospital from '@/static/services/hospital.svg';
+import emergencyIcon from '@/static/icons/emergency-simple.svg';
+import calendarIcon from '@/static/icons/calendar-simple.svg';
+import historyIcon from '@/static/icons/history-simple.svg';
+import chatIcon from '@/static/icons/chat-simple.svg';
+import labIcon from '@/static/icons/lab-simple.svg';
+import gridIcon from '@/static/icons/grid-simple.svg';
 import { To } from 'react-router-dom';
+import { Grid, Section } from '@/components/ui';
+import { cn } from '@/utils/cn';
 
 interface QuickActionProps {
   to: To;
   icon: string;
   title: string;
-  subtitle: string;
-  color?: string;
+  priority?: 'emergency' | 'primary' | 'secondary' | 'tertiary' | 'orange' | 'teal';
+  size?: 'large' | 'medium' | 'small';
+  variant?: 'emergency' | 'primary' | 'secondary' | 'tertiary' | 'orange' | 'teal';
+  subtitle?: string;
 }
 
-const QuickAction = ({ icon, title, subtitle, to, color = 'emerald' }: QuickActionProps) => (
-  <TransitionLink
-    to={to}
-    className={`flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm border border-gray-100 hover:shadow-md hover:border-${color}-100 transition-all duration-300 active:scale-95 group`}
-  >
-    <div
-      className={`flex-shrink-0 w-12 h-12 rounded-xl bg-${color}-50 p-2 flex items-center justify-center group-hover:bg-${color}-100 transition-colors duration-300`}
+const QuickAction = ({
+  icon,
+  title,
+  to,
+  priority = 'tertiary',
+  size = 'medium',
+  variant = 'tertiary',
+  subtitle,
+}: QuickActionProps) => {
+  // Compact mobile-optimized size configurations for Android and iOS
+  const sizeConfig = {
+    large: {
+      container: 'h-18 px-2 py-2',
+      icon: 'w-6 h-6',
+      text: 'text-xs font-medium',
+      subtitle: 'text-xs font-normal',
+      iconContainer: 'w-10 h-10 mb-1',
+      spacing: 'space-y-0.5',
+    },
+    medium: {
+      container: 'h-18 px-2 py-2',
+      icon: 'w-6 h-6',
+      text: 'text-xs font-medium',
+      subtitle: 'text-xs font-normal',
+      iconContainer: 'w-10 h-10 mb-1',
+      spacing: 'space-y-0.5',
+    },
+    small: {
+      container: 'h-18 px-2 py-2',
+      icon: 'w-6 h-6',
+      text: 'text-xs font-medium',
+      subtitle: 'text-xs font-normal',
+      iconContainer: 'w-10 h-10 mb-1',
+      spacing: 'space-y-0.5',
+    },
+  };
+
+  // Serene Blues healthcare variant color configurations
+  const variantConfig = {
+    emergency: {
+      bg: 'bg-gradient-to-br from-red-500 to-blue-600 backdrop-blur-sm',
+      hover: 'hover:from-red-600 hover:to-blue-700',
+      text: 'text-white',
+      shadow: 'shadow-lg shadow-blue-500/25',
+      ring: 'focus:ring-blue-500/50 focus:ring-2',
+      iconBg: 'bg-white/30 backdrop-blur-sm',
+      border: 'border border-blue-300/20',
+    },
+    primary: {
+      bg: 'bg-gradient-to-br from-blue-400 to-blue-600 backdrop-blur-sm',
+      hover: 'hover:from-blue-500 hover:to-blue-700',
+      text: 'text-white',
+      shadow: 'shadow-lg shadow-blue-500/25',
+      ring: 'focus:ring-blue-500/50 focus:ring-2',
+      iconBg: 'bg-white/30 backdrop-blur-sm',
+      border: 'border border-blue-300/20',
+    },
+    secondary: {
+      bg: 'bg-gradient-to-br from-blue-300 to-blue-500 backdrop-blur-sm',
+      hover: 'hover:from-blue-400 hover:to-blue-600',
+      text: 'text-white',
+      shadow: 'shadow-lg shadow-blue-400/25',
+      ring: 'focus:ring-blue-400/50 focus:ring-2',
+      iconBg: 'bg-white/30 backdrop-blur-sm',
+      border: 'border border-blue-200/20',
+    },
+    tertiary: {
+      bg: 'bg-gradient-to-br from-sky-400 to-blue-500 backdrop-blur-sm',
+      hover: 'hover:from-sky-500 hover:to-blue-600',
+      text: 'text-white',
+      shadow: 'shadow-lg shadow-sky-500/25',
+      ring: 'focus:ring-sky-500/50 focus:ring-2',
+      iconBg: 'bg-white/30 backdrop-blur-sm',
+      border: 'border border-sky-300/20',
+    },
+    orange: {
+      bg: 'bg-gradient-to-br from-slate-400 to-blue-500 backdrop-blur-sm',
+      hover: 'hover:from-slate-500 hover:to-blue-600',
+      text: 'text-white',
+      shadow: 'shadow-lg shadow-blue-500/25',
+      ring: 'focus:ring-blue-500/50 focus:ring-2',
+      iconBg: 'bg-white/30 backdrop-blur-sm',
+      border: 'border border-blue-300/20',
+    },
+    teal: {
+      bg: 'bg-gradient-to-br from-indigo-400 to-blue-500 backdrop-blur-sm',
+      hover: 'hover:from-indigo-500 hover:to-blue-600',
+      text: 'text-white',
+      shadow: 'shadow-lg shadow-blue-500/25',
+      ring: 'focus:ring-blue-500/50 focus:ring-2',
+      iconBg: 'bg-white/30 backdrop-blur-sm',
+      border: 'border border-blue-300/20',
+    },
+  };
+
+  const config = sizeConfig[size];
+  const colors = variantConfig[variant];
+
+  return (
+    <TransitionLink
+      to={to}
+      className={cn(
+        'block group rounded-2xl transition-all duration-300 ease-out relative overflow-hidden',
+        'focus:outline-none focus:ring-2 focus:ring-offset-1',
+        'active:scale-95 hover:scale-102',
+        'transform-gpu will-change-transform',
+        config.container,
+        colors.bg,
+        colors.hover,
+        colors.shadow,
+        colors.ring,
+        colors.border
+      )}
+      aria-label={title}
+      role="button"
     >
-      <img src={icon} className="h-7 w-7 md:h-8 md:w-8" alt={title} />
-    </div>
-    <div className="flex flex-grow flex-col">
-      <div
-        className={`text-sm font-semibold text-gray-900 group-hover:text-${color}-700 transition-colors duration-300`}
-      >
-        {title}
+      <div className="flex flex-col items-center justify-center h-full relative p-1">
+        {/* Icon Container */}
+        <div className="relative flex-shrink-0">
+          <div
+            className={cn(
+              'flex items-center justify-center rounded-2xl transition-all duration-300',
+              'ring-1 ring-white/30 group-hover:ring-white/50',
+              'group-hover:scale-105 transform-gpu',
+              config.iconContainer,
+              colors.iconBg
+            )}
+          >
+            <img
+              src={icon}
+              className={cn(
+                'transition-all duration-300 group-hover:scale-110 transform-gpu',
+                config.icon,
+                'text-white drop-shadow-sm'
+              )}
+              alt={title}
+              style={{ filter: 'brightness(0) invert(1) drop-shadow(0 1px 2px rgba(0,0,0,0.1))' }}
+            />
+          </div>
+        </div>
+
+        {/* Title and Subtitle */}
+        <div className="flex flex-col items-center text-center mt-1 min-h-[1.8rem] justify-center">
+          <span
+            className={cn(
+              'text-xs font-semibold leading-tight text-center tracking-wide',
+              'drop-shadow-sm group-hover:drop-shadow-md transition-all duration-300',
+              colors.text
+            )}
+          >
+            {title}
+          </span>
+          {subtitle && (
+            <span
+              className={cn(
+                'text-xs font-normal text-center opacity-90 tracking-wide',
+                'drop-shadow-sm transition-all duration-300',
+                colors.text
+              )}
+            >
+              {subtitle}
+            </span>
+          )}
+        </div>
       </div>
-      <div className="text-xs text-gray-500">{subtitle}</div>
-    </div>
-    <div
-      className={`flex-shrink-0 p-1.5 rounded-full bg-gray-50 group-hover:bg-${color}-50 transition-colors duration-300`}
-    >
-      <svg
-        className={`w-5 h-5 text-gray-400 group-hover:text-${color}-500 transition-colors duration-300`}
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-      </svg>
-    </div>
-  </TransitionLink>
-);
+    </TransitionLink>
+  );
+};
 
 interface QuickActionsProps {
   className?: string;
 }
 
 const QuickActions = ({ className }: QuickActionsProps) => {
-  // Icon for section header
-  const ActionIcon = () => (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="text-blue-600"
-    >
-      <path
-        d="M8 12.2H15"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeMiterlimit="10"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M8 16.2H12.38"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeMiterlimit="10"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M10 6H14C16 6 16 5 16 4C16 2 15 2 14 2H10C9 2 8 2 8 4C8 6 9 6 10 6Z"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeMiterlimit="10"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M16 4.02002C19.33 4.20002 21 5.43002 21 10V16C21 20 20 22 15 22H9C4 22 3 20 3 16V10C3 5.44002 4.67 4.20002 8 4.02002"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeMiterlimit="10"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-
   return (
-    <Section className={`py-2 ${className ?? ''}`} title="Thao tác nhanh" icon={<ActionIcon />} accentColor="blue">
-      <div className="mb-3 pl-1">
-        <p className="text-xs text-gray-600">Truy cập nhanh các dịch vụ chính</p>
+    <section className={cn('max-w-7xl mx-auto px-3 md:px-4', className)} aria-label="Quick Actions" role="navigation">
+      <div className="space-y-2 py-1">
+        {/* First Row - Critical & Primary Actions */}
+        <div className="grid grid-cols-3 gap-2">
+          <QuickAction
+            to="/emergency"
+            icon={emergencyIcon}
+            title="CẤP CỨU"
+            priority="primary"
+            size="medium"
+            variant="primary"
+          />
+          <QuickAction
+            to="/booking"
+            icon={calendarIcon}
+            title="Đặt lịch"
+            priority="primary"
+            size="medium"
+            variant="primary"
+          />
+          <QuickAction
+            to="/schedule"
+            icon={historyIcon}
+            title="Lịch sử"
+            priority="primary"
+            size="medium"
+            variant="primary"
+          />
+        </div>
+
+        {/* Second Row - Secondary & Support Actions */}
+        <div className="grid grid-cols-3 gap-2">
+          <QuickAction
+            to="/consultation"
+            icon={chatIcon}
+            title="Tư vấn"
+            priority="tertiary"
+            size="medium"
+            variant="tertiary"
+          />
+          <QuickAction
+            to="/lab-results"
+            icon={labIcon}
+            title="Xét nghiệm"
+            priority="tertiary"
+            size="medium"
+            variant="tertiary"
+          />
+          <QuickAction
+            to="/services"
+            icon={gridIcon}
+            title="Dịch vụ"
+            priority="tertiary"
+            size="medium"
+            variant="tertiary"
+          />
+        </div>
       </div>
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4">
-        <QuickAction to="/booking" icon={book} title="Đặt lịch khám" subtitle="Đặt lịch với bác sĩ" color="blue" />
-        <QuickAction to="/schedule" icon={history} title="Lịch sử khám" subtitle="Xem hồ sơ khám" color="purple" />
-        <QuickAction to="/services" icon={all} title="Dịch vụ y tế" subtitle="Khám đa khoa" color="emerald" />
-        <QuickAction to="/departments" icon={hospital} title="Khoa chuyên môn" subtitle="Chuyên khoa" color="amber" />
-      </div>
-    </Section>
+    </section>
   );
 };
 

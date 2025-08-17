@@ -7,6 +7,9 @@ import { AnimationProvider } from './contexts/animation-context';
 // Router
 import router from '@/router';
 
+// Device detection
+import { initDeviceDetection } from '@/utils/device-detection';
+
 // ZaUI stylesheet
 import 'zmp-ui/zaui.min.css';
 // Tailwind stylesheet
@@ -20,6 +23,9 @@ import appConfig from '../app-config.json';
 if (!window.APP_CONFIG) {
   window.APP_CONFIG = appConfig;
 }
+
+// Initialize device detection for platform-specific optimizations
+initDeviceDetection();
 
 // Mount the app with AnimationProvider context
 const root = createRoot(document.getElementById('app')!);

@@ -27,9 +27,15 @@ function FabForm({ fab, children, onSubmit }: FabFormProps) {
     <form onSubmit={handleSubmit} className="h-full flex flex-col">
       <div className="flex-1">{children}</div>
       {fab && (
-        <div className="flex-none flex p-4 pb-sb space-x-3 sticky bottom-0">
+        <div className="flex-none flex p-3 sm:p-4 pb-sb space-x-2 sm:space-x-3 sticky bottom-0 bg-white border-t border-gray-100 safe-area-padding">
           {(Array.isArray(fab) ? fab : [fab]).map((fab, i) => (
-            <Button key={i} type="submit" loading={isLoading} {...fab} />
+            <Button
+              key={i}
+              type="submit"
+              loading={isLoading}
+              className="comfortable-touch-target mobile-focus-visible"
+              {...fab}
+            />
           ))}
         </div>
       )}

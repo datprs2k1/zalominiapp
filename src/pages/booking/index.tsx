@@ -4,6 +4,9 @@ import Step2 from './step2';
 import Step3 from './step3';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
+import { Container } from '@/components/ui';
+import { cn } from '@/utils/cn';
+import './mobile.css';
 
 function BookingPage() {
   const { step } = useParams();
@@ -31,42 +34,52 @@ function BookingPage() {
   };
 
   return (
-    <div className="booking-page flex flex-col min-h-screen bg-gray-50">
+    <div className="booking-page flex flex-col min-h-screen bg-neutral-50">
       {/* Header with progress indicator */}
-      <div className="bg-white shadow-sm sticky top-0 z-10">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between px-4">
+      <div className="bg-white shadow-card-medical sticky top-0 z-10 safe-area-padding">
+        <Container maxWidth="md" padding="sm">
+          <div className="flex items-center justify-between py-3 sm:py-4">
             {[1, 2, 3].map((idx) => (
-              <div key={idx} className="flex flex-col items-center">
+              <div key={idx} className="flex flex-col items-center flex-1">
                 <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                  className={cn(
+                    'w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-semibold transition-all duration-200 comfortable-touch-target',
                     idx === currentStep
-                      ? 'bg-primary text-white'
+                      ? 'bg-medical-500 text-white shadow-button-medical'
                       : idx < currentStep
-                        ? 'bg-green-500 text-white'
-                        : 'bg-gray-200 text-gray-500'
-                  }`}
+                        ? 'bg-success-500 text-white'
+                        : 'bg-neutral-200 text-neutral-500'
+                  )}
                 >
-                  {idx < currentStep ? '✓' : idx}
+                  <span className="text-xs sm:text-sm">{idx < currentStep ? '✓' : idx}</span>
                 </div>
-                <span className={`text-xs mt-1 ${idx === currentStep ? 'text-primary font-medium' : 'text-gray-500'}`}>
+                <span
+                  className={cn(
+                    'text-xs mt-1 sm:mt-2 font-medium text-center px-1',
+                    idx === currentStep ? 'text-medical-600' : 'text-neutral-500'
+                  )}
+                >
                   {idx === 1 ? 'Thông tin' : idx === 2 ? 'Chi tiết' : 'Xác nhận'}
                 </span>
               </div>
             ))}
           </div>
-          <div className="relative h-1 bg-gray-200 rounded-full overflow-hidden">
+          <div className="relative h-1 bg-neutral-200 rounded-full overflow-hidden mx-2">
             <div
-              className="absolute top-0 left-0 h-full bg-primary transition-all duration-300 ease-out"
+              className="absolute top-0 left-0 h-full bg-medical-500 transition-all duration-300 ease-out rounded-full"
               style={{ width: `${((currentStep - 1) / 2) * 100}%` }}
             ></div>
           </div>
-        </div>
+        </Container>
       </div>
 
       {/* Main content */}
-      <div className="flex-grow container mx-auto px-4 py-6">
-        <div className="bg-white rounded-lg shadow-sm overflow-hidden">{renderStepContent()}</div>
+      <div className="flex-grow">
+        <Container maxWidth="md" padding="sm">
+          <div className="bg-white rounded-medical-lg shadow-card-medical overflow-hidden mx-2 sm:mx-0">
+            {renderStepContent()}
+          </div>
+        </Container>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import Header from './header';
+import PromoBanner from './header';
 import Sidebar from './sidebar';
 import RightContent from './right-content';
 import SearchInput from '@/components/form/search';
@@ -9,7 +9,7 @@ export default function CategoriesPage() {
 
   return (
     <div className="overflow-hidden flex-1 flex flex-col bg-white">
-      <Header />
+      <PromoBanner />
       <SearchInput className="m-4 mb-0" value={keyword} onChange={(e) => setKeyword(e.currentTarget.value)} />
       <div className="relative flex pt-6 overflow-hidden">
         <Sidebar />

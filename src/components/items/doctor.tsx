@@ -26,19 +26,27 @@ interface DoctorItemProps extends HTMLProps<HTMLDivElement> {
   description?: ReactNode;
 }
 
+// Utility function to truncate text
+const truncateText = (text: string, maxLength: number = 120): string => {
+  if (!text) return '';
+  return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+};
+
 export default function DoctorItem({ doctor, suffix, withLanguages = true, description, ...props }: DoctorItemProps) {
-  // Xử lý languages: string -> array
+  const [imgError, setImgError] = useState(false);
+  const [showFullDescription, setShowFullDescription] = useState(false);
+
+  // Process languages: string -> array
   const languages = (doctor.languages ? doctor.languages : typeof doctor.languages === 'string' ? doctor.languages : '')
     ? String(doctor.languages)
         .split(',')
         .map((l) => l.trim())
     : [];
-  const [imgError, setImgError] = useState(false);
 
-  // Lấy chuyên khoa nếu có
+  // Get specialty
   const specialty = doctor.specialties || '';
 
-  // Lấy ảnh đại diện nếu có, fallback nếu không
+  // Get avatar URL with fallback
   let avatarUrl = '/avatar-doctor-fallback.png';
   if (!imgError) {
     const hasEmbedded = (d: any): d is { _embedded: { 'wp:featuredmedia': any[] } } =>
@@ -50,7 +58,7 @@ export default function DoctorItem({ doctor, suffix, withLanguages = true, descr
     }
   }
 
-  // Lấy tên bác sĩ
+  // Get doctor name
   let doctorName = '';
   if (typeof doctor.title === 'object' && doctor.title?.rendered) {
     doctorName = doctor.title.rendered;
@@ -60,59 +68,99 @@ export default function DoctorItem({ doctor, suffix, withLanguages = true, descr
     doctorName = doctor.name;
   }
 
-  // Lấy thông tin chức danh và đơn vị
+  // Get title, department, and experience
   const title = (doctor as DoctorWP).bacsi_chucdanh || '';
   const department = (doctor as DoctorWP).bacsi_donvi || '';
   const experience = (doctor as DoctorWP).bacsi_kinhnghiem || '';
 
-  // Hiển thị tên đầy đủ với chức danh
+  // Display full name with title
   const fullName = title ? `${title} ${doctorName}` : doctorName;
 
+  // Truncate experience text
+  const truncatedExperience = truncateText(experience, 100);
+  const shouldShowReadMore = experience && experience.length > 100;
+
   return (
-    <TransitionLink
-      to={`/doctor/${doctor.id}`}
-      className="flex flex-col p-4 rounded-xl bg-white shadow-sm hover:shadow-lg transition-shadow cursor-pointer border border-gray-100 group"
-    >
-      <div className="flex items-start gap-3">
-        <div className="flex-shrink-0">
-          <div className="h-14 w-14 sm:h-16 sm:w-16 rounded-full overflow-hidden border-2 border-primary-500 bg-gray-50 shadow-sm">
-            <img
-              src={avatarUrl}
-              alt={doctorName}
-              className="object-cover w-full h-full"
-              onError={() => setImgError(true)}
-            />
-          </div>
-        </div>
-
-        <div className="flex flex-col flex-grow min-w-0">
-          <div className="text-base font-semibold text-gray-900 leading-tight group-hover:text-primary-600 transition-colors">
-            {fullName}
-          </div>
-
-          {(specialty || department) && (
-            <div className="text-sm text-gray-600 mt-1 leading-snug">{department || specialty}</div>
-          )}
-
-          {experience && <div className="text-sm text-gray-600 mt-1 line-clamp-2">{experience}</div>}
-          {description && <div className="text-sm text-gray-700 mt-1 line-clamp-2">{description}</div>}
-
-          {withLanguages && languages.length > 0 && (
-            <div className="flex flex-wrap gap-1 mt-2">
-              {languages.map((lang, idx) => (
-                <span
-                  key={lang + idx}
-                  className="px-2 py-0.5 bg-primary-50 text-primary-700 text-xs rounded-full border border-primary-100"
-                >
-                  {lang}
-                </span>
-              ))}
+    <div className="mobile-card-hospital group android-material-ripple mobile-gpu-accelerated">
+      <TransitionLink to={`/doctor/${doctor.id}`} className="block p-3 sm:p-4 cursor-pointer comfortable-touch-target">
+        {/* Vertical Layout - Avatar above info */}
+        <div className="flex flex-col items-center text-center space-y-3">
+          {/* Avatar - Larger and centered above */}
+          <div className="flex-shrink-0">
+            <div className="h-24 w-24 sm:h-28 sm:w-28 rounded-medical overflow-hidden bg-gradient-to-br from-medical-50 to-medical-100 border-2 border-medical-200 shadow-subtle">
+              <img
+                src={avatarUrl}
+                alt={doctorName}
+                className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                onError={() => setImgError(true)}
+              />
             </div>
-          )}
-        </div>
-      </div>
+          </div>
 
-      {suffix && <div className="flex justify-end mt-2">{suffix}</div>}
-    </TransitionLink>
+          {/* Doctor Info - Centered below avatar */}
+          <div className="w-full space-y-1.5 sm:space-y-2">
+            {/* Name and Department */}
+            <div>
+              <h3 className="text-sm sm:text-base font-semibold text-medical-800 leading-tight group-hover:text-medical-600 transition-colors duration-200 mb-0.5 sm:mb-1">
+                {fullName}
+              </h3>
+
+              {(specialty || department) && (
+                <div className="flex items-center justify-center gap-1.5 sm:gap-2">
+                  <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-medical-500 rounded-full"></div>
+                  <span className="text-xs sm:text-sm font-medium text-medical-600">{department || specialty}</span>
+                </div>
+              )}
+            </div>
+
+            {/* Experience Section - Centered layout */}
+            {experience && (
+              <div className="text-center">
+                <p className="text-xs sm:text-sm text-medical-700 leading-relaxed">
+                  {showFullDescription ? experience : truncatedExperience}
+                </p>
+                {shouldShowReadMore && (
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setShowFullDescription(!showFullDescription);
+                    }}
+                    className="text-xs text-medical-600 hover:text-medical-700 font-medium mt-1 transition-colors comfortable-touch-target inline-block"
+                  >
+                    {showFullDescription ? 'Thu gọn' : 'Xem thêm'}
+                  </button>
+                )}
+              </div>
+            )}
+
+            {/* Description */}
+            {description && <div className="text-xs sm:text-sm text-medical-700 text-center">{description}</div>}
+
+            {/* Languages Section - Centered layout */}
+            {withLanguages && languages.length > 0 && (
+              <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2">
+                {languages.slice(0, 2).map((lang, idx) => (
+                  <span
+                    key={lang + idx}
+                    className="inline-flex items-center px-2 py-0.5 sm:px-2.5 sm:py-1 bg-medical-50 text-medical-700 text-xs font-medium rounded-full border border-medical-200 shadow-subtle"
+                  >
+                    {lang}
+                  </span>
+                ))}
+                {languages.length > 2 && (
+                  <span className="inline-flex items-center px-2 py-0.5 sm:px-2.5 sm:py-1 bg-neutral-50 text-neutral-600 text-xs font-medium rounded-full border border-neutral-200 shadow-subtle">
+                    +{languages.length - 2} khác
+                  </span>
+                )}
+              </div>
+            )}
+
+            {/* Suffix */}
+            {suffix && <div className="flex justify-center pt-1.5 sm:pt-2 border-t border-medical-100">{suffix}</div>}
+          </div>
+        </div>
+      </TransitionLink>
+    </div>
   );
 }
